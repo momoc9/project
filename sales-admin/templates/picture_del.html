@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+		<script type="text/javascript">
+			var token = "token." + sessionStorage.getItem("token");
+			if(token == "token.null") {
+				alert('请登录');
+				location.href = "login.html";
+			}
+		</script>
+		<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="../static/lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
+		<script type="text/javascript" src="../static/lib/public.js"></script>
+		<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+		<title>新增图片</title>
+	</head>
+
+	<body>
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>图片管理<span class="c-gray en">&gt;</span>图片管理
+			<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
+		</nav>
+		<div class="page-container text-c">
+			<div id="">
+				<label for="" class="mb-20" style="display: inline-block;">
+				图片类型：
+				<select name="" class="typesel" style="width: 150px;">
+					<option value="appHomepagePic">首页</option>
+					<option value="appBootPic">启动页</option>
+					<option value="ceshi">测试</option>
+				</select>
+			</label>
+			</div>
+
+			<ul class="img_del row">
+			
+			</ul>
+		</div>
+
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="../static/lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../static/lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script>
+		<script type="text/javascript" src="../static/lib/jquery.bootstrap.min.js"></script>
+		<!--/_footer /作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript">
+			//			var pictype = 'appHomepagePic';
+			var pictype = 'ceshi';
+			var picId = '';
+			var lidel = '';
+			var dataType = {};
+			var dataUrl='';
+			dataType.picType = '';
+			$('.typesel').change(function(){
+				dataType.picType = $(this).val();
+				getPicData(dataType);
+			})
+			function getPicData(data) {
+				dataUrl = data;
+				$.ajax({
+				type:"get",
+				url: url_r + "/upload/listPic",
+				headers: {
+					Authorization: token
+				},
+				data: dataUrl,
+				contentType: "application/json",
+				beforSend: function() {
+					var index = layer.load();
+				},
+				success: function(data) {
+					$('.img_del li').remove();
+					var data1 = JSON.parse(data).appPic;
+					$.each(data1, function(k, v) {
+						var li = $('<li class="col-3"></li>');
+						var div = $('<div></div>');
+						var img = $("<img src=" + v.picFileUrl + ">");
+//						if(v.purposeType == 1) {
+//							var h4 = $("<h4>个人能力积分</h4>");
+//						} else if(v.purposeType == 2) {
+//							var h4 = $("<h4>全国能力积分</h4>");
+//						} else if(v.purposeType == 3) {
+//							var h4 = $("<h4>春节皮肤</h4>");
+//						}
+						var i = $("<i class='Hui-iconfont' acip=" + v.id + ">&#xe609</i>");
+						div.append(img);
+//						div.append(h4);
+						li.append(div);
+						li.append(i);
+						$('.img_del').append(li);
+					});
+					var index = layer.load();
+					layer.close(index)
+				},
+				error: function() {
+					layer.msg('请求失败', {
+						icon: 2,
+						time: 1000
+					})
+				}
+			});
+			}
+			getPicData(dataType);
+
+			$('.img_del').on('click', 'li i', function() {
+				lidel = $(this).parents('li');
+				picId = $(this).attr('acip');
+				$.ajax({
+					type: 'get',
+					url: url_r + '/upload/deletePic',
+					headers: {
+						Authorization: token
+					},
+					data: {
+						id: picId
+					},
+					contentType: "application/json",
+					beforSend: function() {
+						var index = layer.load();
+					},
+					success: function(data) {
+						var data = JSON.parse(data)
+						var index = layer.load();
+						layer.close(index);
+						if(data.resCode==200){
+							lidel.remove();
+						}
+					},
+					error: function() {
+						layer.msg('请求失败', {
+							icon: 2,
+							time: 1000
+						})
+					}
+				})
+				
+			})
+		</script>
+	</body>

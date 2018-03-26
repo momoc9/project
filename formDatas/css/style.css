@@ -1,0 +1,512 @@
+#cdcont{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.mkrhead{
+	width: 100%;
+	height: 0.88rem;
+	background: #fff;
+	position: relative;
+	text-align: left;
+	line-height: 0.88rem;
+	color: #808080;
+	font-size: 0.42rem;
+	/*font-weight: 600;*/
+	padding-left: 0.6rem;
+}
+.returns{
+	width: 0.75rem;
+	height:100%;
+	position: absolute;
+	z-index: 222;
+	top: 0;
+	left: 0;
+}
+.returns img{
+	position: absolute;
+	width: 0.20rem;
+	height: 0.39rem;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	margin: auto;
+}
+.zwheaddown{
+	width: 100%;
+	height:0.1rem;
+	background: #f3f3f3;
+}
+.mkRtabs{
+	width: 100%;
+	height: 0.9rem;
+	border-bottom: 0.01rem solid #f3f3f3;
+}
+.mkRtabs p{
+	display: inline-block;
+	width: 25%;
+	float: left;
+	text-align: center;
+	font-size: 0.24rem;
+	line-height: 0.9rem;
+	color: #bbbbbb;
+}
+.mkRtabs .mkRtabspact{
+	color: #444444;
+	background: url(../images/tishitiaozhuan@3x.png) no-repeat;
+	background-size: 30% 0.04rem;
+	background-position:  50% 98%;
+}
+.mkRcont{
+	width: 100%;
+	height: calc(100% - 1.88rem);
+	overflow: hidden;
+	position: relative;
+}
+.hlwdd{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.hlwddhead{
+	width: 100%;
+	height: 1.3rem;
+	position: relative;
+	overflow: hidden;
+}
+.hlwddhead img{
+	position: absolute;
+	width: 0.32rem;
+	height: 0.32rem;
+	top: 0.36rem;
+	right: 0.2rem;
+}
+.hlwddhead p{
+	font-size: 0.36rem;
+	color: #008fe3;
+	margin: 0.35rem 0 0 0.3rem;
+}
+.hlwddhead span{
+	color: #999999;
+	font-size: 0.24rem;
+	margin: 0.2rem 0 0 0.3rem;
+}
+.hlwddcont{
+	width: 100%;
+	height: calc(100% - 1.3rem);
+	overflow: hidden;
+	background: #f3f3f3;
+}
+.hlwddsf{
+	width: 0.5rem;
+	height: 1rem;
+	float: left;
+	text-align: center;
+	font-size: 0.24rem;
+	padding: 0.1rem;
+	line-height: 0.4rem;
+	color: #808080;
+}
+.hlwddfl{
+	width: calc(100% - 0.5rem);
+	height: 1rem;
+	float: left;
+	overflow-x: scroll;
+	overflow-y: hidden;
+}
+.hlwddfl::-webkit-scrollbar {
+	display: none;
+}
+.hlwddgs::-webkit-scrollbar {
+	display: none;
+}
+.hlwddsz::-webkit-scrollbar {
+	display: none;
+}
+.hlwddwrapfls{
+	width: 16.5rem;
+	height: 1rem;
+}
+.hlwddwrapfls div{
+	width: 1.5rem;
+	height: 1rem;
+	float: left;
+	display: table;
+	border-right: 1px dashed #ccc;
+}
+.hlwddwrapfls div p{
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	font-size:0.26rem;
+    color: #4c4c4c;	
+}
+.hlwddwrapfls div p span{
+	font-size: 0.28rem;
+	display: inline-block;
+	margin-top: 0.1rem;
+	color: #008fe3;
+}
+.hlwddgs{
+	width: 0.5rem;
+	height: calc(100% - 1rem);
+	float: left;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.hlwddwrapgss p {
+    width: 0.5rem;
+    height: 1rem;
+    font-size:0.24rem;
+    color: #808080;	
+    margin-bottom: 0.2rem;
+    overflow: hidden;
+}
+.hlwddwrapgss p span{
+	width: 0.5rem;
+	height: 1rem;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	overflow: hidden;
+	line-height: 0.32rem;
+	padding: 0 0.1rem;
+}
+.hlwddsz{
+	width: calc(100% - 0.5rem);
+	height: calc(100% - 1rem);
+	float: left;
+	overflow-x: scroll;
+	overflow-y: scroll;
+}
+.hlwddwrapszs p{
+	width: 16.5rem;
+	height: 1rem;
+	margin-bottom: 0.2rem;
+	background: #fff;
+	border-radius: 0.2rem;
+}
+.hlwddwrapszs p span{
+	display: table;
+	width: 1.5rem;
+	float: left;
+	height: 0.8rem;
+	border-right: 1px dashed #ccc;
+	margin: 0.1rem 0;
+	text-align: center;
+	line-height: 0.8rem;
+}
+.hlwddwrapszs p span i{
+	display: table-cell;
+	color: #4d4d4d;
+	font-size: 0.24rem;
+	text-align: center;
+	vertical-align: middle;
+	font-style: normal;
+}
+/*ict样式*/
+.icthead{
+	width: 100%;
+	height: 0.9rem;
+	position: relative;
+	font-size: 0.36rem;
+	color: #008fe3;
+	line-height: 0.9rem;
+	padding-left: 0.4rem;
+}
+.icthead img{
+	width: 0.3rem;
+	height: 0.3rem;
+	position: absolute;
+	right: 0.225rem;
+	top: 0.3rem;
+}
+.choosejd{
+	width: 3rem;
+	height: 2.68rem;
+	position: absolute;
+	right: 0.225rem;
+	top: 0.9rem;
+	background: url(../images/xiala@3x.png) no-repeat;
+	background-position:0 0 ;
+	background-size: 100% 100%;
+	z-index: 2222;
+}
+.choosejd span{
+	display: block;
+	text-align: center;
+	width: 90%;
+	margin: 0 auto;
+	height: 0.82rem;
+	line-height: 0.82rem;
+	font-size: 0.28rem;
+	border-bottom: 1px solid #f3f3f3;
+	color: #999999;
+}
+.choosejd span:nth-child(1){
+	color: #0092ea;
+}
+.ictcont{
+	width: 100%;
+	height: calc(100% - 0.9rem);
+	background: #f3f3f3;
+	overflow-x:hidden ;
+	overflow-y: scroll;
+}
+.ictcont::-webkit-scrollbar {
+	display: none;
+}
+.ictprize{
+	width: 7.3rem;
+	height: 2.16rem;
+	overflow: hidden;
+	margin: 0 auto;
+	margin-top: 0.3rem;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 0.2rem;
+	position: relative;
+}
+.ictprize p{
+	margin: 0.6rem 0 0 0.62rem;
+	font-size: 0.32rem;
+	color: #4d4d4d;
+}
+.ictprize span{
+	display: inline-block;
+	margin: 0.3rem 0 0 0.62rem;
+	font-size: 0.28rem;
+	color: #4d4d4d;
+}
+.ictprize img{
+	position: absolute;
+	top: 0;
+	right: 0.4rem;
+	width: 1.12rem;
+	height: 1.96rem;
+}
+/*云业务样式表*/
+.yyeconthead{
+	width: 100%;
+	height: 1rem;
+	overflow: hidden;
+}
+.yyeconthead p{
+	height: 1rem;
+	float: left;
+	display: table;
+}
+.yyeconthead p:nth-child(1){
+	width: 10%;
+	color: #808080;
+}
+.yyeconthead p:nth-child(2){
+	width: 29.99%;
+	color: #4c4c4c;
+	border-right: 1px dashed #ccc;
+}
+.yyeconthead p:nth-child(3){
+	width: 29.99%;
+	color: #4c4c4c;
+	border-right: 1px dashed #ccc;
+}
+.yyeconthead p:nth-child(4){
+	width: 29.99%;
+	color: #4c4c4c;
+	/*border-right: 1px dashed #ccc;*/
+}
+.yyeconthead p span{
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 0.24rem;
+	padding: 0 0.1rem;
+}
+.yywtablist{
+	width: 100%;
+	height: calc(100% - 1rem);
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.yywtablist::-webkit-scrollbar {
+	display: none;
+}
+.yywtablistli{
+	width: 100%;
+	height: 1rem;
+	overflow: hidden;
+	margin-bottom: 0.2rem;
+}
+.yywtablistpro{
+	display: table;
+	width: 10%;
+	height: 1rem;
+	float: left;
+	font-style: normal;
+}
+.yywtablistpro span{
+	display: table-cell;
+	color: #808080;
+	font-size: 0.28rem;
+	text-align: center;
+	vertical-align: middle;
+	font-style: normal;
+	padding: 0 0.1rem;
+}
+.yywtablistnum{
+	width: 90%;
+	float: left;
+	font-style: normal;
+	background: #fff;
+	border-radius: 0.2rem;
+	height: 1rem;	
+}
+.yywtablistnum span{
+	width: 33.33%;
+	display: table;
+	float: left;
+	height: 0.8rem;
+	margin: 0.1rem 0;
+}
+.yywtablistnum span i{
+	display: table-cell;
+	color: #4d4d4d;
+	font-size: 0.28rem;
+	text-align: center;
+	vertical-align: middle;
+	font-style: normal;
+	border-right: 1px dashed #ccc;
+}
+.yywtablistnum span .rightno{
+	border-right: 0;
+}
+/*物联网完成情况样式*/
+.evens{
+	background: #fff;
+}
+.odds{
+	background: #f3f3f3;
+}
+.wlwddflss::-webkit-scrollbar {
+	display: none;
+}
+.wlwddgsss::-webkit-scrollbar {
+	display: none;
+}
+.wlwddszss::-webkit-scrollbar {
+	display: none;
+}
+
+
+.hlwddcontss{
+	width: 100%;
+	height: calc(100% - 1.3rem);
+	overflow: hidden;
+	background: #fff;
+}
+.wlwddsfss{
+	width: 1.62rem;
+	height: 1.12rem;
+	float: left;
+	border-bottom: 1px solid #e6e6e6;
+	border-right: 1px solid #e6e6e6;
+}
+.wlwddsfss p{
+	display: table-cell;
+	width: 1.62rem;
+	height: 1.12rem;
+	text-align: center;
+    font-size: 0.26rem;
+    color: #4c4c4c;
+    line-height: 1.12rem;
+}
+.wlwddflss{
+	width: calc(100% - 1.62rem);
+	height: 1.12rem;
+	float: left;
+	overflow-y: hidden;
+	overflow-x: scroll;	
+	border-bottom: 1px solid #e6e6e6;
+}
+.wlwddwrapflsss{
+	width: 9rem;
+	height: 1.12rem;
+}
+.gmtab,.wctab{
+	width: 4.5rem;
+	height: 1.12rem;
+	float: left;
+	border-right: 1px solid #e6e6e6;
+}
+.nonormals1{
+	width: 4.5rem;
+	text-align: center;
+	line-height: 0.5rem;
+	font-size: 0.24rem;
+    color: #008fe3;
+}
+.nonormals2{
+	width: 4.5rem;
+	line-height: 0.62rem;
+}
+.nonormals2 span{
+	display: inline-block;
+	float: left;
+	width: 1.5rem;
+	height: 0.62rem;
+	font-size: 0.24rem;
+    color: #999999;
+    text-align: center;
+}
+.wlwddgsss{
+	width: 1.62rem;
+	height: calc(100% - 1.12rem);
+	float: left;
+	overflow-y: scroll;
+	overflow-x: hidden;	
+	border-right: 1px solid #e6e6e6;
+}
+.wlwddgsss p{
+	width: 1.62rem;
+	height: 0.9rem;
+}
+.wlwddgsss p span{
+	font-size: 0.26rem;
+	display: inline-block;
+	text-align: center;
+	line-height: 0.9rem;
+	width: 1.62rem;
+	float: left;
+	color: #4c4c4c;
+}
+.wlwddszss{
+	width: calc(100% - 1.62rem);
+	height: calc(100% - 1.12rem);
+	float: left;
+	overflow-y: scroll;
+	overflow-x: scroll;	
+}
+.wlwddwrapszsss{
+	width: 9rem;
+	height: 0.9rem;
+}
+.evensss{
+	background: #fff;
+}
+.oddsss{
+	background: #f6fbff;
+}
+.wlwddwrapszsss p{
+	width: 1.5rem;
+	height: 0.9rem;
+	float: left;
+}
+.wlwddwrapszsss p span{
+	display: inline-block;
+	width: 1.5rem;
+    line-height: 0.9rem;
+	text-align: center;
+	font-size: 0.26rem;
+	color: #4d4d4d;
+}

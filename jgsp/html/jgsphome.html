@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>待办信息</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/jgsphome.css" />
+		<link rel="stylesheet" type="text/css" href="../css/g-head.css" />
+		<script src="../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../public/public.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#jgsphid {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="jgsphid" v-cloak>
+			<div class="wrapall">
+				<header class="g-header">
+					<h2>待办信息
+				<i onclick="tooahome1()"></i>
+			</h2>
+				</header>
+				<div id="jgspcont">
+					<div class="jhomecont">
+						<div class="jhometabs">
+							<p>
+								<span v-bind:class="isxq?'choice':''" @click="tab1()">申请单信息</span>
+								<span v-bind:class="isxq?'':'choice'" @click="tab2()">流转记录</span>
+							</p>
+						</div>
+						<div class="jhcont1" v-if="isxq">
+							<div class="isgdk" v-if="ApplyType=='PRICE_APPLY_TYPE_001'">
+								<div class="tabzw">
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">申请单号</span>
+										<span class="gdknpr" id="dahaoid">{{datadetail.applyCode}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">申请单类型</span>
+										<span class="gdknpr" style="width: 4.5rem;">{{datadetail.applyTypeName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">申请时间</span>
+										<span class="gdknpr">{{datadetail.applyTime}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">状态</span>
+										<span class="gdknpr">{{datadetail.applyStatusName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户</span>
+										<span class="gdknpr">{{datadetail.custName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户行业</span>
+										<span class="gdknpr">{{datadetail.custIndu}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">拟定网络使用价格(元/月)</span>
+										<span class="gdknpr">{{datadetail.draftPrice}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">申请折扣(%)</span>
+										<span class="gdknpr">{{datadetail.applyDiscount}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">ISP客户</span>
+										<span class="gdknpr" v-if=datadetail.ynIsp=="0">否</span>
+										<span class="gdknpr" v-else-if=datadetail.ynIsp=="1">是</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">集团直管客户</span>
+										<span class="gdknpr" v-if=datadetail.custType=="0">否</span>
+										<span class="gdknpr" v-else-if=datadetail.custType=="1">是</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">校园客户</span>
+										<span class="gdknpr" v-if=datadetail.ynSchool=="0">否</span>
+										<span class="gdknpr" v-else-if=datadetail.ynSchool=="1">是</span>
+									</p>
+								</div>
+								<div class="gdk2">
+									<p>
+										<span class="gdk2tit">基本情况</span>
+										<span class="gdk2cont">{{datadetail.baseDes}}</span>
+									</p>
+									<p>
+										<span class="gdk2tit">竞争状况、收益预测及效益</span>
+										<span class="gdk2cont">{{datadetail.otherDes}}</span>
+									</p>
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">是否自带AS域名</span>
+										<span class="gdknpr" v-if=datadetail.ynAs==0>否</span>
+										<span class="gdknpr" v-else-if=datadetail.ynAs==1>是</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">AS域名</span>
+										<span class="gdknpr">{{datadetail.asCode}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">是否自带IP地址</span>
+										<span class="gdknpr" v-if=datadetail.ynIp==0>否</span>
+										<span class="gdknpr" v-else-if=datadetail.ynIp==1>是</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">IP地址</span>
+										<span class="gdknpr">{{datadetail.ipAddress}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">专线接入类型</span>
+										<span class="gdknpr">{{zxjr}}</span>
+									</p>
+									<p class="gdknp" v-if="zxjr == 'BGP路由接入'">
+										<span class="gdknpl">接入方式</span>
+										<span class="gdknpr">{{jr}}</span>
+									</p>
+									<p class="gdknp" v-if="zxjr == 'BGP路由接入'">
+										<span class="gdknpl">穿透类型</span>
+										<span class="gdknpr">{{ct}}</span>
+									</p>
+									<p class="gdknp" v-if="zxjr == '静态路由接入'">
+										<span class="gdknpl">接入层级</span>
+										<span class="gdknpr">{{jrcj}}</span>
+									</p>
+									<p class="gdknp" v-if="zxjr == '静态路由接入'">
+										<span class="gdknpl">地区类型</span>
+										<span class="gdknpr">{{dq}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">SLA服务等级</span>
+										<span class="gdknpr">{{sla}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">接入宽带速率</span>
+										<span class="gdknpr">{{datadetail.rate}}{{datadetail.unit}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">预计开通时间</span>
+										<span class="gdknpr">{{datadetail.expectOpenDate}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">拟定协议期限(年)</span>
+										<span class="gdknpr">{{datadetail.draftTerm}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">标准资费(元)</span>
+										<span class="gdknpr">{{datadetail.basePrice}}</span>
+									</p>
+								</div>
+								<div class="gdk2">
+									<p>
+										<span class="gdk2tit">与其他ISP的联结点和宽带</span>
+										<span class="gdk2cont">{{datadetail.otherIsp}}</span>
+									</p>
+									<p>
+										<span class="gdk2tit">备注</span>
+										<span class="gdk2cont">{{datadetail.remarks}}</span>
+									</p>
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">申请人</span>
+										<span class="gdknpr">{{datadetail.applyByName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">联系电话</span>
+										<span class="gdknpr">{{datadetail.applyByPhone}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">省份</span>
+										<span class="gdknpr">{{datadetail.orgArea}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">省公司接口人</span>
+										<span class="gdknpr">{{datadetail.provinceUserName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">授权级别</span>
+										<span class="gdknpr">{{datadetail.liceLevName}}</span>
+									</p>
+								</div>
+								<div class="fjlists">
+									<p class="fjtit">
+										附件
+										<span>共{{fjdatalists.length}}个附件</span>
+									</p>
+									<div class="fjli" v-for="fjli in fjdatalists" v-bind:urls="fjli.docPath" @click="fjyl($event)">
+										<img src="../images/jpeg.png" v-if="fjli.documentName.split('.')[1] == 'jpg'||fjli.documentName.split('.')[1] == 'jpeg'" />
+										<img src="../images/png.png" v-else-if="fjli.documentName.split('.')[1] == 'png'" />
+										<img src="../images/pdf.png" v-else-if="fjli.documentName.split('.')[1] == 'pdf'" />
+										<img src="../images/wold.png" v-else-if="fjli.documentName.split('.')[1] == 'doc'||fjli.documentName.split('.')[1] == 'docx'" />
+										<img src="../images/excel.png" v-else-if="fjli.documentName.split('.')[1] == 'excel'||fjli.documentName.split('.')[1] == 'xlsx'||fjli.documentName.split('.')[1] == 'xls'" />
+										<img src="../images/ppt.png" v-else-if="fjli.documentName.split('.')[1] == 'ppt'" />
+										<img src="../images/mp3.png" v-else-if="fjli.documentName.split('.')[1] == 'mp3'" />
+										<img src="../images/mp4.png" v-else-if="fjli.documentName.split('.')[1] == 'mp4'" />
+										<img src="../images/weizhi.png" v-else/>
+										<p>{{fjli.documentName}}</p>
+									</div>
+								</div>
+							</div>
+							<div class="isgdk" v-if="ApplyType=='PRICE_APPLY_TYPE_005'">
+								<div class="tabzw">
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">申请单号</span>
+										<span class="gdknpr" id="dahaoid">{{datadetail.applyCode}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">申请单类型</span>
+										<span class="gdknpr">{{datadetail.applyTypeName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">申请时间</span>
+										<span class="gdknpr">{{datadetail.applyTime}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">状态</span>
+										<span class="gdknpr">{{datadetail.applyStatusName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户</span>
+										<span class="gdknpr">{{datadetail.custName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户行业</span>
+										<span class="gdknpr">{{datadetail.custIndu}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户编码</span>
+										<span class="gdknpr">{{datadetail.custCode}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">合同金额(万元)</span>
+										<span class="gdknpr">{{datadetail.contractAmount}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">合同最低单价(元/条)</span>
+										<span class="gdknpr">{{datadetail.contractLowPrice}}</span>
+									</p>
+								</div>
+								<div class="gdk2">
+									<p>
+										<span class="gdk2tit">业务用途</span>
+										<span class="gdk2cont">{{datadetail.busiUse}}</span>
+									</p>
+									<p>
+										<span class="gdk2tit">合同价格条款描述</span>
+										<span class="gdk2cont">{{datadetail.contractPriceDesc}}</span>
+									</p>
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">端口号</span>
+										<span class="gdknpr">{{datadetail.portId}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">报备资费使用通道号</span>
+										<span class="gdknpr">{{datadetail.aisleId}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">合同编号</span>
+										<span class="gdknpr">{{datadetail.contractId}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">合同名称</span>
+										<span class="gdknpr">{{datadetail.contractName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">合同签约日</span>
+										<span class="gdknpr">{{datadetail.contractSignDate}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">合同到期日</span>
+										<span class="gdknpr">{{datadetail.contractExpireDate}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户经理</span>
+										<span class="gdknpr">{{datadetail.custManagerName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">联系电话</span>
+										<span class="gdknpr">{{datadetail.customerManagerContact}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">省公司</span>
+										<span class="gdknpr">{{datadetail.proOrganize}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">本地网</span>
+										<span class="gdknpr">{{datadetail.localOrganize}}</span>
+									</p>
+								</div>
+								<div class="gdk2">
+									<p>
+										<span class="gdk2tit">备注</span>
+										<span class="gdk2cont">{{datadetail.remarks}}</span>
+									</p>
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">申请人</span>
+										<span class="gdknpr">{{datadetail.applyByName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">联系电话</span>
+										<span class="gdknpr">{{datadetail.applyByPhone}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">省公司接口人</span>
+										<span class="gdknpr">{{datadetail.provinceUserName}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">授权级别</span>
+										<span class="gdknpr">{{datadetail.liceLevName}}</span>
+									</p>
+								</div>
+								<div class="fjlists">
+									<p class="fjtit">
+										附件
+										<span>共{{fjdatalists.length}}个附件</span>
+									</p>
+									<div class="fjli" v-for="fjli in fjdatalists" v-bind:urls="fjli.docPath" @click="fjyl($event)">
+										<img src="../images/jpeg.png" v-if="fjli.documentName.split('.')[1] == 'jpg'||fjli.documentName.split('.')[1] == 'jpeg'" />
+										<img src="../images/png.png" v-else-if="fjli.documentName.split('.')[1] == 'png'" />
+										<img src="../images/pdf.png" v-else-if="fjli.documentName.split('.')[1] == 'pdf'" />
+										<img src="../images/wold.png" v-else-if="fjli.documentName.split('.')[1] == 'doc'||fjli.documentName.split('.')[1] == 'docx'" />
+										<img src="../images/excel.png" v-else-if="fjli.documentName.split('.')[1] == 'excel'||fjli.documentName.split('.')[1] == 'xlsx'||fjli.documentName.split('.')[1] == 'xls'" />
+										<img src="../images/ppt.png" v-else-if="fjli.documentName.split('.')[1] == 'ppt'" />
+										<img src="../images/mp3.png" v-else-if="fjli.documentName.split('.')[1] == 'mp3'" />
+										<img src="../images/mp4.png" v-else-if="fjli.documentName.split('.')[1] == 'mp4'" />
+										<img src="../images/weizhi.png" v-else/>
+										<p>{{fjli.documentName}}</p>
+									</div>
+								</div>
+							</div>
+							<div class="isgdk" v-if="ApplyType=='PRICE_APPLY_TYPE_007'">
+								<div class="tabzw">
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">申请单号</span>
+										<span class="gdknpr" id="dahaoid">{{datadetail.aPPLYCODE}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">申请单类型</span>
+										<span class="gdknpr">{{datadetail.aPPLYTYPENAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">申请时间</span>
+										<span class="gdknpr">{{datadetail.aPPLYTIME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">状态</span>
+										<span class="gdknpr">{{datadetail.aPPLYSTATUSNAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户</span>
+										<span class="gdknpr">{{datadetail.cUSTNAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户行业</span>
+										<span class="gdknpr">{{datadetail.cUSTINDU}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">拟申请号码</span>
+										<span class="gdknpr">{{datadetail.aPPLICANUM}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户承诺被叫低消金额(万元/月/号)</span>
+										<span class="gdknprls">{{datadetail.pROMISESDOWN}}</span>
+									</p>
+								</div>
+								<div class="gdk2">
+									<p>
+										<span class="gdk2tit">基本情况</span>
+										<span class="gdk2cont">{{datadetail.bASICINFOR}}</span>
+									</p>
+									<p>
+										<span class="gdk2tit">相关业务说明</span>
+										<span class="gdk2cont">{{datadetail.rELATEDDESCR}}</span>
+									</p>
+									<p>
+										<span class="gdk2tit">外呼业务资费</span>
+										<span class="gdk2cont">{{datadetail.cALLFEE}}</span>
+									</p>
+									<p>
+										<span class="gdk2tit">话务量预测</span>
+										<span class="gdk2cont">{{datadetail.tRAFFICPRE}}</span>
+									</p>
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">客户名称与开通400号码客户名称是否一致</span>
+										<span class="gdknprls">{{datadetail.cUSTOMERNAMEYN=="N"?'否':"是"}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">400客户名称</span>
+										<span class="gdknpr">{{datadetail.cUSTOMERNAMEFZZ}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">400客户编码</span>
+										<span class="gdknpr">{{datadetail.cUSTOMERCODEFZZ}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">码号开通地(省、市)</span>
+										<span class="gdknpr">{{datadetail.cODEOPENAREA}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">码号状态</span>
+										<span class="gdknpr">{{datadetail.cODEOPENSTATUS}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">码号类别</span>
+										<span class="gdknpr">{{datadetail.cODEOPENCLASS}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">签约年限(年)</span>
+										<span class="gdknpr">{{datadetail.yEARSIGN}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">外呼设备接入地</span>
+										<span class="gdknpr">{{datadetail.cALLDEVICEAREANAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户经理</span>
+										<span class="gdknpr">{{datadetail.cUSTMANAGERNAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">联系方式</span>
+										<span class="gdknpr">{{datadetail.cUSTOMERMANAGERCONTACT}}</span>
+									</p>
+								</div>
+								<div class="gdk2">
+									<p>
+										<span class="gdk2tit">备注</span>
+										<span class="gdk2cont">{{datadetail.rEMARKS}}</span>
+									</p>
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">申请人</span>
+										<span class="gdknpr">{{datadetail.aPPLYBYNAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">联系电话</span>
+										<span class="gdknpr">{{datadetail.aPPLYBYPHONE}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">省份</span>
+										<span class="gdknpr">{{datadetail.pROVINCENAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">省公司接口人</span>
+										<span class="gdknpr">{{datadetail.pROVINCEUSERNAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">授权级别</span>
+										<span class="gdknpr">{{datadetail.lICELEVNAME}}</span>
+									</p>
+								</div>
+								<div class="fjlists">
+									<p class="fjtit">
+										附件
+										<span>共{{fjdatalists.length}}个附件</span>
+									</p>
+									<div class="fjli" v-for="fjli in fjdatalists" v-bind:urls="fjli.dOCPATH" @click="fjyl($event)">
+										<img src="../images/jpeg.png" v-if="fjli.dOCUMENTNAME.split('.')[1] == 'jpg'||fjli.dOCUMENTNAME.split('.')[1] == 'jpeg'" />
+										<img src="../images/png.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'png'" />
+										<img src="../images/pdf.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'pdf'" />
+										<img src="../images/wold.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'doc'||fjli.dOCUMENTNAME.split('.')[1] == 'docx'" />
+										<img src="../images/excel.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'excel'||fjli.dOCUMENTNAME.split('.')[1] == 'xlsx'||fjli.dOCUMENTNAME.split('.')[1] == 'xls'" />
+										<img src="../images/ppt.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'ppt'" />
+										<img src="../images/mp3.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'mp3'" />
+										<img src="../images/mp4.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'mp4'" />
+										<img src="../images/weizhi.png" v-else/>
+										<p>{{fjli.dOCUMENTNAME}}</p>
+									</div>
+								</div>
+							</div>
+							<div class="isgdk" v-if="ApplyType=='PRICE_APPLY_TYPE_008'">
+								<div class="tabzw">
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">申请单号</span>
+										<span class="gdknpr" id="dahaoid">{{datadetail.aPPLYCODE}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">申请单类型</span>
+										<span class="gdknpr">{{datadetail.aPPLYTYPENAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">申请时间</span>
+										<span class="gdknpr">{{datadetail.aPPLYTIME }}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">状态</span>
+										<span class="gdknpr">{{datadetail.aPPLYSTATUSNAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户</span>
+										<span class="gdknpr">{{datadetail.cUSTNAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">客户行业</span>
+										<span class="gdknpr">{{datadetail.cUSTINDU}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">是否集团直管客户</span>
+										<span class="gdknpr" v-if=datadetail.iSJT=="0">否</span>
+										<span class="gdknpr" v-else-if=datadetail.iSJT=="1">是</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">项目合同期总收入(万元)</span>
+										<span class="gdknpr">{{datadetail.cONTRACTTOTALINCOME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">项目年收入(万元)</span>
+										<span class="gdknpr">{{datadetail.aNNUALINCOME}}</span>
+									</p>
+								</div>
+								<div class="gdk2">
+									<p>
+										<span class="gdk2tit">基本情况</span>
+										<span class="gdk2cont">{{datadetail.bASICSITUATION}}</span>
+									</p>
+									<p>
+										<span class="gdk2tit">竞争状况、收益预测及效益</span>
+										<span class="gdk2cont">{{datadetail.cOMPETITIVEINCOME}}</span>
+									</p>
+									<p>
+										<span class="gdk2tit">协议套餐详细描述</span>
+										<span class="gdk2cont">{{datadetail.pROTOCOLPACKAGE}}</span>
+									</p>
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">总部所在地</span>
+										<span class="gdknpr">{{datadetail.hEADQUARTERS}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">一次性入网用户数</span>
+										<span class="gdknpr">{{datadetail.nUMBEROFUSERS}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">协议时间(年)</span>
+										<span class="gdknpr">{{datadetail.pROTOCOLTIME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">业务类型</span>
+										<span class="gdknprdd">{{datadetail.bUSINESSTYPENAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">业务模式</span>
+										<span class="gdknpr">{{datadetail.bUSINESSMODELNAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">卡类型</span>
+										<span class="gdknpr">{{datadetail.cARDTYPENAME}}</span>
+									</p>
+								</div>
+								<div class="gdk2">
+									<p>
+										<span class="gdk2tit">其他情况说明</span>
+										<span class="gdk2cont">{{datadetail.oTHERCIRCUMSTANCES}}</span>
+									</p>
+								</div>
+								<div class="gdk1">
+									<p class="gdknp">
+										<span class="gdknpl">申请人</span>
+										<span class="gdknpr">{{datadetail.aPPLYBYNAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">联系电话</span>
+										<span class="gdknpr">{{datadetail.mOBILEPHONE}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">省份</span>
+										<span class="gdknpr">{{datadetail.pROVINCE}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">省公司接口人</span>
+										<span class="gdknpr">{{datadetail.pROVINCEUSERNAME}}</span>
+									</p>
+									<p class="gdknp">
+										<span class="gdknpl">授权级别</span>
+										<span class="gdknpr">{{datadetail.lICELEVNAME}}</span>
+									</p>
+								</div>
+								<div class="fjlists">
+									<p class="fjtit">
+										附件
+										<span>共{{fjdatalists.length}}个附件</span>
+									</p>
+									<div class="fjli" v-for="fjli in fjdatalists" v-bind:urls="fjli.dOCPATH" @click="fjyl($event)">
+										<img src="../images/jpeg.png" v-if="fjli.dOCUMENTNAME.split('.')[1] == 'jpg'||fjli.dOCUMENTNAME.split('.')[1] == 'jpeg'" />
+										<img src="../images/png.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'png'" />
+										<img src="../images/pdf.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'pdf'" />
+										<img src="../images/wold.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'doc'||fjli.dOCUMENTNAME.split('.')[1] == 'docx'" />
+										<img src="../images/excel.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'excel'||fjli.dOCUMENTNAME.split('.')[1] == 'xlsx'||fjli.dOCUMENTNAME.split('.')[1] == 'xls'" />
+										<img src="../images/ppt.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'ppt'" />
+										<img src="../images/mp3.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'mp3'" />
+										<img src="../images/mp4.png" v-else-if="fjli.dOCUMENTNAME.split('.')[1] == 'mp4'" />
+										<img src="../images/weizhi.png" v-else/>
+										<p>{{fjli.dOCUMENTNAME}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="jhcont2" v-else>
+							<div class="tabzw">
+							</div>
+							<div class="wraplzcont">
+								<div class="lzli" v-for="(lzli,index) in lzdetail" v-bind:class="index == lzdetail.length-1?'':'borders'">
+									<h6 v-bind:class="lzli.handleTypeCode == 1?'lzdb':'lzwc'">{{lzli.linkName}}</h6>
+									<p>处理人:{{lzli.handlePerson}}</p>
+									<p v-if="index !== lzdetail.length-1"><span>处理结果:</span>{{lzli.handleType}}</p>
+									<p v-if="index !== lzdetail.length-1"><span>处理意见:</span>{{lzli.handleOpinions}}</p>
+									<p style="padding-bottom:0.12rem;">完成时间:{{lzli.handleTime}}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="postfile" @click="tosubmite()">
+						<p>处理</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var loginname = getQueryString("ln");
+		var ApplyType = getQueryString("type");
+		var issh = getQueryString("issh")
+		var rowid = getQueryString("rowid");
+		var taskid = getQueryString("taskid");
+		console.log(TimeStamps)
+		//		var taskid = "1012848";
+		//		var loginname = "200751";
+		//		var ApplyType = "PRICE_APPLY_TYPE_008";
+		//		var rowid = "2018012680234271";
+		//		var issh = 1;
+		new Vue({
+			el: "#jgsphid",
+			data: {
+				isxq: true,
+				ApplyType: ApplyType,
+				loginname: loginname,
+				rowid: rowid,
+				datadetail: "",
+				zxjr: "",
+				jr: "",
+				ct: "",
+				jrcj: "",
+				dq: "",
+				sla: "",
+				lzdetail: "",
+				fjdatalists: "",
+			},
+			mounted: function() {
+				var arr = this;
+				var datas = {
+					"ContractRoot": {
+						"SvcCont": {
+							"ReqInfo": {
+								"rowId": rowid,
+								"SystemID": "1212",
+								"LoginName": loginname,
+							}
+						},
+						"TcpCont": {
+							"TimeStamp": TimeStamps,
+							"ApplyType": ApplyType,
+							"TransactionID": "2018011217323941959",
+							"BusCode": "OPP10158"
+						}
+					}
+				}
+
+				$.ajax({
+					url: publicurl + JSON.stringify(datas),
+					dataType: 'json',
+					type: 'get',
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+					},
+					success: function(data) {
+						if(data.ContractRoot.svcCont.respInfo.code == 000) {
+							arr.datadetail = data.ContractRoot.svcCont.respInfo;
+							if(ApplyType == "PRICE_APPLY_TYPE_008"|| ApplyType == "PRICE_APPLY_TYPE_007"){
+								arr.fjdatalists = data.ContractRoot.svcCont.respInfo.aTTACHLIST;
+							}else{
+								arr.fjdatalists = data.ContractRoot.svcCont.respInfo.attachList;
+							}
+							console.log(arr.fjdatalists)
+							if(arr.ApplyType == "PRICE_APPLY_TYPE_001") {
+								arr.zxjr = arrVal(arr.datadetail.internetLineType, arr.datadetail.internetLineTypeList)
+								arr.jr = arrVal(arr.datadetail.accessType, arr.datadetail.accessModeList)
+								arr.ct = arrVal(arr.datadetail.throughType, arr.datadetail.throughTypeList)
+								arr.jrcj = arrVal(arr.datadetail.accessLev, arr.datadetail.accessLevList)
+								arr.dq = arrVal(arr.datadetail.areaType, arr.datadetail.areaTypeList)
+								arr.sla = arrVal(arr.datadetail.slaServiceLev, arr.datadetail.slaServiceLevList)
+							}
+						} else if(data.ContractRoot.svcCont.respInfo.code == 001) {
+							alert(data.ContractRoot.svcCont.respInfo.msg)
+						}
+					}
+				});
+			},
+			methods: {
+				tosubmite: function() {
+					if(issh == 1) {
+						var datas3 = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10302",
+									"TimeStamp": TimeStamps,
+									"TransactionID": "2017121911284881516"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"TaskId": taskid
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas3),
+							dataType: 'json',
+							type: 'get',
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+							},
+							success: function(data) {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									var ndata = data.ContractRoot.svcCont.respInfo.taskVo
+									if(ndata.yn_sign_self == "Y") {
+										window.location.href = "meetprocess.html?ln=" + loginname + "&type=" + ApplyType + "&issh=" + issh + "&rowid=" + rowid + "&taskid=" + taskid;
+									} else if(ndata.yn_sign_self == "N") {
+										window.location.href = "auditprocess.html?ln=" + loginname + "&type=" + ApplyType + "&issh=" + issh + "&rowid=" + rowid + "&taskid=" + taskid;
+									}
+								} else {
+									alert(data.ContractRoot.svcCont.respInfo.msg)
+								}
+							}
+						});
+					} else if(issh == 2) {
+						window.location.href = "feedback.html?ln=" + loginname + "&type=" + ApplyType + "&issh=" + issh + "&rowid=" + rowid + "&taskid=" + taskid;
+					}
+				},
+				fjyl: function(e) {
+					var urls = $(e.currentTarget).attr("urls");
+					localStorage.setItem("url", urls);
+					window.location.href = "filepreview.html";
+				},
+				tab1: function() {
+					var arr = this;
+					arr.isxq = true;
+				},
+				tab2: function() {
+					var arr = this;
+					arr.isxq = false;
+					var datas2 = {
+						"ContractRoot": {
+							"SvcCont": {
+								"ReqInfo": {
+									"LoginName": loginname,
+									"SourceType": "1",
+									"SystemID": "1212",
+									"PriceAudInternetApplyRowId": rowid,
+								}
+							},
+							"TcpCont": {
+								"TimeStamp": TimeStamps,
+								"TransactionID": "2018011517451465032",
+								"BusCode": "OPP10162"
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas2),
+						dataType: 'json',
+						type: 'get',
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+						},
+						success: function(data) {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								console.log(data)
+								arr.lzdetail = data.ContractRoot.svcCont.respInfo.circulationRecordVoList.reverse();
+							} else {
+								alert(data.ContractRoot.svcCont.respInfo.msg)
+							}
+						}
+					});
+				},
+			}
+		})
+
+		function arrVal(a, b) {
+			if(b.length > 0) {
+				for(var i = 0; i < b.length; i++) {
+					if(b[i].standCode == a) {
+						return b[i].displayValue
+					}
+				}
+			}
+		}
+	</script>
+
+</html>

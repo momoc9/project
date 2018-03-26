@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="Access-Control-Allow-Origin" content="*" />
+		<title>专家点赞</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/like.css" />
+		<script type="text/javascript" src="../public/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/rem.js"></script>
+		<script type="text/javascript" src="../public/public.js"></script>
+		<script type="text/javascript" src="../public/vue.min.js"></script>
+		<script type="text/javascript" src="../public/vue-resource.min.js"></script>
+		<script type="text/javascript" src="../public/vue-infinite-scroll.js"></script>
+		<script type="text/javascript" src="../public/layer/2.4/layer.js"></script>
+	<body>
+		<div id="box" v-cloak>
+			<header>
+				<h4>专家点赞-天翼云杯赛<i @click="returns()"></i></h4>
+			</header>
+			<div class="sortBox">
+				<ul>
+					<li v-text=""  v-bind:class="{active:ind=='all'}" @click="showModel('all')" >{{type}}<i v-bind:class="{active:ind=='all'}"></i></li>
+					<li v-bind:class="{active:ind=='less'}" @click="showModel('less')">{{likeType}}<i v-bind:class="{active:ind=='less'}"></i></li>
+				</ul>
+				<h4 @click="sortTime()">按时间<i v-bind:class="{'active':timeSort}"></i></h4>
+			</div>
+			<div class="likeList">
+				<ul>
+					<li v-for="(item,key) in dataList" @click="toDetail(id)">
+						<div>
+							<i v-bind:class="{'noLike':item.Excellent==0,'already':item.Excellent==1,'sureLike':item.Excellent==2}" @click="changeLikeType(item)"></i>
+							<div class="message">
+								<p>{{item.Name}}</p>
+								<span>{{item.Create_date1}}</span>
+							</div>
+							<div class="img">
+								<img v-bind:src="item.Logo" alt=""/>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<div class="showMore" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+					  <img src="../img/loading-spinning-bubbles.svg" alt=""  v-show="showMore"/>
+				</div>
+				
+			</div>
+			<div class="footer">
+				<h4 class="checkAll" @click="checkedAll" v-bind:class="{'active':checkAllFlag}">全选</h4>
+				<h4 class="checkSure" v-show="sureFlag" @click="subLikeList()">确定</h4>
+			</div>
+			<div class="checkModel" v-show="showFlag" @click="closeModel()">
+				<div class="allChoose" v-show="ind=='all'">
+					<i class="jiantou"></i>
+					<ul>
+						<li @click.stop="statusSure('type',item,index)" v-for="(item,index) in typeList" v-bind:class="{'active':liInd==index}">{{item}}</li>
+					</ul>
+				</div>
+				<div class="allChoose-like" v-show="ind=='less'">
+					<i class="jiantou"></i>
+					<ul>
+						<li @click.stop="statusSure('like',item,index)" v-for="(item,index) in likeTypeList" v-bind:class="{'active':liInd1==index}">{{item}}</li>
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el:'#box',
+				data:{
+					busy:true,
+					ind:'',
+					liInd:'0',
+					liInd1:'0',
+					showFlag:false,
+					timeSort:false,
+					showMore:false,
+					type:'爆料',
+					likeType:'筛选',
+					typeList:['爆料','案例','方案'],
+					likeTypeList:['全部','已点赞','未点赞'],
+					dataList:[],
+					noLikeList:[],
+					//下面是请求参数
+					activity:'1',			//大赛分类
+					access_token:'zc0123',		//访问令牌
+					create_date:'1',		//时间排序，默认1
+					fabulous:'',			//是否已点赞
+					pageSize:'10',			//多少条
+					pageThis:'1',			//第几页
+					ids : []				//确认点赞Id
+				},
+				mounted:function(){
+//					this.activity = getQueryString('activity');
+//					this.access_token = getQueryString('access_token');
+					this.getData();
+				},
+				computed:{
+					sureFlag(){
+						return this.checkCount>0;
+					},
+					checkCount(){
+						var i = 0;
+						this.dataList.forEach(function(item){
+							if(item.Excellent=='2'){
+								i++;	
+							}
+						})
+						return i;
+					},
+					checkAllCount(){
+						var allFlag = 0;
+							this.dataList.forEach(function(item){
+								if(item.Excellent=='2'&&item.Excellent!='0'){
+									allFlag++;	
+								}
+							})
+							return allFlag;
+					},
+					checkAllFlag(){
+							var length = 0;
+							this.dataList.forEach(function(item){
+								if(item.Excellent=='0'){
+									length++;	
+								}
+							})
+							
+							length = length+this.checkAllCount;
+							return length == this.checkAllCount;
+						
+					}
+				},
+				methods:{
+					loadMore:function(){
+						this.busy = true;
+						setTimeout(() => {
+							this.pageThis++;
+							if(this.type=="爆料"){
+								 this.getData(true);
+							}else{
+								this.getItemsData(true);
+							}
+					       
+					      }, 500);
+					},
+					getData:function(flag){				//获取爆料列表
+						var data = {};
+						var _this = this;
+						if(flag){
+							
+						}else{
+							this.pageThis = '1';
+						}
+						if(this.liInd1=='1'){
+							data.Fabulous = '1';
+						}else if(this.liInd1=='2'){
+							data.Fabulous = '2';
+						}
+						_this.noLikeList = [];
+						data.activity = this.activity;
+						data.access_token = this.access_token;
+						data.create_date = this.create_date;
+						data.pageSize = '10';
+						data.pageThis = this.pageThis;
+						this.$http.get('../js/data.json',
+						
+						{			//publicurl+'/openapi/hyal/queryTipOffFabulous'
+							params:data,
+							before(){
+								var index = layer.load();
+							}
+						}).then(function(res){
+							if(res.body.respCode == '1'){
+								var index = layer.load();
+								layer.close(index);
+								
+								if(flag){
+									this.dataList  = this.dataList.concat(res.body.respMsg.dataList);
+									if(res.body.respMsg.dataList.length<10){
+											_this.busy = true;
+											_this.showMore = false;
+										}else{
+											_this.busy = false;
+											_this.showMore = true;
+										}
+								}else{
+										this.dataList = [];
+										this.dataList  = res.body.respMsg.dataList;
+										this.busy = false;
+									
+								}
+								_this.dataList.forEach(function(item){
+									if(item.Excellent=='0'){
+										_this.noLikeList.push(item)
+									}
+								})
+							}else{
+								var index = layer.load();
+								layer.close(index);
+								layer.msg(res.respDesc, {
+									icon: 2,
+									time: 1000
+								});
+							}
+						})
+					},
+					getItemsData:function(flag){		//查询案例和方案列表
+						var data = {};
+						var _this = this;
+						_this.noLikeList = [];
+						if(flag){
+							
+						}else{
+							this.pageThis = '1';
+						}
+						if(this.liInd1=='1'){
+							data.Fabulous = '1';
+						}else if(this.liInd1=='2'){
+							data.Fabulous = '2';
+						}
+						
+						data.activity = this.activity;
+						data.access_token = this.access_token;
+						data.create_date = this.create_date;
+						data.type = this.liInd;
+						data.pageSize = '10';
+						data.pageThis = this.pageThis;
+						this.$http.get('../js/data1.json',{					//publicurl+'/openapi/hyal/queryFabulous'
+							params:data,
+							before(){
+								var index = layer.load();
+							}
+						}).then(function(res){
+							if(res.body.respCode == '1'){
+								var index = layer.load();
+								layer.close(index);
+								
+								if(flag){
+									this.dataList  = this.dataList.concat(res.body.respMsg.dataList);
+									if(res.body.respMsg.dataList.length<10){
+											_this.busy = true;
+											_this.showMore = false;
+										}else{
+											_this.busy = false;
+										}
+								}else{
+									this.dataList = [];
+									this.dataList  = res.body.respMsg.dataList;
+									this.busy = false;
+								}
+								_this.dataList.forEach(function(item){
+									if(item.Excellent=='0'){
+										_this.noLikeList.push(item)
+									}
+								})
+							}else{
+								var index = layer.load();
+								layer.close(index);
+								layer.msg(res.body.respDesc, {
+									icon: 2,
+									time: 1000
+								});
+							}
+						})
+					},
+					changeLikeType:function(item){	//是否点赞
+							if(item.Excellent=='0'){
+								item.Excellent='2';
+							}else if(item.Excellent=='1'){
+								return;
+							}else{
+								item.Excellent='0';
+							}
+					},
+					showModel:function(flag){	//控制遮罩层出现
+						if(flag=='all'){
+							this.ind = 'all';
+							this.showFlag = true;
+						}else{
+							this.ind = 'less';
+							this.showFlag = true;
+						}
+					},
+					statusSure:function(flag,item,index){		//筛选
+						var _this = this;
+						this.showFlag = false;
+						console.log(this.busy)
+						this.ind = '';
+						if(flag=='type'){
+							this.liInd = index;
+							this.type = item;
+							if(this.liInd=='0'){
+								_this.getData();
+							}else{
+								_this.getItemsData();
+							}
+						}else{
+							this.liInd1 = index;
+							this.likeType = item;
+							this.fabulous = this.liInd1;
+							if(this.liInd=='0'){
+								_this.getData();
+							}else{
+								_this.getItemsData();
+							}
+						}
+				
+					},
+					sortTime:function(){				//时间排序
+						this.timeSort = !this.timeSort;
+//						this.create_date = '2';
+						if(this.timeSort){
+							this.create_date = '2';
+							if(this.type=="爆料"){
+								this.getData();
+							}else{
+								this.getItemsData();
+							}
+						}else{
+							this.create_date = '1';
+							if(this.type=="爆料"){
+								this.getData();
+							}else{
+								this.getItemsData();
+							}
+						}
+					},
+					checkedAll:function(){			//全选
+						var _this = this;
+						var flagCopy = !this.checkAllFlag;
+						this.dataList.forEach(function(item){
+							if(item.Excellent!='1'&&flagCopy==true){
+								item.Excellent = '2';
+							}else if(item.Excellent!='1'&&flagCopy==false){
+								item.Excellent = '0';
+							}
+						})
+					},
+					closeModel:function(){						//关闭遮罩层
+						this.showFlag = false;
+						this.ind = '';
+					},
+					subLikeList:function(){						//确定点赞
+						var data = {};
+						var _this = this;
+						data.access_token = _this.access_token;
+						_this.ids = [];
+						_this.dataList.forEach(function(item){
+							if(item.Excellent == '2'){
+								_this.ids.push(item.Id);
+							}
+						})
+						_this.ids = _this.ids.join(',');
+						data.ids = _this.ids;
+						data.staffId = '113420';
+						if(this.liInd == "0"){
+							data.type = '3';
+						}else if(this.liInd == "1"){
+							data.type = '1';
+						}else{
+							data.type = '2';
+						}
+						this.$http.get(publicurl+'/openapi/hyal/SaveExpertFabulous',{
+							params:data
+						}).then(function(res){
+							if(res.body.respCode == '1'){
+								layer.msg(res.respDesc, {
+									icon: 1,
+									time: 1000
+								});
+							}else{
+								var index = layer.load();
+								layer.close(index);
+								layer.msg(res.body.respDesc, {
+									icon: 2,
+									time: 1000
+								});
+							}
+						})
+					},
+					toDetail:function(id){
+						
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

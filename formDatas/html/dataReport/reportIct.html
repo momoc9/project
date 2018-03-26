@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>数据报表</title>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/reheadtabs.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/datareport.css" />
+		<script src="../../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+        <div class="datarehead">
+        	数据报表
+			<div class="datarereturns" onclick="returns()">
+				<img src="../../images/return@3x.png" />
+			</div>
+			<!--<img src="../../images/zhankai@2x.png" class="zhankai"/>-->
+			<!--<img src="../../images/tuisong@2x.png" class="tuisong"/>-->
+        </div>
+        <div class="zwheaddown"></div>
+        <div class="datarecont">
+        	<div class="lefttab">
+        		<p onclick="hrefs('dataReport.html')">
+					<span>互联网+大单</span>
+				</p>
+				<p class="dractive" onclick="hrefs('reportIct.html')">
+					<span>ICT项目排行</span>
+					<i></i>
+				</p>
+				<p onclick="hrefs('wlwjz.html')">
+					<span>物联网净增排行</span>
+				</p>
+				<p onclick="hrefs('wlwxz.html')">
+					<span>物联网新增统计</span>
+				</p>
+				<p onclick="hrefs('mbb.html')">
+					<span>移动、宽带</span>
+				</p>
+				<p onclick="hrefs('directRevenue.html')">
+					<span>直管客户收入</span>
+				</p>
+				<p onclick="hrefs('firstQuarter.html')">
+					<span>一季度资源配比</span>
+				</p>
+				<p onclick="hrefs('secondQuarter.html')">
+					<span>二季度资源配比</span>
+				</p>
+				<p onclick="hrefs('supportStatistics.html')">
+					<span>属地支撑统计</span>
+				</p>
+				<p onclick="hrefs('baseSupport.html')">
+					<span>基地支撑统计</span>
+				</p>
+				<p onclick="hrefs('talentWorkstation.html')">
+					<span>人才工作站支撑统计</span>
+				</p>
+        	</div>
+        	<div class="rightcont">
+        		<div id="ictcont">
+        			<div class="icttabs">
+	        			<p v-bind:class="(tabs ==1) ? 'icttabact' : ''" @click="clicktab1()">在执行项目合同金额(亿元)</p>
+	        			<p v-bind:class="(tabs ==2) ? 'icttabact' : ''" @click="clicktab2()">合同执行偏差率(%)</p>
+	        		</div>
+	        		<p class="icttitls">
+	        			<span>截止时间:2017.10</span>
+	        			<span>数据来源:集团MSS系统ICT模块</span>
+	        		</p>
+	        		<div class="ictconts" v-if="tabs == 1">
+	        			<div class="pronumbs" v-for="(datalist,index) in datalists">
+							<p class="provs"><span>{{datalist.regionName}}</span></p>
+							<p class="numbs">
+								<span class="shownumbs">{{datalist.zzxXmhtje}}</span>
+								<i class="yleft"></i>
+								<span class="numbsbg" v-bind:style="{width: datalist.zzxXmhtje*0.01 + 'rem' }"></span>
+								<i class="yright"></i>
+							</p>
+						</div>
+	        		</div>
+	        		<div class="ictconts" v-else-if="tabs == 2">
+	        			<div class="pronumbs" v-for="(datalist,index) in datalists">
+							<p class="provs"><span>{{datalist.regionName}}</span></p>
+							<p class="numbs">
+								<span class="shownumbs">{{datalist.htzxpcl}}</span>
+								<i class="yleft"></i>
+								<span class="numbsbg" v-bind:style="{width: index*0.07 + 'rem' }"></span>
+								<i class="yright"></i>
+							</p>
+						</div>
+	        		</div>
+        		</div>
+        		
+        	</div>
+        </div>
+	</body>
+	<script type="text/javascript">
+		var datas1 = {
+			"ContractRoot": {
+				"TcpCont": {
+					"BusCode": "OPP10180",
+					"TransactionID": "2017092520103032129",
+					"TimeStamp": "20170925201030"
+				},
+				"SvcCont": {
+					"ReqInfo": {
+						"Code": "1"
+					}
+				}
+			}
+		}
+		var datas2 = {
+			"ContractRoot": {
+				"TcpCont": {
+					"BusCode": "OPP10180",
+					"TransactionID": "2017092520103032129",
+					"TimeStamp": "20170925201030"
+				},
+				"SvcCont": {
+					"ReqInfo": {
+						"Code": "2"
+					}
+				}
+			}
+		}
+		new Vue({
+			el: "#ictcont",
+			data: {
+				datalists: [],
+				tabs:1,
+			},
+			mounted: function() {
+				var arr = this;
+				$.ajax({
+					url: publicurl + JSON.stringify(datas1),
+					dataType: 'json',
+					type: 'get',
+					success: function(data) {
+						layer.close(index);
+						if(data.msg) {
+							alert("网络出现异常，请重试")
+						} else {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								console.log(data)
+								arr.datalists = data.ContractRoot.svcCont.respInfo.ictBeans;
+							} else {
+								alert("网络出现异常，请重试")
+							}
+						}
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '玩命加载中...',
+							shadeClose:false,
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+				});
+			},
+			methods: {
+                clicktab1:function(){
+                	var arr = this;
+                	arr.tabs = 1;
+                	$.ajax({
+					url: publicurl + JSON.stringify(datas1),
+					dataType: 'json',
+					type: 'get',
+					success: function(data) {
+						layer.close(index);
+						if(data.msg) {
+							alert("网络出现异常，请重试")
+						} else {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								console.log(data)
+								arr.datalists = data.ContractRoot.svcCont.respInfo.ictBeans;
+							} else {
+								alert("网络出现异常，请重试")
+							}
+						}
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '玩命加载中...',
+							shadeClose:false,
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+				});
+                },
+                clicktab2:function(){
+                	var arr = this;
+                	arr.tabs = 2;
+                	$.ajax({
+					url: publicurl + JSON.stringify(datas2),
+					dataType: 'json',
+					type: 'get',
+					success: function(data) {
+						layer.close(index);
+						if(data.msg) {
+							alert("网络出现异常，请重试")
+						} else {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								console.log(data)
+								arr.datalists = data.ContractRoot.svcCont.respInfo.ictBeans;
+							} else {
+								alert("网络出现异常，请重试")
+							}
+						}
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '玩命加载中...',
+							shadeClose:false,
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+				});
+                	
+                }
+			}
+		})
+	</script>
+</html>

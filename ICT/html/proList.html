@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>ICT项目列表</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/proHeader.css" />
+		<link rel="stylesheet" type="text/css" href="../css/prolist.css" />
+		<script type="text/javascript" src="../public/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/rem.js"></script>
+		<script type="text/javascript" src="../public/public.js"></script>
+		<script type="text/javascript" src="../public/vue.min.js"></script>
+		<script type="text/javascript" src="../public/vue-resource.min.js"></script>
+		<script type="text/javascript" src="../public/vue-infinite-scroll.js"></script>
+		<script type="text/javascript" src="../public/layer/2.4/layer.js"></script>
+	</head>
+
+	<body>
+		<div id="box" v-cloak>
+			<header class="pro-header">
+				<h4>ICT项目列表<i @click="returns()"></i></h4>
+				<span class="h-serch" @click="jump()"></span>
+			</header>
+			<div class="nav-list">
+				<ul>
+					<li class="time" v-bind:class="{'active':ind==0,'sort':sortFlag == true}" @click="sortTime($event)">创建时间<i></i></li>
+					<li class="status" v-bind:class="{'active':ind==1,'close':ind==1}" @click="showStatus($event)">{{stastus}}<i></i></li>
+				</ul>
+			</div>
+			<div class="list-item">
+				<ul @click="toInformation(item)" v-for="(item,idnex) in dataList">
+					<li><i></i><span>项目名称：</span>
+						<p>{{item.iTEMNAME}}</p>
+					</li>
+					<li><span>项目编码：</span>
+						<p>{{item.iTEMCODE}}</p>
+					</li>
+					<li><span>客户名称：</span>
+						<p>{{item.cLIENTNAME}}</p>
+					</li>
+					<li><span>创建时间：</span>
+						<p>{{item.aPPLYDATE}}</p>
+					</li>
+					<li><span>项目状态：</span>
+						<p>{{getType2(item.iTEMSTATUS)}}</p>
+					</li>
+					<a href="#" @click.stop="checkProcedyres(item)">查看流程<i></i></a>
+				</ul>
+				<div class="showMore" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+					<img src="../img/loading-spinning-bubbles.svg" alt="" v-show="false" />
+				</div>
+			</div>
+			<div class="status-show">
+				<ul>
+					<li v-for="item in typeList" @click="checkType($event,item.num,item.type)">{{item.type}}</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var loginId = getQueryString('account');
+//		var loginId = '1';
+		new Vue({
+			el: "#box",
+			data: {
+				ind: '0',
+				sortFlag: false,
+				Orderbytype:'2',
+				Itemstatus:'',
+				Pagenum:'1',
+				busy:true,
+				stastus:'项目状态',
+				data:'',
+				loginId:loginId,
+				typeList: [
+				{"type":"项目审批中","num":'10'},
+				{"type":"项目已批复","num":'20'},
+				{"type":"验收","num":'50'},
+				{"type":"作废","num":'70'},
+				{"type":"结束","num":'80'},
+				{"type":"关闭","num":'90'},
+				],
+				dataList:[]
+			},
+			mounted: function() {
+				this.$nextTick(function() {
+					this.dataList = [];
+					this.getData();
+					localStorage.setItem('loginId',this.loginId);
+				})
+			},
+			methods: {
+				loadMore(){
+					this.busy = true;
+						setTimeout(() => {
+							this.Pagenum++;
+							this.getData(true);
+						}, 500);
+				},
+				getData(flag,num) {
+					var dataInfo = localStorage.getItem('serchInfo');
+					var data = '';
+					var _this = this;
+					var publicurlStr = '';
+					if(dataInfo){
+						data = JSON.parse(dataInfo);
+						data.ContractRoot.SvcCont.ReqInfo.Pagenum = this.Pagenum;
+						data.ContractRoot.SvcCont.ReqInfo.Orderbytype = this.Orderbytype;
+						if(this.Itemstatus){
+							data.ContractRoot.SvcCont.ReqInfo.Itemstatus = this.Itemstatus;
+						}else{
+
+						}
+						
+					}else{
+						data = {
+							"ContractRoot": {
+								"SvcCont": {
+									"ReqInfo": {
+										"LoginId": this.loginId,
+										"Pagenum": this.Pagenum,
+										"Pagesize": "10",
+										"Orderbytype":this.Orderbytype
+									}
+								},
+								"TcpCont": {
+									"TimeStamp": "20170929113413",
+									"TransactionID": "2017092911341395201",
+									"BusCode": "OPP10322"
+								}
+							}
+						}
+						if(this.Itemstatus){
+							data.ContractRoot.SvcCont.ReqInfo.Itemstatus = this.Itemstatus;
+						}
+					}
+					
+					publicurlStr = JSON.stringify(data);
+					
+					if(flag){
+						
+					}else{
+						_this.Pagenum = '1';
+						_this.dataList = [];
+					}
+					$.ajax({
+						type:"get",
+//						url:'../js/data.json',
+						url:publicurl+publicurlStr,
+						async:true,
+						dataType:'json',
+						beforeSend:function(){
+							var index = layer.load();
+						},
+						success:function(res){
+							var index = layer.load();
+								layer.close(index);
+							var data = res.ContractRoot.svcCont.respInfo;
+								if(data.code=='000'){
+									if(flag){
+										_this.dataList = _this.dataList.concat(data.itemvo.bictitem);
+										if(data.itemvo.bictitem.length<10){
+											_this.busy = true;
+										}else{
+											_this.busy = false;
+										}
+										
+									}else{
+										_this.dataList = data.itemvo.bictitem;
+//										_this.busy = true;
+										if(data.itemvo.bictitem.length<10){
+											_this.busy = true;
+										}else{
+											_this.busy = false;
+										}
+									}
+									
+								}else{
+									layer.msg(data.msg,{
+										icon:2,
+										time:1000
+									})
+								}
+						},
+						error:function(){
+							var index = layer.load();
+								layer.close(index);
+							layer.msg("请求失败",{
+								icon:5,
+								time:1000
+							})
+						}
+					});
+				},
+				showStatus(e) {
+					this.ind = 1;
+					$('.status-show').slideToggle();
+					var liActive = e.target;
+					if($(liActive).hasClass('close')) {
+						$(liActive).removeClass('close')
+					} else {
+						$(liActive).addClass('close');
+					}
+					if($(liActive).hasClass('sort')) {
+						alert(1)
+					}
+				},
+				sortTime(e) {													//按时间排序
+					this.ind = 0;
+					this.Pagenum = '1';
+//					console.log(this.Itemstatus)
+					$('.status-show').slideUp();
+					this.sortFlag = !this.sortFlag;
+					if(this.sortFlag){
+						this.Orderbytype = '1';
+					}else{
+						this.Orderbytype = '2';
+					}
+					this.getData();
+				},
+				checkProcedyres(item) {								
+					localStorage.setItem('projectDetails',JSON.stringify(item));
+					location.href = "proProcedures.html";
+				},
+				jump() {
+					location.href = "serch.html";
+				},
+				toInformation(item) {                   			//查看详情
+					localStorage.setItem('projectDetails',JSON.stringify(item));
+					location.href = "projectInformation.html";
+				},
+				checkType(e,num,type) {
+					this.stastus = type;
+					this.Itemstatus = num;
+					this.Pagenum = '1';
+					this.getData();
+					$('.status-show').hide();
+				},
+				getType2(num){
+					var _this = this;
+					var val = '';
+					switch (num){
+						case "10":
+							val = '项目审批中';
+							break;
+						case "20":
+							val = '项目已批复';
+							break;
+						case "50":
+							val = '验收';
+							break;
+						case "70":
+							val = '作废';
+							break;
+						case "80":
+							val = '结束';
+							break;
+						case "90":
+							val = '关闭';
+							break;
+						default:
+							break;
+					}
+					return val;
+				},
+			}
+		})
+	</script>
+
+</html>

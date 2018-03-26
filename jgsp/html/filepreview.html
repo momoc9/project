@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>附件预览</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/g-head.css" />
+		<script type="text/javascript" src="../public/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/rem.js"></script>
+		<script type="text/javascript" src="../public/public.js"></script>
+		<style type="text/css">
+			.file_box {
+				width: 100%;
+				height: 100%;
+			}
+			
+			.file_box iframe {
+				display: block;
+				width: 100%;
+				height: calc(100% - 0.96rem);
+			}
+			
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+			}
+			
+			img {
+				width: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="file_box">
+			<header class="g-header">
+				<h2>附件预览
+				<i onclick="rethome()"></i>
+			</h2>
+			</header>
+			<iframe src="" frameborder="0" noresize="noresize" id="iframe">
+			</iframe>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var fileurl = localStorage.getItem('url');	
+		var arrs = fileurl.split('.')
+		var arrb = arrs[arrs.length - 1].split('?')
+		if(arrb[0] == 'html'||arrb[0] == 'png'||arrb[0] == 'jpg'||arrb[0] == 'jpeg'){
+			$('.file_box iframe').attr('src', fileurl);		
+		}
+		function rethome() {
+			localStorage.removeItem("url");
+			window.history.back();
+		}
+//		window.onload = function() {
+//			var iframe = $('#iframe');
+//			var test = $('#iframe').contents().find('body');
+//			test.css({
+//				"width": "100%",
+//				"margin": '0'
+//			});
+//			test.children().css({
+//				"width": '100%'
+//			})
+//		}
+	</script>
+
+</html>

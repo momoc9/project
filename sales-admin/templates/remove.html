@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	
+	<div class="box">
+		<span>123</span>
+		<span>123</span>
+		<span>123</span>
+		<span>123</span>
+	</div>
+	<body>
+		<script type="text/javascript" src="../static/lib/jquery/1.9.1/jquery.min.js"></script>
+		
+		<script type="text/javascript">
+			$('.box').click(function(){
+				console.log(1)
+				$(this).children('span').remove()
+			})
+		</script>
+	</body>
+</html>

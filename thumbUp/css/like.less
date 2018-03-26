@@ -1,0 +1,280 @@
+body{
+    width: 100%;
+    height: 100%;
+    background: #f2f2f2;
+    position: relative;
+}
+#box{
+    width: 100%;
+    height: 100%;
+    background: #f2f2f2;
+}
+header{
+    width: 100%;
+    height: 0.96rem;
+    background: #0091e2;
+    line-height: 0.96rem;
+    position: relative;
+    h4{
+        font-size:0.36rem ;
+        color: #FFFFFF;
+        text-align: left;
+        font-weight: normal;
+        position: relative;
+        padding-left: 0.66rem;
+        font-family: 'PingFang SC-Regular';
+        height: 100%;
+        i{
+            display: block;
+            width: 0.16rem;
+            height: 100%;
+            background:url(../img/fanhui.png) no-repeat center;
+            background-size:0.16rem 0.28rem;
+            position: absolute;
+            left: 0.3rem;
+            top: 0;
+        }
+    }
+}
+.footer{
+    width: 100%;
+    height: 0.88rem;
+    background: #0091e2;
+    line-height: 0.88rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'PingFang SC-Regular';
+    h4{
+        font-size: 0.28rem;
+        color: #FFFFFF;
+        padding-left: 0.4rem;
+        
+    }
+    h4.active{
+        background: url(../img/quanxuan.png) no-repeat left center;
+        background-size: 0.24rem 0.24rem;
+    }
+    .checkAll{
+        background: url(../img/weiquanxuan.png) no-repeat left center;
+        background-size: 0.24rem 0.24rem;
+        margin-left: 0.3rem;
+    }
+    .checkSure{
+        background: url(../img/dianzan.png) no-repeat left center;
+        background-size: 0.24rem 0.24rem;
+        margin-right: 0.3rem;
+    }
+}
+.sortBox{
+    width: 100%;
+    height: 0.8rem;
+    background: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid #EEEEEE;
+    ul{
+        height: 100%;
+        overflow: hidden;
+        margin-left: 0.3rem;
+        li{
+            font-family: 'PingFang SC-Regular';
+            color: #444444;
+            font-size: 0.28rem;
+            float: left;
+            height: 100%;
+            line-height: 0.8rem;
+            i{
+                display: inline-block;
+                width: 0.22rem;
+                height: 0.12rem;
+                background: url(../img/open.png) no-repeat center;
+                background-size: 100% 100%;
+                vertical-align: middle;
+                margin-left: 0.1rem;
+                margin-right: 0.5rem;
+            }
+            i.active{
+                background: url(../img/xiala.png) no-repeat center;
+                background-size: 100% 100%;
+            }
+           
+        }
+        li.active{
+            color: #0091e2;
+        }
+    }
+    h4{
+        margin-right: 0.3rem;
+        font-size: 0.28rem;
+        color: #0091e2;
+        font-weight: normal;
+        i{
+            display: inline-block;
+            width: 0.20rem;
+            height: 0.22rem;
+            background: url(../img/baoliao_refresh.png) no-repeat center;
+            background-size: 100% 100%;
+            vertical-align: middle;
+            margin-left: 0.1rem;
+        }
+        i.active{
+            background: url(../img/baoliao_refresh02.png) no-repeat center;
+            background-size: 100% 100%;
+        }
+    }
+
+}
+.likeList::-webkit-scrollbar{
+    display: none;
+}
+.likeList{
+    width: 100%;
+    height: calc(~"100% - 2.64rem");
+    background: #FFFFFF;
+    font-family: 'PingFang SC-Regular';
+    overflow: hidden;
+    overflow-y: scroll;
+    
+    ul{
+        width: calc(~"100% - 0.3rem");
+        margin-left: 0.3rem;
+        li{
+            width: 100%;
+            box-sizing: border-box;
+            border-bottom: 1px solid #EEEEEE;
+            padding: 0.24rem  0  0.3rem 0;
+            >div{
+                display: flex;
+                justify-content: space-between;
+                padding-left: 0.8rem;
+                position: relative;
+                .message{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    margin-right: 0.4rem;
+                    p{
+                        font-size: 0.32rem;
+                        color: #444444;
+                        line-height: 0.48rem;
+                        display: table-cell;
+                        vertical-align: text-top;
+                        margin-top: -0.1rem;
+                        font-weight: 500;
+                    }
+                    span{
+                        font-size: 0.24rem;
+                        color: #999999;
+                        padding-left: 0.3rem;
+                        background: url(../img/shijian.png) no-repeat left center;
+                        background-size: 0.20rem 0.20rem;
+                    }
+                }
+                .img{
+                    min-width: 2.32rem;
+                    height: 1.66rem;
+                    margin-right: 0.24rem;
+                    img{
+                        display: block;
+                        width: 2.32rem;
+                        height: 1.66rem;
+                        border: 1px solid #EEEEEE;
+                        position: relative;
+                    }
+                    img:after { 
+                          content: '';
+                          display: block;
+                          position: absolute;
+                          // 底下幾行是故意要滿版並且背景填滿擋住底下那個很醜的加載失敗圖片(包子)
+                          z-index: 2;
+                          top: 0;
+                          left: 0;
+                          width: 2.32rem;
+                          height: 1.66rem;
+//                        background-color: #fff;
+                          background:#fff url(../img/kedaya.jpg) no-repeat center;
+                          background-size: 100% 100%;
+                        }
+                }
+                i{
+                    display: block;
+                    width: 0.5rem;
+                    height: 0.5rem;
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    margin-top: -0.25rem;
+                }
+                >i.already{
+                    background: url(../img/queding.png) no-repeat left center;
+                    background-size: 100% 100%;
+                }
+                >i.noLike{
+                    background: url(../img/weixuanzhong.png) no-repeat left center;
+                    background-size: 100% 100%;
+                }
+                >i.sureLike{
+                    background: url(../img/xuanzhongzhong.png) no-repeat left center;
+                    background-size: 100% 100%;
+                }
+            }
+            
+        }
+    }
+}
+.checkModel{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    position: absolute;
+    z-index: 66;
+    top: 0;
+    left: 0;
+    font-family: 'PingFang SC-Regular';
+    .allChoose,.allChoose-like{
+        width: 100%;
+        background: #FFFFFF;
+        margin-top: 1.76rem;
+        position: relative;
+        .jiantou{
+            display: block;
+            width: 0.31rem;
+            height: 0.2rem;
+            background: url(../img/xialajiantou.png) no-repeat center;
+            background-size: 100% 100%;
+            position: absolute;
+            top: -0.20rem;
+            left: 0.92rem;
+        }
+        ul{
+            width: calc(~"100% - 0.3rem");
+            background: #FFFFFF;
+            margin-left: 0.3rem;
+            li{
+                width: 100%;
+                height: 0.8rem;
+                color: #444444;
+                font-size: 0.28rem;
+                box-sizing: border-box;
+                border-bottom: 1px solid #EEEEEE;
+                vertical-align: middle;
+                line-height: 0.8rem;
+            }
+            li.active{
+                color: #0091e2;
+            }
+        }
+    }
+}
+.showMore{
+    img{
+        margin: 0 auto;
+    }
+}
+.layui-layer-loading .layui-layer-content{
+    margin: 0 auto;
+}

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="screen-orientation" content="landscape">
+		<title>数据报表</title>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/reheadtabs.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/datareport.css" />
+		<script src="../../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="datarehead">
+			数据报表
+			<div class="datarereturns" onclick="returns()">
+				<img src="../../images/return@3x.png" />
+			</div>
+			<!--<img src="../../images/zhankai@2x.png" class="zhankai" />-->
+			<!--<img src="../../images/tuisong@2x.png" class="tuisong" />-->
+		</div>
+		<div class="zwheaddown"></div>
+		<div class="datarecont">
+			<div class="lefttab">
+				<p class="dractive" onclick="hrefs('dataReport.html')">
+					<span>互联网+大单</span>
+					<i></i>
+				</p>
+				<p onclick="hrefs('reportIct.html')">
+					<span>ICT项目排行</span>
+				</p>
+				<p onclick="hrefs('wlwjz.html')">
+					<span>物联网净增排行</span>
+				</p>
+				<p onclick="hrefs('wlwxz.html')">
+					<span>物联网新增统计</span>
+				</p>
+				<p onclick="hrefs('mbb.html')">
+					<span>移动、宽带</span>
+				</p>
+				<p onclick="hrefs('directRevenue.html')">
+					<span>直管客户收入</span>
+				</p>
+				<p onclick="hrefs('firstQuarter.html')">
+					<span>一季度资源配比</span>
+				</p>
+				<p onclick="hrefs('secondQuarter.html')">
+					<span>二季度资源配比</span>
+				</p>
+				<p onclick="hrefs('supportStatistics.html')">
+					<span>属地支撑统计</span>
+				</p>
+				<p onclick="hrefs('baseSupport.html')">
+					<span>基地支撑统计</span>
+				</p>
+				<p onclick="hrefs('talentWorkstation.html')">
+					<span>人才工作站支撑统计</span>
+				</p>
+			</div>
+			<div class="rightcont">
+				<div id="hlwddcont">
+					<div class="zhedanghlwdd" v-show="ischoose" @click="shouqizhedang()">
+					</div>
+					<div class="hlwddhead">
+						<p class="hlwtit" v-if="provincenum == 1"><span @click="renation()">全国</span></p>
+						<p class="hlwtit" v-else-if="provincenum == 2"><span @click="renation()">全国</span><img src="../../images/jiantou_blue@3x.png" /><span @click="repro()">{{proname}}</span></p>
+						<p class="hlwtit" v-else-if="provincenum == 3"><span @click="renation()">全国</span><img src="../../images/jiantou_blue@3x.png" /><span @click="repro()">{{proname}}</span><img src="../../images/jiantou_blue@3x.png" /><span>{{citysname}}</span></p>
+						<p class="hlwnumb">总计{{nownumb}}个</p>
+						<div class="hlwchoic" @click="clickchoose()" v-show="provincenum == 1">{{showchoose}}<img src="../../images/xiala@2x.png" alt="" />
+							<div id="chooses" v-show="ischoose">
+								<p @click="nowchoose($event)">全部</p>
+								<p @click="nowchoose($event)">互联网+医疗</p>
+								<p @click="nowchoose($event)">互联网+金融</p>
+								<p @click="nowchoose($event)">互联网+教育</p>
+								<p @click="nowchoose($event)">互联网+交通物流</p>
+								<p @click="nowchoose($event)">互联网+旅游</p>
+								<p @click="nowchoose($event)">互联网+制造</p>
+								<p @click="nowchoose($event)">互联网+商客</p>
+								<p @click="nowchoose($event)">互联网+农业</p>
+								<p @click="nowchoose($event)">互联网+政务</p>
+								<p @click="nowchoose($event)">互联网+地产</p>
+							</div>
+						</div>
+					</div>
+					<div class="wraphlwddcont">
+						<div class="pronumbs" v-for="(datalist,index) in datalists" @click="showcitys($event)" v-bind:isdrill="datalist.isdrill" v-bind:name="datalist.regionId" v-bind:names="datalist.regionName">
+							<p class="provs"><span>{{datalist.regionName}}</span></p>
+							<p class="numbs">
+								<span class="shownumbs" v-if="provincenum == 1&&choosenow ==1&&datalist.isdrill ==1">{{datalist.progeress}}&nbsp;/&nbsp;{{datalist.bigOrderCount}}</span>
+								<span class="shownumbs" v-else>{{datalist.bigOrderCount}}</span>
+								<i class="yleft"></i>
+								<span class="numbsbg" v-if="provincenum == 1&&choosenow ==1" v-bind:style="{width: toPoint(datalist.progeress)*0.9 + 'rem' }"></span>
+								<span class="numbsbg" v-else v-bind:style="{width: datalist.bigOrderCount*0.007 + 'rem' }"></span>
+								<i class="yright"></i>
+							</p>
+							<img src="../../images/xiayiye2@2x.png" alt="" v-show="datalist.isdrill==1" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var accountss = getQueryString("account");
+		var ticketss = getQueryString("ticket");
+		var loginnamess = getQueryString("loginname");
+		if(accountss) {
+			localStorage.setItem("loginname", loginnamess);
+			localStorage.setItem("ticket", ticketss);
+			localStorage.setItem("account", accountss);
+		}
+		new Vue({
+			el: "#hlwddcont",
+			data: {
+				datalists: [],
+				provincenum: 1,
+				choosenow: "1",
+				nownumb: "",
+				ischoose: false,
+				showchoose: "筛选",
+				prevcitys: "",
+				prevprov: "",
+				proname: "",
+				citysname: "",
+			},
+			mounted: function() {
+				var arr = this;
+				var datas = {
+					"ContractRoot": {
+						"SvcCont": {
+							"ReqInfo": {
+								"IsNotDrill": "1",
+								"InternetType": arr.choosenow.replace(/\+/g, "%2B"),
+								"CityCode": "",
+								"ProvincialCoding": ""
+							}
+						},
+						"TcpCont": {
+							"TimeStamp": "20170925201030",
+							"TransactionID": "2017092520103032129",
+							"BusCode": "OPP10179"
+						}
+					}
+				}
+				console.log(locations);
+				console.log(publicurl);
+//				$.ajax({
+//					url: publicurl + JSON.stringify(datas),
+//					dataType: 'json',
+//					type: 'get',
+//					beforeSend: function(request) {
+//						index = layer.open({
+//							style: 'border:none; color:#fff;',
+//							content: '玩命加载中...',
+//							shadeClose: false,
+//						})
+//					},
+//					error: function(XMLHttpRequest, textStatus, errorThrown) {
+//						alert("网络出现异常，请重试")
+//						layer.close(index);
+//					},
+//					success: function(data) {
+//						layer.close(index);
+//						if(data.msg) {
+//							alert("网络出现异常，请重试")
+//						} else {
+//							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+//								arr.datalists = data.ContractRoot.svcCont.respInfo.beans
+//								arr.nownumb = data.ContractRoot.svcCont.respInfo.totalSingleOrder;
+//								layer.close(index);
+//							} else {
+//								alert("网络出现异常，请重试")
+//								layer.close(index);
+//							}
+//						}
+//					}
+//				});
+			},
+			methods: {
+				renation: function() {
+					var arr = this;
+					arr.datalists = [];
+					arr.provincenum = 1;
+					var datas = {
+						"ContractRoot": {
+							"SvcCont": {
+								"ReqInfo": {
+									"IsNotDrill": "1",
+									"InternetType": arr.choosenow.replace(/\+/g, "%2B"),
+									"CityCode": "",
+									"ProvincialCoding": "",
+								}
+							},
+							"TcpCont": {
+								"TimeStamp": "20170925201030",
+								"TransactionID": "2017092520103032129",
+								"BusCode": "OPP10179"
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									arr.datalists = data.ContractRoot.svcCont.respInfo.beans
+									arr.nownumb = data.ContractRoot.svcCont.respInfo.totalSingleOrder
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				repro: function() {
+					var arr = this;
+					arr.provincenum = 2;
+					arr.datalists = [];
+					var datas = {
+						"ContractRoot": {
+							"SvcCont": {
+								"ReqInfo": {
+									"IsNotDrill": "1",
+									"InternetType": arr.choosenow.replace(/\+/g, "%2B"),
+									"CityCode": "",
+									"ProvincialCoding": arr.prevprov
+								}
+							},
+							"TcpCont": {
+								"TimeStamp": "20170925201030",
+								"TransactionID": "2017092520103032129",
+								"BusCode": "OPP10179"
+							}
+						}
+					}
+
+					$.ajax({
+						url: publicurl + JSON.stringify(datas),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									arr.datalists = data.ContractRoot.svcCont.respInfo.beans
+									arr.nownumb = data.ContractRoot.svcCont.respInfo.totalSingleOrder
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+
+				clickchoose: function(e) {
+					stopBubble(e)
+					var arr = this;
+					if(arr.ischoose == false) {
+						arr.ischoose = true;
+					} else if(arr.ischoose == true) {
+						arr.ischoose = false
+					}
+				},
+				shouqizhedang: function() {
+					var arr = this;
+					arr.ischoose = false;
+				},
+				nowchoose: function(e) {
+					stopBubble(e)
+					console.log(e.currentTarget)
+					var arr = this;
+					arr.ischoose = false;
+					arr.showchoose = $(e.currentTarget).html();
+					arr.choosenow = $(e.currentTarget).html();
+					if(arr.choosenow == "全部") {
+						arr.choosenow = "1"
+					}
+					var datas = {
+						"ContractRoot": {
+							"SvcCont": {
+								"ReqInfo": {
+									"IsNotDrill": "1",
+									"InternetType": arr.choosenow == 1 ? "1" : arr.choosenow.replace(/\+/g, "%2B"),
+									"CityCode": "",
+									"ProvincialCoding": "",
+								}
+							},
+							"TcpCont": {
+								"TimeStamp": "20170925201030",
+								"TransactionID": "2017092520103032129",
+								"BusCode": "OPP10179"
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									arr.datalists = data.ContractRoot.svcCont.respInfo.beans
+									arr.nownumb = data.ContractRoot.svcCont.respInfo.totalSingleOrder
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				showcitys: function(e) {
+					var arr = this;
+					if($(e.currentTarget).attr("isdrill") == 1) {
+						arr.datalists = [];
+						if(arr.provincenum == 1) {
+							arr.provincenum = 2
+							arr.prevprov = $(e.currentTarget).attr("name");
+							arr.proname = $(e.currentTarget).attr("names");
+							console.log(arr.prevprov)
+							var datas = {
+								"ContractRoot": {
+									"SvcCont": {
+										"ReqInfo": {
+											"IsNotDrill": "1",
+											"InternetType": arr.choosenow.replace(/\+/g, "%2B"),
+											"CityCode": "",
+											"ProvincialCoding": $(e.currentTarget).attr("name")
+										}
+									},
+									"TcpCont": {
+										"TimeStamp": "20170925201030",
+										"TransactionID": "2017092520103032129",
+										"BusCode": "OPP10179"
+									}
+								}
+							}
+
+							$.ajax({
+								url: publicurl + JSON.stringify(datas),
+								dataType: 'json',
+								type: 'get',
+								success: function(data) {
+									layer.close(index);
+									if(data.msg) {
+										alert("网络出现异常，请重试")
+									} else {
+										if(data.ContractRoot.svcCont.respInfo.code == 000) {
+											arr.datalists = data.ContractRoot.svcCont.respInfo.beans
+											arr.nownumb = data.ContractRoot.svcCont.respInfo.totalSingleOrder
+										} else {
+											alert("网络出现异常，请重试")
+										}
+									}
+								},
+								beforeSend: function(request) {
+									index = layer.open({
+										style: 'border:none; color:#fff;',
+										content: '玩命加载中...',
+										shadeClose: false,
+									})
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown) {
+									alert("网络出现异常，请重试")
+									layer.close(index);
+								},
+							});
+						} else if(arr.provincenum == 2) {
+							arr.provincenum = 3;
+							arr.prevcitys = $(e.currentTarget).attr("name");
+							arr.citysname = $(e.currentTarget).attr("names");
+							var datas = {
+								"ContractRoot": {
+									"SvcCont": {
+										"ReqInfo": {
+											"IsNotDrill": "1",
+											"InternetType": arr.choosenow.replace(/\+/g, "%2B"),
+											"CityCode": $(e.currentTarget).attr("name"),
+											"ProvincialCoding": arr.prevprov
+										}
+									},
+									"TcpCont": {
+										"TimeStamp": "20170925201030",
+										"TransactionID": "2017092520103032129",
+										"BusCode": "OPP10179"
+									}
+								}
+							}
+
+							$.ajax({
+								url: publicurl + JSON.stringify(datas),
+								dataType: 'json',
+								type: 'get',
+								success: function(data) {
+									layer.close(index);
+									if(data.msg) {
+										alert("网络出现异常，请重试")
+									} else {
+										if(data.ContractRoot.svcCont.respInfo.code == 000) {
+											arr.datalists = data.ContractRoot.svcCont.respInfo.beans
+											arr.nownumb = data.ContractRoot.svcCont.respInfo.totalSingleOrder
+										} else {
+											alert("网络出现异常，请重试")
+										}
+									}
+								},
+								beforeSend: function(request) {
+									index = layer.open({
+										style: 'border:none; color:#fff;',
+										content: '玩命加载中...',
+										shadeClose: false,
+									})
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown) {
+									alert("网络出现异常，请重试")
+									layer.close(index);
+								},
+							});
+						}
+					}
+
+				}
+
+			}
+		})
+	</script>
+
+</html>

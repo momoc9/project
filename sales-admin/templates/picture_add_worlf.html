@@ -1,0 +1,216 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+		<script type="text/javascript">
+			var token = "token." + sessionStorage.getItem("token");
+			if(token == "token.null") {
+				alert('请登录');
+				location.href = "login.html";
+			}
+		</script>
+		<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="../static/lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
+		<script type="text/javascript" src="../static/lib/public.js"></script>
+		<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+		<title>新增图片</title>
+	</head>
+
+	<body>
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>图片管理<span class="c-gray en">&gt;</span>战狼行动图片上传
+			<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
+		</nav>
+		<div class="page-container">
+			<form class="form form-horizontal" id="form-article-add">
+				<div class="row cl selbox">
+					<div class="mb-20">
+							<label for="" class="ml-20">图片名称：
+							<input type="text" class="input-text" name="imgName" placeholder="请输入图片名称"/>
+					</label>
+							<label for="" class="ml-20">入口路径：
+							<input type="text" class="input-text" name="entranceWayUrl" placeholder="请输入入口链接"/>
+					</label>
+							<label for="" class="ml-20">图片类型：
+						<select name="imgType" class="select"  value="">
+							<option value="1" class="text-c">战狼行动</option>
+							<option value="1" class="text-c">战狼报表</option>
+							<option value="2" class="text-c">个人积分</option>
+							<option value="3" class="text-c">全国积分</option>
+						</select>
+					</label>
+							
+					</div>
+					<div>
+							<label for="" class="ml-20">入口类型：
+						<select name="entranceType" class="select"  value="">
+							<option value="1" class="text-c">原生</option>
+							<option value="2" class="text-c">H5</option>
+						</select>
+					</label>
+							<label for="" class="ml-20">活动类型：
+						<select name="activityType" class="select"  value="">
+							<option value="1" class="text-c">春节活动</option>
+						</select>
+					</label>
+					</div>
+				</div>
+
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2">图片上传：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<div class="queueList">
+							<div class="img-container"></div>
+							<div class="picbox">
+								<label for="picFile">点击选择图片</label>
+								<input type="file" name="picFile" id="picFile" value="" class="picFile" />
+							</div>
+							<div class="submitbox">
+								<label for="submit">上传图片</label>
+								<input type="button" name="" id="submit" value="submit" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="../static/lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../static/lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script>
+		<!--/_footer /作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript" src="../static/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+		<script type="text/javascript" src="../static/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+		<script type="text/javascript" src="../static/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+		<script type="text/javascript" src="../static/lib/webuploader/0.1.5/webuploader.min.js"></script>
+		<script type="text/javascript">
+			$('#submit').click(function() {
+				$('#form-article-add').ajaxSubmit({
+					type: 'post',
+					url: url_r + '/upload/warWolf',
+					headers: {
+						Authorization: token
+					},
+					dataType: 'json',
+					beforeSend: function() {
+						var index = layer.load();
+					},
+					success: function(data) {
+						var index = layer.load();
+						layer.close(index)
+						if(data.success) {
+							layer.msg(data.msg, {
+								icon: 1,
+								time: 1000
+							})
+							setTimeout(function() {
+								$('.r')[0].click();
+							}, 1000);
+						} else {
+							layer.msg(data.msg, {
+								icon: 5,
+								time: 1000
+							})
+							setTimeout(function() {
+								$('.r')[0].click();
+							}, 1000);
+						}
+					},
+					error: function() {
+						var index = layer.load();
+						layer.close(index)
+						layer.msg('上传失败', {
+							icon: 2,
+							time: 1000
+						})
+						setTimeout(function() {
+							$('.r')[0].click();
+						}, 1000);
+					}
+				});
+			});
+
+			/**
+			 * Created by Administrator on 2016/4/28.
+			 */
+			//上传图片并预览
+			function previewImg(fileInput, imgDiv) {
+				if(window.FileReader) { //支持FileReader的时候
+					var reader = new FileReader();
+					reader.readAsDataURL(fileInput.files[0]);
+					reader.onload = function(evt) {
+						imgDiv.innerHTML = "\<img src=" + evt.target.result + "\>";
+					}
+				} else { //兼容ie9-
+					imgDiv.innerHTML = '<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + fileInput.value + '\)\';"></div>';
+				}
+			}
+
+			function selectImg(fileInputs, imgDivs) {
+				var checkImg = new RegExp("(.jpg$)|(.png$)|(.bmp$)|(.jpeg$)", "i");
+				var i = 0;
+				for(; i < fileInputs.length && i < imgDivs.length; i++) {
+					(function(i) { //立即执行函数；保存i
+						fileInputs[i].onchange = function() {
+							var imagSize = fileInputs[i].files[0].size;
+							if(imagSize > 1024 * 1024 * 1) {
+								alert('长传图片大小请控制在1M以内');
+							} else if(checkImg.test(fileInputs[i].value)) {
+								previewImg(this, imgDivs[i]);
+								$('.picbox').hide();
+								$('.submitbox').show();
+							} else {
+								alert("只支持上传.jpg .png .bmp .jpeg;你的选择有误");
+							}
+
+						};
+					})(i);
+				}
+
+			}
+			/* 为IE6 IE7 IE8增加document.getElementsByClassName函数 */
+			/MSIE\s*(\d+)/i.test(navigator.userAgent);
+			var isIE = parseInt(RegExp.$1 ? RegExp.$1 : 0);
+			if(isIE > 0 && isIE < 9) {
+				document.getElementsByClassName = function(cls) {
+					var els = this.getElementsByTagName('*');
+					var ell = els.length;
+					var elements = [];
+					for(var n = 0; n < ell; n++) {
+						var oCls = els[n].className || '';
+						if(oCls.indexOf(cls) < 0) continue;
+						oCls = oCls.split(/\s+/);
+						var oCll = oCls.length;
+						for(var j = 0; j < oCll; j++) {
+							if(cls == oCls[j]) {
+								elements.push(els[n]);
+								break;
+							}
+						}
+					}
+					return elements;
+				}
+			}
+			var fileInputs = document.getElementsByClassName("picFile"); //文件选择按钮
+			var imgDivs = document.getElementsByClassName("img-container"); //图片容器
+			selectImg(fileInputs, imgDivs);
+		</script>
+	</body>

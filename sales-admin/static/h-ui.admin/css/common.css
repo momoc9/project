@@ -1,0 +1,18 @@
+.cityChoose{
+	display: inline-block;
+}
+.cityChoose .select{
+	width: 80px;
+}
+.cityChoose label{
+	padding: 0 15px;
+}
+.status_choose{
+	display: inline-block;
+}
+.status_choose .select{
+	width: 80px;
+}
+.status_choose label{
+	padding: 0 15px;
+}

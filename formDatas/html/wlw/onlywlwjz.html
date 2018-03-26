@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>报表</title>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/wlwjz.css" />
+		<link rel="stylesheet" type="text/css" href="../../public/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../public/mui.picker.min.css" />
+		<script src="../../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/public.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="allhead">
+			<div class="allheadimg" onclick="returns()"><img src="../../images/return@3x.png" /></div>
+			统计分析
+		</div>
+		<div class="topzw">
+		</div>
+		<div class="onlycontent" id="cdcont" v-cloak>
+			<div class="wraponlytabs">
+				<p v-bind:class="tabs == 1 ? 'actonly' : ''" @click="onlytabs1()">
+					物联网净增排行
+				</p>
+				<p v-bind:class="tabs == 2 ? 'actonly' : ''" @click="onlytabs2()">
+					物联网新增统计
+				</p>
+			</div>
+			<div class="topzw">
+			</div>
+			<div class="onlytabs" v-if="tabs == 1">
+				<div class="wlwjzhead">
+					<p><i style="font-style:normal ;">{{opennum}}</i><br /><span>本年累计开卡净增总数(万户)</span></p>
+					<p><i style="font-style:normal ;">{{activatenum}}</i><br /><span>本年累计激活净增总数(万户)</span></p>
+				</div>
+				<div class="wlwjzcont">
+					<div class="wlwjzt">
+						<p>省份</p>
+						<p @click="tabs1()" v-bind:class="issheng1 ? 'jiangxu' : 'shengxu'">本年累计开卡净增<br />(万户)</p>
+						<p @click="tabs2()" v-bind:class="issheng2 ? 'jiangxu' : 'shengxu'">本年累计激活净增<br />(万户)</p>
+					</div>
+					<div class="wlwjztlist">
+						<p v-for="(datalist,index) in datalists" v-bind:class="(index%2 ==0) ? 'odds' : 'evens'">
+							<span>{{datalist.province}}</span>
+							<span>{{formatNum(datalist.openCardUsersYear)}}</span>
+							<span>{{formatNum(datalist.activeUsersYear)}}</span>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="onlytabs" v-else-if="tabs == 2">
+				<div id="cont2top">
+					<span class="wlwxztj">
+					统计周期
+				</span>
+					<!--<input type="text" value="2017-01-01" id="start" />-->
+					<span id="start" @click="starttime()">{{c2time0}}</span>
+					<span id="hx">-</span>
+					<!--<input type="text" value="2017-06-30" id="end" />-->
+					<span id="end" @click="endtime()">{{vc2timeend}}</span>
+					<button id="btnc2" @click="srcwrap()">查询</button>
+					<div id="box">
+					</div>
+				</div>
+				<div class="wraptitnumbs">
+					本年累计新增：<span>{{datalists3.yCumulativeAdd}}</span>万户
+				</div>
+				<div class="wlwxzcont">
+					<p name='zw' onclick="location='xzlists.html?name=zw'">政务行业<br /><span>{{datalists3.zW}}万户</span></p>
+					<p name='yw' onclick="location='xzlists.html?name=yw'">医疗卫生<br /><span>{{datalists3.yW}}万户</span></p>
+					<p name='jt' onclick="location='xzlists.html?name=jt'">交通物流<br /><span>{{datalists3.jT}}万户</span></p>
+					<p name='jr' onclick="location='xzlists.html?name=jr'">金融行业<br /><span>{{datalists3.jR}}万户</span></p>
+					<p name='xx' onclick="location='xzlists.html?name=gy'">制造能源<br /><span>{{datalists3.gY}}万户</span></p>
+					<p name='ny' onclick="location='xzlists.html?name=ny'">现代农业<br /><span>{{datalists3.nY}}万户</span></p>
+					<p name='gy' onclick="location='xzlists.html?name=xx'">服务行业<br /><span>{{datalists3.xX}}万户</span></p>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../../public/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../public/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../public/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var accountss = getQueryString("account");
+		var ticketss = getQueryString("ticket");
+		var loginname = getQueryString("loginname");
+		if(accountss) {
+			localStorage.setItem("loginname", loginname);
+			localStorage.setItem("ticket", ticketss);
+			localStorage.setItem("account", accountss);
+		}
+		var myDate = new Date();
+		var years = myDate.getFullYear(); //获取当前年份(2位)
+		var months = myDate.getMonth() + 1; //获取当前月份(0-11,0代表1月)
+		var days = myDate.getDate(); //获取当前日(1-31)
+		var dataends = years + "-" + months + "-" + days;
+		localStorage.setItem("xztime0", "2017-01-01");
+		localStorage.setItem("xztime1", dataends);
+		var datas3 = {
+			"ContractRoot": {
+				"TcpCont": {
+					"BusCode": "OPP10128",
+					"TransactionID": "2017100920555239981",
+					"TimeStamp": "20171009205552"
+				},
+				"SvcCont": {
+					"ReqInfo": {
+						"LoginName": "1212",
+						"EndTime": dataends,
+						"SystemID": "1212",
+						"StartTime": "2017-01-01"
+					}
+				}
+			}
+		}
+		new Vue({
+			el: "#cdcont",
+			data: {
+				issheng1: true,
+				issheng2: true,
+				datalists: [],
+				opennum: "",
+				activatenum: "",
+				tabs: 1,
+				datalists3: {},
+				c2time0: "2017-01-01",
+				vc2timeend: dataends,
+			},
+			mounted: function() {
+				var arr = this;
+				var datas = {
+					"ContractRoot": {
+						"TcpCont": {
+							"BusCode": "OPP10181",
+							"TransactionID": "2017092520103032129",
+							"TimeStamp": "20170925201030"
+						},
+						"SvcCont": {
+							"ReqInfo": {
+								"OpenSort": "1",
+								"ActivationSort": "1",
+								"First": "0"
+							}
+						}
+					}
+				}
+				$.ajax({
+					url: publicurl + JSON.stringify(datas),
+					dataType: 'json',
+					type: 'get',
+					success: function(data) {
+						layer.close(index);
+						if(data.msg) {
+							alert("网络出现异常，请重试")
+						} else {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								arr.datalists = data.ContractRoot.svcCont.respInfo.beans;
+								arr.opennum = formatNum(data.ContractRoot.svcCont.respInfo.openCardTotal);
+								arr.activatenum = formatNum(data.ContractRoot.svcCont.respInfo.activationTotal);
+							} else {
+								alert("网络出现异常，请重试")
+							}
+						}
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '玩命加载中...',
+							shadeClose: false,
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+				});
+			},
+			methods: {
+				onlytabs1: function() {
+					var arr = this;
+					if(arr.tabs == 2) {
+						arr.tabs = 1;
+						var datas = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10181",
+									"TransactionID": "2017092520103032129",
+									"TimeStamp": "20170925201030"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"OpenSort": "1",
+										"ActivationSort": "1",
+										"First": "0"
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										arr.datalists = data.ContractRoot.svcCont.respInfo.beans;
+										arr.opennum = formatNum(data.ContractRoot.svcCont.respInfo.openCardTotal);
+										arr.activatenum = formatNum(data.ContractRoot.svcCont.respInfo.activationTotal);
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					}
+				},
+				onlytabs2: function() {
+					var _self = this;
+					if(_self.tabs == 1) {
+						_self.tabs = 2
+						$.ajax({
+							url: publicurl + JSON.stringify(datas3),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										_self.datalists3 = data.ContractRoot.svcCont.respInfo;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					}
+				},
+				tabs1: function() {
+					var arr = this;
+					if(arr.issheng1 == true) {
+						arr.issheng1 = false;
+						var datas = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10181",
+									"TransactionID": "2017092520103032129",
+									"TimeStamp": "20170925201030"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"OpenSort": "2",
+										"ActivationSort": "",
+										"First": "1"
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										arr.datalists = data.ContractRoot.svcCont.respInfo.beans;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					} else if(arr.issheng1 == false) {
+						arr.issheng1 = true;
+						var datas = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10181",
+									"TransactionID": "2017092520103032129",
+									"TimeStamp": "20170925201030"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"OpenSort": "1",
+										"ActivationSort": "",
+										"First": "1"
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										arr.datalists = data.ContractRoot.svcCont.respInfo.beans;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					}
+				},
+				tabs2: function() {
+					var arr = this;
+					if(arr.issheng2 == true) {
+						arr.issheng2 = false;
+						var datas = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10181",
+									"TransactionID": "2017092520103032129",
+									"TimeStamp": "20170925201030"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"OpenSort": "",
+										"ActivationSort": "2",
+										"First": "1"
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										arr.datalists = data.ContractRoot.svcCont.respInfo.beans;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					} else if(arr.issheng2 == false) {
+						arr.issheng2 = true;
+						var datas = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10181",
+									"TransactionID": "2017092520103032129",
+									"TimeStamp": "20170925201030"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"OpenSort": "",
+										"ActivationSort": "1",
+										"First": "1"
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										arr.datalists = data.ContractRoot.svcCont.respInfo.beans;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					}
+				},
+				starttime: function() {
+					var _self = this;
+					var starttime = _self.c2time0;
+					var year0 = starttime.split("-")[0];
+					var month0 = starttime.split("-")[1];
+					var day0 = starttime.split("-")[2];
+					console.log(year0 + month0 + day0)
+					var dtpicker = new mui.DtPicker({
+						type: "date", //设置日历初始视图模式 
+						beginDate: new Date(2008, 01, 01), //设置开始日期 
+						//  endDate: new Date(2016, 04, 25),//设置结束日期 
+						labels: ['Year', 'Mon', 'Day', ], //设置默认标签区域提示语 
+					})
+					dtpicker.show(function(e) {
+						_self.c2time0 = e.value;
+						localStorage.setItem("xztime0", e.value);
+					})
+				},
+				endtime: function() {
+					var _self = this;
+					var starttime = _self.c2time0;
+					var year0 = starttime.split("-")[0];
+					var month0 = starttime.split("-")[1];
+					var day0 = starttime.split("-")[2];
+					console.log(year0, month0, day0)
+					var dtpicker = new mui.DtPicker({
+						type: "date", //设置日历初始视图模式 
+						beginDate: new Date(year0, month0, day0), //设置开始日期 
+						//endDate: new Date(2016, 04, 25),//设置结束日期 
+						labels: ['Year', 'Mon', 'Day', ], //设置默认标签区域提示语 
+					})
+					dtpicker.show(function(e) {
+						_self.vc2timeend = e.value;
+						localStorage.setItem("xztime1", e.value);
+					})
+				},
+				srcwrap: function() {
+					var arr = this;
+					var datas2 = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10128",
+								"TransactionID": "2017100920555239981",
+								"TimeStamp": "20171009205552"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"LoginName": loginname,
+									"EndTime": arr.vc2timeend,
+									"SystemID": "1212",
+									"StartTime": arr.c2time0
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas2),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									arr.datalists3 = data.ContractRoot.svcCont.respInfo;
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				}
+			}
+		})
+	</script>
+
+</html>

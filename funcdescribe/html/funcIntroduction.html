@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>功能介绍</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/funcIntroduction.css" />
+		<script type="text/javascript" src="../public/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/rem.js"></script>
+		<script type="text/javascript" src="../public/public.js"></script>
+	</head>
+	<body>
+		<div class="funcHeader">
+			<div class="datarereturns" onclick="returns()">
+				<img src="../img/back.png" />
+			</div>
+			功能介绍
+		</div>
+		<div class="funcList">
+			<ul>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var mobile = getQueryString("mobile");
+			var osType = getQueryString("osType");
+			$.ajax({
+				url: publicurl+"getVersionList?reqParam=%7B%22osType%22%3A%22"+osType+"%22%2C%22mobile%22%3A%22"+mobile+"%22%7D ",
+				dataType: 'json',
+				type: 'get',
+				success: function(data) {
+					var datatype = data.versionList;
+					var lis ='';
+					for(var i = 0; i < datatype.length; i++) {
+						lis += '<li id=' + datatype[i].versionCode + '><div><p>' + datatype[i].title + '&nbsp;'+datatype[i].versionCode+'</p><span>' + datatype[i].date + '</span></div><i class="next"></i></li>';
+					}
+					$('.funcList ul').append(lis);
+				}
+			})
+			$('.funcList ul').on('touchend', 'li',function() {
+			        var id = $(this).attr('id');
+					window.location.href = 'funcDetails.html?name=' + id + '&mobile=' + mobile + '&osType=' + osType;
+			})
+		</script>
+	</body>
+
+</html>

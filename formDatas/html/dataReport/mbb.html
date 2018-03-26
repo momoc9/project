@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>数据报表</title>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/reheadtabs.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/datareport.css" />
+		<script src="../../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="datarehead">
+			数据报表
+			<div class="datarereturns" onclick="returns()">
+				<img src="../../images/return@3x.png" />
+			</div>
+			<!--<img src="../../images/zhankai@2x.png" class="zhankai" />-->
+			<!--<img src="../../images/tuisong@2x.png" class="tuisong" />-->
+		</div>
+		<div class="zwheaddown"></div>
+		<div class="datarecont">
+			<div class="lefttab">
+				<p onclick="hrefs('dataReport.html')">
+					<span>互联网+大单</span>
+				</p>
+				<p onclick="hrefs('reportIct.html')">
+					<span>ICT项目排行</span>
+				</p>
+				<p onclick="hrefs('wlwjz.html')">
+					<span>物联网净增排行</span>
+				</p>
+				<p onclick="hrefs('wlwxz.html')">
+					<span>物联网新增统计</span>
+				</p>
+				<p class="dractive" onclick="hrefs('mbb.html')">
+					<span>移动、宽带</span>
+					<i></i>
+				</p>
+				<p onclick="hrefs('directRevenue.html')">
+					<span>直管客户收入</span>
+				</p>
+				<p onclick="hrefs('firstQuarter.html')">
+					<span>一季度资源配比</span>
+				</p>
+				<p onclick="hrefs('secondQuarter.html')">
+					<span>二季度资源配比</span>
+				</p>
+				<p onclick="hrefs('supportStatistics.html')">
+					<span>属地支撑统计</span>
+				</p>
+				<p onclick="hrefs('baseSupport.html')">
+					<span>基地支撑统计</span>
+				</p>
+				<p onclick="hrefs('talentWorkstation.html')">
+					<span>人才工作站支撑统计</span>
+				</p>
+			</div>
+			<div class="rightcont">
+				<div id="mbbcont">
+					<div class="mbbtabs">
+						<p v-bind:class="(tabs ==1) ? 'icttabact' : ''" @click="tabs1()">移动新增用户总数(户)<br /><span>{{mobnum}}</span></p>
+						<p v-bind:class="(tabs ==2) ? 'icttabact' : ''" @click="tabs2()">宽带新增用户总数(户)<br /><span>{{bandnum}}</span></p>
+					</div>
+					<div class="zhanweipx">
+						<img v-if="tab1jiang == 0" src="../../images/xiashang.png" @click="paxixu()"/>
+						<img v-if="tab1jiang == 1" src="../../images/shangxiaqiehuan@2x.png" @click="paxixu()"/>
+					</div>
+					<div class="mbbconts" v-if="tabs == 1">
+						<div class="mbbpronumbs" v-for="(datalist,index) in datalists">
+							<p class="provs"><span>{{datalist.displayValue}}</span></p>
+							<p class="numbs">
+								<span class="shownumbs">{{datalist.ydAmountAdd}}&nbsp;/&nbsp;{{formatNum2(datalist.ydAmount)}}</span>
+								<i class="mmbyleft"></i>
+								<span class="numbsbg" v-bind:style="{width: datalist.ydAmount*0.0000001 + 'rem' }"></span>
+								<i class="mmbyright"></i>
+							</p>
+						</div>
+					</div>
+					<div class="mbbconts" v-else-if="tabs == 2">
+						<div class="mbbpronumbs" v-for="(datalist,index) in datalists">
+							<p class="provs"><span>{{datalist.displayValue}}</span></p>
+							<p class="numbs">
+								<span class="shownumbs">{{datalist.kdAmountAdd}}&nbsp;/&nbsp;{{formatNum2(datalist.kdAmount)}}</span>
+								<i class="mmbyleft"></i>
+								<span class="numbsbg" v-bind:style="{width: datalist.kdAmount*0.000001 + 'rem' }"></span>
+								<i class="mmbyright"></i>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		new Vue({
+			el: "#mbbcont",
+			data: {
+				datalists: [],
+				mobnum: "",
+				bandnum: "",
+				tabs: 1,
+				OrderMode: "0",
+				tab1jiang: "0",
+			},
+			mounted: function() {
+				var arr = this;
+				var datas = {
+					"ContractRoot": {
+						"TcpCont": {
+							"BusCode": "OPP10183",
+							"TransactionID": "2017092716080129154",
+							"TimeStamp": "20170927160801"
+						},
+						"SvcCont": {
+							"ReqInfo": {
+								"OrderType": "0", //排序方式 0倒叙1正序
+								"OrderMode": "0", //排序种类0移动 1 宽带
+							}
+						}
+					}
+				}
+				$.ajax({
+					url: publicurl + JSON.stringify(datas),
+					dataType: 'json',
+					type: 'get',
+					success: function(data) {
+						layer.close(index);
+						if(data.msg) {
+							alert("网络出现异常，请重试")
+						} else {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								console.log(data)
+								arr.mobnum = formatNum2(data.ContractRoot.svcCont.respInfo.mobileCount.toString());
+								arr.bandnum = formatNum2(data.ContractRoot.svcCont.respInfo.broadbandCount.toString());
+								arr.datalists = data.ContractRoot.svcCont.respInfo.numberOfMobileBroadbandList;
+							} else {
+								alert("网络出现异常，请重试")
+							}
+						}
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '玩命加载中...',
+							shadeClose: false,
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+				});
+			},
+			methods: {
+				tabs1: function() {
+					var arr = this;
+					arr.tabs = 1;
+					arr.OrderMode = "0";
+					var datas = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10183",
+								"TransactionID": "2017092716080129154",
+								"TimeStamp": "20170927160801"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"OrderType": arr.tab1jiang, //排序方式 0倒叙1正序
+									"OrderMode": "0", //排序种类0移动 1 宽带
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									arr.mobnum = formatNum2(data.ContractRoot.svcCont.respInfo.mobileCount.toString());
+									arr.bandnum = formatNum2(data.ContractRoot.svcCont.respInfo.broadbandCount.toString());
+									arr.datalists = data.ContractRoot.svcCont.respInfo.numberOfMobileBroadbandList;
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				tabs2: function() {
+					var arr = this;
+					arr.tabs = 2;
+					arr.OrderMode = "1";
+					var datas = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10183",
+								"TransactionID": "2017092716080129154",
+								"TimeStamp": "20170927160801"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"OrderType": arr.tab1jiang, //排序方式 0倒叙1正序
+									"OrderMode": "1", //排序种类0移动 1 宽带
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									arr.mobnum = formatNum2(data.ContractRoot.svcCont.respInfo.mobileCount.toString());
+									arr.bandnum = formatNum2(data.ContractRoot.svcCont.respInfo.broadbandCount.toString());
+									arr.datalists = data.ContractRoot.svcCont.respInfo.numberOfMobileBroadbandList;
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				paxixu:function(){
+					var arr = this;
+					if(arr.tab1jiang == 0){
+						arr.tab1jiang = 1
+					}else if(arr.tab1jiang == 1){
+						arr.tab1jiang = 0
+					}
+					var datas = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10183",
+								"TransactionID": "2017092716080129154",
+								"TimeStamp": "20170927160801"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"OrderType": arr.tab1jiang, //排序方式 0倒叙1正序
+									"OrderMode": arr.OrderMode, //排序种类0移动 1 宽带
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									arr.mobnum = formatNum2(data.ContractRoot.svcCont.respInfo.mobileCount.toString());
+									arr.bandnum = formatNum2(data.ContractRoot.svcCont.respInfo.broadbandCount.toString());
+									arr.datalists = data.ContractRoot.svcCont.respInfo.numberOfMobileBroadbandList;
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				}
+			}
+		})
+	</script>
+
+</html>

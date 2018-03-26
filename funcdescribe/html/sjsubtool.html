@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>商机管理操作手册</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/subtool.css" />
+		<script type="text/javascript" src="../public/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/rem.js"></script>
+		<script type="text/javascript" src="../public/public.js"></script>
+		<style type="text/css">
+			h6{
+				font-size: 0.28rem;
+				margin-top: 0.2rem;
+			}
+			.text-i{
+				display: block;
+				width: 5rem;
+				margin: 0.1rem auto;
+				font-size: 0.26rem;
+				color: #444444!important;
+				line-height: 0.38rem;
+			}
+			.ma{
+				margin: 0 auto;
+			}
+			.td-2{
+				text-indent: 0.3rem;
+				padding-left: 0.3rem;
+				overflow: hidden;
+			}
+			.td-2 span{
+				text-indent: 0;
+				float: left;
+				color: #444444!important;
+			}
+			.left{
+				width: 20px;
+			}
+			.right{
+				width: calc(100% - 20px);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			<!--<span class="back" onclick="online()">商机管理操作手册</span>-->
+		<div class="sub-con">
+			<ul>
+				<li>
+					<h2>1&nbsp;&nbsp;商机管理</h2>
+					<p>商机管理为进行商机挖掘、推进转化及管控的主要模块</p>
+					<h4 style="margin-top: 0.2rem; font-size: 0.3rem;">1.1&nbsp;权限说明</h4>
+					<p >1.&nbsp;&nbsp;面向客户经理：主要进行商机新建、推进、支撑调度、价格审批、商机转订单及资质审批（资质审批仅面向集团客户经理）等。</p>
+					<p>2.&nbsp;&nbsp;面向解决方案等支撑经理：主要进行商机支撑、协同支撑等；</p>
+					<p>3.&nbsp;&nbsp;面向部门经理、政企领导及公司领导等：主要进行支撑审核及管控商机查看等；</p>
+				</li>
+				<li>
+					<h4 style="margin-top: 0.2rem; font-size: 0.3rem;">1.2&nbsp;操作步骤（客户经理）</h4>
+					<h6>1.2.1步骤一：新建商机 </h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p >操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">在“我挖掘的商机”，点击右上角的“+”打开商机新建页面</span></p>
+					<img src="../img/img/sj-1.png" class="half ma" />
+					<p class="td-2"><span class="left">3.</span><span class="right">填写商机各项关键信息，点击“提交”进行商机保存：</span></p>
+					<img src="../img/img/sj-2.png" class="half ma"/>
+					<span class="text-i">a.项目名称：填写文本;</span>
+					<span class="text-i">b.客户名称：点击选择客户，所选客户须为在网状态，若客户不存在需进行创建并送审通过；</span>
+					<span class="text-i">c.商机名称：系统自动拼接客户名称+项目名称作为商机名称；</span>
+					<span class="text-i">.项目经理：默认为客户经理本人，可进行选择切换；</span>
+					<span class="text-i">e.新增收益预测：选择产品并填写对应的预测收入（收入单位为万元）及发展量信息（发展量产品依据具体的产品而定）；</span>
+					<span class="text-i">f.预计签约时长，单位为月；</span>
+					<span class="text-i">g.项目投资、终端成本及其他成本合计，填写对应预计投资及成本信息，单位万元；</span>
+					<span class="text-i">h.解决方案，系统依据客户及产品进行生成，若为多个，则仅能选择一个作为最终的解决方案信息</span>
+					<span class="text-i">i.商机摘要：填写商机背景情况、客户需要或者经竞争对手情况；</span>
+				</li>
+				<li>
+					<h6>1.2.2步骤二：商机查询</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">在“我挖掘的商机”，查看所属的商机情况；</span></p>
+					<img src="../img/img/sj-3.png" class="half ma"/>
+					<p class="td-2"><span class="left">3.</span><span class="right">点击搜索框，可按照“商机名称”、“商机编码”、“客户名称”及“产品名称”进行分类搜索；并支撑查看历史搜索内容；</span></p>
+					<span class="text-i">a.选择分类</span>
+					<span class="text-i">b.输入搜索内容，点击确定进行搜索</span>
+					<img src="../img/img/sj-4.png" class="half ma"/>
+				</li>
+				<li>
+					<h6>1.2.3步骤二：商机筛选</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">在“我挖掘的商机”，点击“筛选”按钮，进入筛选选择界面；</span></p>
+					<span class="text-i">a.选择分类后，点击“确定”进行筛选</span>
+					<span class="text-i">b.点击“重置”，重置查询条件</span>
+					<img src="../img/img/sj-5.png" class="half ma"/>
+					<p class="td-2"><span class="left">3.</span><span class="right">在“我挖掘的商机”，点击“全部阶段”按钮，进入按阶段筛选界面；</span></p>
+					<span class="text-i">a.可选阶段：商机挖掘、商机转化、售前支撑及商机关闭；</span>
+					<img src="../img/img/sj-6.png" class="half ma"/>
+				</li>
+				<li>
+					<h6>1.2.4步骤二：商机排序</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">在“我挖掘的商机”，页面上方的“创建时间”将所属商机进行时间排序；默认按照商机创建时间进行排序；</span></p>
+					<span class="text-i">a.支撑选择：创建时间、转化时间、客户名称及更新时间进行排序；</span>
+					<img src="../img/img/sj-7.png" class="half ma"/>
+				</li>
+				<li>
+					<h6>1.2.5步骤二：商机详情</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">在“我挖掘的商机”，查看所属商机列表；</span></p>
+					<p class="td-2"><span class="left">3.</span><span class="right">点击商机进入商机详情界面；</span></p>
+					<span class="text-i">a.商机详情中可进行商机推进、资源申请、价格审批及商机转订单操作等操作</span>
+					<span class="text-i">b.界面下方，可切换查看商机的所属信息，包括：基本信息、预测收入、成员信息商机摘要及审核意见等；</span>
+					<img src="../img/img/sj-8.png" class="half ma"/>
+					<span class="text-i">c.点击右上角“推进记录”，可查看商机的推进历程</span>
+					<img src="../img/img/sj-9.png" class="half ma"/>
+				</li>
+				<li>
+					<h6>1.2.6步骤二：商机推进</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">在“我挖掘的商机”，点击商机，进入商机详情界面</span></p>
+					<p class="td-2"><span class="left">3.</span><span class="right">“推进”按钮，打开商机推进界面</span></p>
+					<span class="text-i">a.按照填写商机要求，修改商机相关信息；</span>
+					<span class="text-i">b.填写推进记录后 ，点击“提交”商机推进成功；</span>
+					<img src="../img/img/sj-10.png" class="half ma"/>
+				</li>
+				<li>
+					<h6>1.2.7步骤二：资源申请</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">在“我挖掘的商机”，点击商机，进入商机详情界面</span></p>
+					<p class="td-2"><span class="left">3.</span><span class="right">点击“资源申请”按钮，打开资源申请界面</span></p>
+					<span class="text-i">a.若已经发起资源申请，则可查看已发起资源申请的记录；</span>
+					<img src="../img/img/sj-11.png" />
+					<span class="text-i">b.若未发起资源申请，则点击右上角的“+”进行资源申请；点击“+”打开推荐资源及可申请资源界面</span>
+					<img src="../img/img/sj-12.png" class="half ma"/>
+					<span class="text-i">c.通过筛选功能，定位需要申请的资源信息，点击后进入资源详情界面</span>
+					<img src="../img/img/sj-13.png" class="half ma"/>
+					<span class="text-i">d.点击“申请”按钮打开申请界面，填写关键信息后，点击“提交”资源申请成功；</span>
+					<img src="../img/img/sj-14.png" class="half ma"/>
+				</li>
+				<li>
+					<h6>1.2.8步骤二：价格审批</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">在“我挖掘的商机”，点击商机，进入商机详情界面</span></p>
+					<p class="td-2"><span class="left">3.</span><span class="right">点击“价格审批”按钮，打开价格审批界面</span></p>
+					<span class="text-i">a.若已经发起价格审批申请，则可进行价格申请情况查看；</span>
+					<span class="text-i">b.目前仅销售助手端仅支撑价格审批的查看，发起申请需在WEB端提交</span>
+				</li>
+				<li>
+					<h6>1.2.9步骤二：商机转订</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">在“我挖掘的商机”，点击商机，进入商机详情界面</span></p>
+					<p class="td-2"><span class="left">3.</span><span class="right">点击“商机转订”按钮，打开商机转订界面，目前仅支撑物联网业务、带宽型业务及IDC业务的商机转订；</span></p>
+					<span class="text-i">a.若已经发起商机转订任务单，则可查看已发起商机转订任务单的记录；</span>
+					<img src="../img/img/sj-15.png" class="half ma"/>
+					<span class="text-i">b.若未发起，则点击右上角“+”打开申请界面进行发起</span>
+					<span class="text-i">c.填写关键信息后点击“提交”，商机转订发起成功</span>
+				</li>
+				<li>
+					<h4 style="margin-top: 0.2rem; font-size: 0.3rem;">1.3&nbsp;操作步骤（解决方案等支撑经理）</h4>
+					<h6>1.3.1步骤一：查看待支撑商机</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">点击“直接支撑商机”及“协同支撑商机”进行待本人进行支撑的商机</span></p>
+					<p class="td-2"><span class="left">3.</span><span class="right">可切换“正在支撑”及“支撑结束”进行支撑商机的查看</span></p>
+				</li>
+				<li>
+					<h4 style="margin-top: 0.2rem; font-size: 0.3rem;">1.4&nbsp;操作步骤（部门经理、政企领导及公司领导等）</h4>
+					<h6>1.4.1步骤一：查看所管控商机</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">点击“我管控的商机”进行商机看下；</span></p>
+					<span class="text-i">a.部门经理，默认查看本部门及下级人员所有商机的查看</span>
+					<span class="text-i">b.政企领导、公司领导，默认查看所属组织及下级组织的所有商机</span>
+					<span class="text-i">c.行业经理，查看所属组织及下级所属所管控行业的商机信息</span>
+					<img src="../img/img/sj-16.png" class="half ma"/>
+					<p>商机查看、查询内容与客户经理一致。</p>
+				</li>
+				<li>
+					<h6>1.4.2步骤一：查看待审核支撑申请</h6>
+					<p>操作人员：客户经理</p>
+					<p>操作路径：登录销售助手-商机管理</p>
+					<p>操作说明：</p>
+					<p class="td-2"><span class="left">1.</span><span class="right">通过点击首页中的“商机管理”微应用进入商机管理模块</span></p>
+					<p class="td-2"><span class="left">2.</span><span class="right">点击“领导审核申请单”及“协同审核申请单”查看待我审核、审核通过及审核不通过的申请单</span></p>
+					<img src="../img/img/sj-17.png" class="half ma"/>
+					<p class="td-2" style="margin-bottom: 0.24rem;"><span class="left">3.</span><span class="right">点击待我申请的申请单，选择页面下发的“通过”或者“不通过”进行审核；</span></p>
+				</li>
+			</ul>
+		</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+	</script>
+</html>

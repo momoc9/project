@@ -1,0 +1,100 @@
+.datarehead{
+	width: 100%;
+	height: 0.88rem;
+	background: #fff;
+	position: relative;
+	text-align: left;
+	line-height: 0.88rem;
+	color: #808080;
+	font-size: 0.42rem;
+	/*font-weight: 600;*/
+	padding-left: 0.6rem;
+}
+.datarereturns{
+	width: 0.75rem;
+	height:100%;
+	position: absolute;
+	z-index: 222;
+	top: 0;
+	left: 0;
+}
+.datarereturns img{
+	position: absolute;
+	width: 0.20rem;
+	height: 0.39rem;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	margin: auto;
+}
+.zwheaddown{
+	width: 100%;
+	height:0.1rem;
+	background: #f3f3f3;
+}
+.zhankai{
+	width: 0.32rem;
+	height: 0.32rem;
+	position: absolute;
+	top: 0.28rem;
+	right: 0.3rem;
+}
+.tuisong{
+	width: 0.32rem;
+	height: 0.32rem;
+	position: absolute;
+	top: 0.28rem;
+	right: 0.3rem;
+}
+/*内容区 主要是左侧导航*/
+.datarecont{
+	width: 100%;
+	height: calc(100% - 0.98rem);
+	overflow: hidden;
+}
+.lefttab{
+	width: 1.3rem;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	float: left;
+	background: #f4f5f9;
+}
+.lefttab::-webkit-scrollbar {
+	display: none;
+}
+.lefttab p{
+	width: 1.3rem;
+	height: 1.09rem;
+	background: #f4f5f9;
+	border-bottom: 1px solid #e9e9e9;
+	position: relative;
+	font-size: 0.24rem;
+}
+.lefttab p span{
+	display: table-cell;
+	width: 1.3rem;
+	height: 1.09rem;
+	text-align: center;
+	vertical-align: middle;
+	padding: 0 0.13rem;
+}
+.lefttab .dractive{
+	background: #fff;
+	color: #008fe3;
+}
+.dractive i{
+	position: absolute;
+	width: 0.06rem;
+	height: 100%;
+	background: #008FE3;
+	top: 0;
+	left: 0;
+}
+.rightcont{
+	width: calc(100% - 1.3rem);
+	height: 100%;
+	overflow: hidden;
+	float: left;
+}

@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>会签处理</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/g-head.css" />
+		<script type="text/javascript" src="../public/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/rem.js"></script>
+		<script type="text/javascript" src="../public/public.js"></script>
+		<style>
+			body {
+				background: #f5f5f5;
+			}
+			
+			.contaniner {
+				width: 6.5rem;
+				margin: 0 auto;
+			}
+			
+			.remark {
+				width: 100%;
+				background: #FFFFFF;
+				padding: 0.3rem 0;
+			}
+			
+			.remark .rem_con span {
+				font-size: 0.28rem;
+				color: #707070;
+			}
+			
+			.remark .rem_con p {
+				font-size: 0.28rem;
+				color: #707070;
+				line-height: 0.4rem;
+			}
+			
+			.askpeople {
+				width: 100%;
+				border-bottom: 1px solid #EEEEEE;
+				background: #FFFFFF;
+			}
+			
+			.askpeople h3 {
+				font-size: 0.3rem;
+				font-weight: normal;
+				color: #3b3b3b;
+				padding-top: 0.28rem;
+				padding-bottom: 0.3rem;
+				position: relative;
+			}
+			
+			.askpeople ul {
+				width: 100%;
+				overflow: hidden;
+			}
+			
+			.askpeople ul li {
+				width: 1.26rem;
+				height: 0.48rem;
+				font-size: 0.26rem;
+				line-height: 0.48rem;
+				color: #707070;
+				text-align: center;
+				border: 1px solid #EEEEEE;
+				border-radius: 0.08rem;
+				float: left;
+				margin-bottom: 0.2rem;
+				margin-right: 0.45rem;
+			}
+			
+			.askpeople ul li.active {
+				background: #24c9a1;
+				color: #FFFFFF;
+				border: 1px solid #24c9a1;
+			}
+			
+			.askpeople ul li:nth-child(4n) {
+				margin-right: 0;
+			}
+			
+			.message {
+				width: 100%;
+				background: #FFFFFF;
+			}
+			
+			.message_content h3 {
+				font-size: 0.3rem;
+				font-weight: normal;
+				color: #3b3b3b;
+				padding-top: 0.28rem;
+				padding-bottom: 0.3rem;
+			}
+			
+			.message_content ul {
+				width: 100%;
+				overflow: hidden;
+			}
+			
+			.message_content ul li {
+				/*width: 1.26rem;
+				height: 0.48rem;*/
+				padding: 0.06rem 0.2rem;
+				margin: 0.02rem 0.3rem 0.2rem 0;
+				font-size: 0.26rem;
+				line-height: 0.48rem;
+				color: #707070;
+				text-align: center;
+				border: 1px solid #EEEEEE;
+				border-radius: 0.08rem;
+				float: left;
+			}
+			
+			.message_content ul li.active {
+				background: #24c9a1;
+				color: #FFFFFF;
+				border: 1px solid #24c9a1;
+			}
+			
+			.submit {
+				width: 100%;
+				height: 1.2rem;
+				position: relative;
+			}
+			
+			.submit span {
+				display: block;
+				width: 6.16rem;
+				height: 0.8rem;
+				background: #24c9a1;
+				color: #FFFFFF;
+				border-radius: 0.08rem;
+				font-size: 0.36rem;
+				text-align: center;
+				line-height: 0.8rem;
+				position: absolute;
+				top: 50%;
+				margin-top: -0.4rem;
+				left: 50%;
+				margin-left: -3.08rem;
+			}
+			
+			.con_box {
+				width: 100%;
+				height: calc(100% - 2.1rem);
+				overflow: hidden;
+				overflow-y: scroll;
+			}
+			
+			.con_box::-webkit-scrollbar {
+				display: none;
+			}
+			
+			.meet {
+				width: 100%;
+				height: 100%;
+				/*display: none;*/
+			}
+			
+			.agree {
+				width: 100%;
+				background: #FFFFFF;
+				margin-top: 0.1rem;
+				padding-bottom: 0.4rem;
+				border-bottom: 1px solid #EEEEEE;
+			}
+			
+			.agree_con .check {
+				padding: 0.28rem 0 0.30rem 0;
+				display: flex;
+				justify-content: space-around;
+			}
+			
+			.agree_con .check input {
+				/*opacity: 0;*/
+				display: none;
+			}
+			
+			.agree_con .check label {
+				padding-left: 0.46rem;
+				background: url(../images/unagree.png) no-repeat left center;
+				background-size: 0.3rem 0.3rem;
+				font-size: 0.3rem;
+				color: #3b3b3b;
+				/*margin: 0 0.6rem;*/
+			}
+			
+			.agree_con .check label.active {
+				background: url(../images/agree.png) no-repeat left center;
+				background-size: 0.3rem 0.3rem;
+			}
+			
+			.agree_text {
+				width: 100%;
+				height: 1.9rem;
+				position: relative;
+			}
+			
+			.agree_text textarea {
+				width: 100%;
+				height: 100%;
+				border: 1px solid #eeeeee;
+				border-radius: 0.08rem;
+				resize: none;
+				font-size: 0.28rem;
+				outline: none;
+				color: #707070;
+				line-height: 0.4rem;
+				text-indent: 0.18rem;
+			}
+			
+			.agree_text p {
+				font-size: 0.24rem;
+				color: #707070;
+				position: absolute;
+				bottom: 0.15rem;
+				right: 0.25rem;
+			}
+			
+			.choose_per {
+				width: 100%;
+				background: #FFFFFF;
+				height: 0.88rem;
+				border: 1px solid #EEEEEE;
+			}
+			
+			.choose_per a {
+				display: block;
+				font-size: 0.3rem;
+				color: #3b3b3b;
+				height: 100%;
+				line-height: 0.88rem;
+			}
+			
+			.askcontent .check {
+				padding: 0.28rem 0 0.30rem 0;
+				display: flex;
+				justify-content: center;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+			
+			.askcontent .check input {
+				/*opacity: 0;*/
+				display: none;
+			}
+			
+			.askcontent .check label {
+				padding-left: 0.46rem;
+				background: url(../images/unagree.png) no-repeat left center;
+				background-size: 0.3rem 0.3rem;
+				font-size: 0.3rem;
+				color: #3b3b3b;
+				margin: 0 0.2rem;
+			}
+			
+			.askcontent .check label.active {
+				background: url(../images/agree.png) no-repeat left center;
+				background-size: 0.3rem 0.3rem;
+			}
+			
+			#hqcont {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.isagree {
+				width: 100%;
+				height: 0.7rem;
+				background: #fff;
+				border-bottom: 1px solid #EEEEEE;
+			}
+			
+			.isagree p {
+				font-size: 0.3rem;
+				color: #3B3B3B;
+				line-height: 0.7rem;
+				width: 6.5rem;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="hqcont" v-cloak>
+			<!--会签处理-->
+			<div class="meet">
+				<header class="g-header">
+					<h2>会签处理
+				<i @click="tohome()"></i>
+				<span class="clows" @click="clows($event)"></span>
+				<ul>
+					<li @click="consu()">征求意见</li>
+					<li @click="checkf()">查看反馈</li>
+				</ul>
+			</h2>
+				</header>
+				<div class="con_box">
+					<div class="agree">
+						<div class="agree_con contaniner">
+							<div class="check">
+								<input type="radio" name="agree" id="on" value="同意" /><label class="active" for="on" @click="choose1($event)">同意</label>
+								<input type="radio" name="agree" id="off" value="不同意" /><label for="off" @click="choose2($event)">不同意</label>
+							</div>
+							<div class="agree_text">
+								<textarea class="inp_agree" maxlength="200" @input="yjsr($event)" v-bind:placeholder="yjmr"></textarea>
+								<p><span class="len">0</span>/<span>200</span></p>
+							</div>
+						</div>
+					</div>
+					<div class="isagree" v-if="isagree">
+						<p>{{zcnumb.fallBackName}}</p>
+					</div>
+					<div class="message ">
+						<div class="message_content contaniner">
+							<h3>是否需要提醒</h3>
+							<ul>
+								<li @click="choose4($event)">短信</li>
+								<li @click="choose5($event)">邮件</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="submit">
+					<span @click="subbtn()">提交</span>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../public/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var loginname = getQueryString("ln");
+		var ApplyType = getQueryString("type");
+		var issh = getQueryString("issh")
+		var rowid = getQueryString("rowid");
+		var taskid = getQueryString("taskid");
+		new Vue({
+			el: "#hqcont",
+			data: {
+				yjmr: "同意",
+				isyj: "",
+				isdx: "",
+				isty: 1,
+				isagree: false,
+				zcnumb: "",
+			},
+			mounted: function() {
+				var arr = this;
+				var datas3 = {
+					"ContractRoot": {
+						"TcpCont": {
+							"BusCode": "OPP10302",
+							"TimeStamp": TimeStamps,
+							"TransactionID": "2017121911284881516"
+						},
+						"SvcCont": {
+							"ReqInfo": {
+								"TaskId": taskid
+							}
+						}
+					}
+				}
+				$.ajax({
+					url: publicurl + JSON.stringify(datas3),
+					dataType: 'json',
+					type: 'get',
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '数据处理中...',
+							shadeClose: false,
+						})
+					},
+					success: function(data) {
+						if(data.ContractRoot.svcCont.respInfo.code == 000) {
+							var ndata = data.ContractRoot.svcCont.respInfo.taskVo;
+							var datas2 = {
+								"ContractRoot": {
+									"SvcCont": {
+										"ReqInfo": {
+											"Act_def_id": ndata.next_act_def_id,
+											"Fallback": ndata.fallback,
+											"Yn_sign_self": ndata.yn_sign_self,
+											"LoginName": loginname,
+											"Task_id": taskid,
+											"Process_def_id": ndata.process_def_id,
+											"Yn_choice_next": ndata.yn_choice_next,
+											"ApplyType": ndata.applyType,
+											"SystemID": "1212",
+											"Apply_id": ndata.apply_id,
+											"Next_act_def_id": ndata.next_act_def_id,
+											"Phone": "H5"
+										}
+									},
+									"TcpCont": {
+										"TimeStamp": TimeStamps,
+										"TransactionID": "2018011718201360261",
+										"BusCode": "OPP10165"
+									}
+								}
+							}
+							$.ajax({
+								url: publicurl + JSON.stringify(datas2),
+								dataType: 'json',
+								type: 'get',
+								error: function(XMLHttpRequest, textStatus, errorThrown) {
+									alert("网络出现异常，请重试")
+									layer.close(index);
+								},
+								success: function(data) {
+									layer.close(index);
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										console.log(data)
+										arr.zcnumb = data.ContractRoot.svcCont.respInfo
+									} else {
+										alert(data.ContractRoot.svcCont.respInfo.msg)
+									}
+								},
+							})
+						} else {
+							alert(data.ContractRoot.svcCont.respInfo.msg)
+							layer.close(index);
+						}
+					}
+				});
+			},
+			methods: {
+				tohome: function() {
+					window.location.href = "jgsphome.html?ln=" + loginname + "&type=" + ApplyType + "&issh=" + issh + "&rowid=" + rowid + "&taskid=" + taskid + "&toolbar=0";
+				},
+				consu: function() {
+					window.location.href = "consultation.html?ln=" + loginname + "&type=" + ApplyType + "&issh=" + issh + "&rowid=" + rowid + "&taskid=" + taskid + "&from=" + 0
+				},
+				checkf: function() {
+					window.location.href = "checkfreedback.html?ln=" + loginname + "&type=" + ApplyType + "&issh=" + issh + "&rowid=" + rowid + "&taskid=" + taskid + "&from=" + 0
+				},
+				yjsr: function(e) {
+					var arr = this;
+					var len = $(".inp_agree").val().length;
+					$('.len').html(len);
+				},
+				choose1: function(e) {
+					var arr = this;
+					$(e.currentTarget).addClass('active');
+					$(e.currentTarget).siblings('label').removeClass('active');
+					arr.yjmr = "同意"
+					arr.isty = '1';
+					arr.isagree = false;
+				},
+				choose2: function(e) {
+					var arr = this;
+					$(e.currentTarget).addClass('active');
+					$(e.currentTarget).siblings('label').removeClass('active');
+					arr.yjmr = "请输入您的意见..."
+					arr.isty = "0";
+					arr.isagree = true;
+				},
+				clows: function(e) {
+					var arr = this;
+					$(e.currentTarget).next('ul').toggleClass('high');
+				},
+				choose4: function(e) {
+					var arr = this;
+					$(e.currentTarget).toggleClass("active");
+					if($(e.currentTarget).attr("class") == "active") {
+						arr.isdx = "0";
+					} else {
+						arr.isdx = "";
+					}
+				},
+				choose5: function(e) {
+					var arr = this;
+					$(e.currentTarget).toggleClass("active");
+					if($(e.currentTarget).attr("class") == "active") {
+						arr.isyj = "1";
+					} else {
+						arr.isyj = "";
+					}
+				},
+				subbtn: function() {
+					var arr = this;
+					var altype;
+					if(arr.isdx && arr.isyj) {
+						altype = arr.isdx + "," + arr.isyj
+					} else if(arr.isdx && !arr.isyj) {
+						altype = arr.isdx
+					} else if(!arr.isdx && arr.isyj) {
+						altype = arr.isyj
+					}
+					if(arr.isty == "1") {
+						var ndoatas = {
+							"ContractRoot": {
+								"SvcCont": {
+									"ReqInfo": {
+										"TaskId": arr.zcnumb.taskId,
+										"Fallback": arr.zcnumb.fallback,
+										"Operation": "002",
+										"ApplyId": arr.zcnumb.applyId,
+										"AudContents": $(".inp_agree").val() ? encodeURI($(".inp_agree").val()) : encodeURI("同意"),
+										"SystemID": "1212",
+										"AudResult": arr.isty,
+										"Phone": "H5",
+										"rowId": rowid,
+										"AlertType": altype,
+										"UsersGroup": {},
+										"Condition": arr.zcnumb.condition,
+										"AudUser": loginname,
+										"ProcessDefinitionId": arr.zcnumb.processDefinitionId
+									}
+								},
+								"TcpCont": {
+									"TimeStamp": TimeStamps,
+									"TransactionID": "2018011620425437356",
+									"BusCode": "OPP10163"
+								}
+							}
+						}
+						$.ajax({
+							type: "get",
+							url: publicurl + JSON.stringify(ndoatas),
+							async: true,
+							dataType: 'json',
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '数据处理中...',
+									shadeClose: false,
+								})
+							},
+							success: function(data) {
+								layer.close(index);
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									layer.open({
+										title: false,
+										closeBtn: 0, //不显示关闭按钮
+										timer: 2000, //2秒后自动关闭
+										"content": data.ContractRoot.svcCont.respInfo.msg,
+										style: 'border:none; color:#fff;',
+									})
+									setTimeout(function() {
+										tooahome()
+									}, 2000)
+								} else {
+									alert(data.ContractRoot.svcCont.respInfo.msg)
+								}
+							},
+							error: function() {
+								layer.close(index);
+								alert("网络出现异常，请重试")
+							}
+						});
+					} else if(arr.isty == "0") {
+						if($(".inp_agree").val()) {
+							var ndoatas = {
+								"ContractRoot": {
+									"SvcCont": {
+										"ReqInfo": {
+											"TaskId": arr.zcnumb.taskId,
+											"Fallback": arr.zcnumb.fallback,
+											"Operation": "003",
+											"ApplyId": arr.zcnumb.applyId,
+											"AudContents": encodeURI($(".inp_agree").val()),
+											"SystemID": "1212",
+											"AudResult": arr.isty,
+											"Phone": "H5",
+											"rowId": rowid,
+											"AlertType": altype,
+											"UsersGroup": {},
+											"Condition": arr.zcnumb.condition,
+											"AudUser": loginname,
+											"ProcessDefinitionId": arr.zcnumb.processDefinitionId
+										}
+									},
+									"TcpCont": {
+										"TimeStamp": TimeStamps,
+										"TransactionID": "2018011620425437356",
+										"BusCode": "OPP10163"
+									}
+								}
+							}
+							$.ajax({
+								type: "get",
+								url: publicurl + JSON.stringify(ndoatas),
+								async: true,
+								dataType: 'json',
+								beforeSend: function(request) {
+									index = layer.open({
+										style: 'border:none; color:#fff;',
+										content: '数据处理中...',
+										shadeClose: false,
+									})
+								},
+								success: function(data) {
+									layer.close(index);
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										console.log(data)
+										layer.open({
+											title: false,
+											closeBtn: 0, //不显示关闭按钮
+											timer: 2000, //2秒后自动关闭
+											"content": data.ContractRoot.svcCont.respInfo.msg,
+											style: 'border:none; color:#fff;',
+										})
+										setTimeout(function() {
+											tooahome()
+										}, 2000)
+									} else {
+										alert(data.ContractRoot.svcCont.respInfo.msg)
+									}
+								},
+								error: function() {
+									layer.close(index);
+									alert("网络出现异常，请重试")
+								}
+							});
+						} else {
+							alert("请输入您的意见...")
+						}
+					}
+				},
+			}
+		})
+	</script>
+
+</html>

@@ -1,0 +1,73 @@
+.funcHeader {
+  width: 100%;
+  height: 0.88rem;
+  position: relative;
+  background: #0091e2;
+  font-size: 0.36rem;
+  line-height: 0.88rem;
+  text-align: left;
+  padding-left: 0.6rem;
+  color: #FFFFFF;
+}
+.funcHeader a {
+  display: block;
+  height: 100%;
+  width: 0.75rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.funcHeader a img {
+  width: 0.16rem;
+  height: 0.27rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+}
+.none {
+  height: 0.65rem;
+}
+.detailTitle {
+  width: 100%;
+  height: 1.20rem;
+  font-family: 'PingFangSC Regular';
+  position: relative;
+}
+.detailTitle ul {
+  width: 100%;
+}
+.detailTitle ul li {
+  width: 100%;
+}
+.detailTitle ul li span {
+  font-size: 0.32rem;
+  color: #444444;
+  bottom: 0.30rem;
+  left: 0.30rem;
+  padding-right: 0.30rem;
+  padding-left: 0.30rem;
+}
+.detailTitle ul li span:after {
+  content: '';
+  display: block;
+  width: -webkit-calc(100% - 0.30rem);
+  width: -moz-calc(100% - 0.30rem);
+  width: calc(100% - 0.30rem);
+  height: 1px;
+  background: #bbbbbb;
+  margin-top: 0.30rem;
+  margin-left: 0.30rem;
+  transform: scaleY(0.5);
+}
+.detailTitle ul li p {
+  font-size: 0.30rem;
+  color: #444444;
+  /*margin-top: 0.30rem;*/
+  padding-left: 0.30rem;
+  padding-right: 0.30rem;
+  line-height: 0.40rem;
+  margin-left: 0.3rem;
+}

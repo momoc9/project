@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+		<script type="text/javascript">
+			var token = "token."+sessionStorage.getItem("token");
+			if(token=="token.null"){
+				alert('请登录');
+				location.href="login.html";
+			}
+		</script>
+		<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="../static/lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
+		<script type="text/javascript" src="../static/lib/public.js"></script>
+		<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+		<title>查看权限</title>
+	</head>
+
+	<body>
+		<!--<div class="cl pd-20" style=" background-color:#5bacb6">
+	<img class="avatar size-XL l" src="static/h-ui/images/ucnter/avatar-default.jpg">
+	<dl style="margin-left:80px; color:#fff">
+		<dt>
+			<span class="f-18">张三</span>
+			<span class="pl-10 f-12">余额：40</span>
+		</dt>
+		<dd class="pt-10 f-12" style="margin-left:0">这家伙很懒，什么也没有留下</dd>
+	</dl>
+</div>-->
+		<div class="pd-20">
+			<table class="table ">
+				<tbody>
+					<tr>
+						<th class="text-r" width="80">姓名：</th>
+						<td class="name"></td>
+					</tr>
+					<tr>
+						<th class="text-r">部门：</th>
+						<td class="Department"></td>
+					</tr>
+					<tr>
+						<th class="text-r">组织：</th>
+						<td class="OrgName"></td>
+					</tr>
+					<tr>
+						<th class="text-r">地区：</th>
+						<td class="address"></td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-border table-bordered table-hover table-bg table-sort detailtable">
+				<thead>
+					<th class="text-c">角色</th>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<table class="table table-border table-bordered table-hover table-bg table-sort powertable">
+				<thead>
+					<th class="text-c">权限</th>
+				</thead>
+				<tbody>
+					<tr class="text-c more">
+						<td>加载更多</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="../static/lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../static/lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript">
+			
+			
+			var loginName = localStorage.getItem('loginName');
+			//			var loginName = 178601;
+			var PrivilegeList = [];
+			var pagenum = 20;
+			var pagenummore;
+
+			var PrivilegeList = [];
+			$(function() {
+				$.ajax({
+					type: "get",
+					url: url_r + "/callSalesApp/getPermission",
+					headers: {
+						Authorization: token
+					},
+					data: {
+						loginName: loginName
+					},
+					async: true,
+					dataType: 'json',
+					beforeSend: function() {
+						var index = layer.load();
+					},
+					success: function(data) {
+						var index = layer.load();
+						layer.close(index);
+						if(data.SvcCont.RespInfo.Result == 0) {
+							var datalist = data.SvcCont.RespInfo.StaffBean;
+							var name = datalist.StaffName;
+							var address = datalist.RegionName;
+							var orgName = datalist.OrgName;
+							var DepartmentName = datalist.DepartmentName;
+							$('.name').html(name);
+							$('.Department').html(DepartmentName);
+							$('.OrgName').html(orgName);
+							$('.address').html(address);
+							var RoleName = '';
+							PrivilegeList = datalist.PrivilegeList;
+							if(datalist.RoleList.Role){
+								RoleName = datalist.RoleList.Role;
+							}else{
+								RoleName = datalist.RoleList;
+							}
+							if(RoleName != undefined && RoleName instanceof Array == false){
+								var dataArr = [];
+								dataArr.push(RoleName);
+								$.each(dataArr, function(k, v) {
+									var td = $('<tr><td>' + v.RoleName + '</td></tr>');
+									$('.detailtable tbody').append(td);
+								});
+							}else{
+								$.each(RoleName, function(k, v) {
+									var td = $('<tr><td>' + v.RoleName + '</td></tr>');
+									$('.detailtable tbody').append(td);
+								});
+							}
+							
+							
+							if(PrivilegeList.length <= pagenum) {
+								pagenum = PrivilegeList.length;
+								pagenummore = PrivilegeList.length;
+							} else {
+								pagenummore = PrivilegeList.length;
+							}
+							$.each(PrivilegeList.slice(0, pagenum), function(k, v) {
+								var td = $('<tr><td>' + v.PrivilegeName + '</td></tr>');
+								$('.more').before(td);
+							});
+
+						} else {
+							layer.msg(data.SvcCont.RespInfo.Msg, {
+								icon: 2,
+								time: 2000
+							});
+						}
+					},
+					error: function() {
+						layer.msg('请求失败!', {
+							icon: 2,
+							time: 1000
+						});
+						var index = layer.load();
+						layer.close(index);
+					}
+				});
+
+				$('.more').click(function() {
+					if(pagenum >= pagenummore) {
+						$('.more').html('没有更多数据了');
+					}
+					$.each(PrivilegeList.slice(pagenum, pagenum + 100), function(k, v) {
+						var td = $('<tr><td>' + v.PrivilegeName + '</td></tr>');
+						$('.more').before(td);
+
+					});
+					pagenum += 100;
+				})
+			})
+		</script>
+	</body>
+
+</html>

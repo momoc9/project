@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>审批流程查看-搜索</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/proHeader.css" />
+		<link rel="stylesheet" type="text/css" href="../css/serch.css" />
+		<script type="text/javascript" src="../public/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/rem.js"></script>
+		<script type="text/javascript" src="../public/public.js"></script>
+		<script type="text/javascript" src="../public/vue.min.js"></script>
+		<script type="text/javascript" src="../public/vue-resource.min.js"></script>
+		<script type="text/javascript" src="../public/layer/2.4/layer.js"></script>
+	</head>
+
+	<body>
+		<div id="box" v-cloak>
+			<header class="pro-header">
+				<h4><i @click="history.back()"></i></h4>
+				<div class="serch">
+					<i class="icon-serch"></i>
+					<input type="text" name="" id="" placeholder="按商机名称搜索商机" v-model="serchVal" />
+
+					<i class="icon-cancle" v-show="serchVal!=''" @click="serchVal=''"></i>
+				</div>
+				<!--<span @click="historyRecord()">确定</span>-->
+				<span @click="serchData()">确定</span>
+			</header>
+			<div class="serch-box">
+				<div class="classify">
+					<h4>分类筛选</h4>
+					<ul>
+						<li v-bind:class="{'li-active':ind == 1}" @click="ind=1">客户经理</li>
+						<li v-bind:class="{'li-active':ind == 2}" @click="ind=2">利润中心</li>
+						<li v-bind:class="{'li-active':ind == 3}" @click="ind=3">创建部门</li>
+						<li v-bind:class="{'li-active':ind == 4}" @click="ind=4">项目名称</li>
+					</ul>
+				</div>
+				<div class="history">
+					<h4>历史搜索 <i @click="clearHistory()" v-show="historyArr.length>0"></i></h4>
+					<ul v-if="clearFlag">
+						<li v-for="item in historyArr" @click="changeValue(item)">{{item}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el: "#box",
+				data: {
+					ind: '1',
+					serchVal: "",
+					clearFlag: true,
+					historyArr:[],
+					dataList:[],
+					Pagenum:'1',
+					loginId:''
+				},
+				mounted: function() {
+					this.$nextTick(function() {
+						var arr = localStorage.getItem('history');
+						if(arr){
+							this.historyArr = JSON.parse(localStorage.getItem('history'));
+						}
+							this.loginId = localStorage.getItem('loginId');
+					})
+				},
+				methods: {
+					clearHistory() {
+						this.clearFlag = false;
+						localStorage.clear('history')
+					},
+					serchData() {
+						var data = {
+							"ContractRoot": {
+								"SvcCont": {
+									"ReqInfo": {
+										"LoginId": this.loginId,
+										"Pagenum": this.Pagenum,
+										"Pagesize": "10",
+										"Orderbytype": this.Orderbytype
+									}
+								},
+								"TcpCont": {
+									"TimeStamp": "20170929113413",
+									"TransactionID": "2017092911341395201",
+									"BusCode": "OPP10322"
+								}
+							}
+						}
+						data.ContractRoot.SvcCont.ReqInfo.Querytype = this.ind;
+						var _this = this;
+						if(this.serchVal) {
+							data.ContractRoot.SvcCont.ReqInfo.Queryvalue = this.serchVal;
+							dataStr = JSON.stringify(data);
+							localStorage.setItem('serchInfo',dataStr);
+							_this.historyRecord();
+							window.history.back();
+						} else {
+							layer.msg("搜索内容不能为空", {
+								icon: 5,
+								time: 1000
+							})
+						}
+
+					},
+					changeValue(item){
+						this.serchVal = item;
+					},
+					historyRecord(){
+						var _this = this;
+						var val = _this.serchVal;
+						var flag = true;
+						if(val){
+							_this.historyArr.forEach(function(item){
+								if(val==item){
+									flag = false;
+								}
+								return;
+							})
+							if(flag){
+//								console.log(flag)
+								_this.historyArr.unshift(val);
+							}
+							if(_this.historyArr.length>5){
+								_this.historyArr.pop(val);
+							}
+							localStorage.setItem('history',JSON.stringify(_this.historyArr))
+						}
+						
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

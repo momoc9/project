@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>营销通报</title>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<script src="../../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="cdcont" v-cloak>
+			<div class="mkrhead">
+				营销通报
+				<div class="returns" onclick="returns()">
+					<img src="../../images/return@3x.png" />
+				</div>
+			</div>
+			<div class="zwheaddown"></div>
+			<div class="mkRtabs">
+				<p onclick="hrefs('markReport.html')">互联网+大单</p>
+				<p onclick="hrefs('yyw.html')" class="mkRtabspact">云业务</p>
+				<p onclick="hrefs('wlw.html')">物联网业务</p>
+				<p onclick="hrefs('ict.html')">新兴ICT领先奖</p>
+			</div>
+			<div class="mkRcont">
+				<div class="hlwdd">
+					<div class="hlwddhead">
+						<p>2017年1-10月完成情况统计</p>
+						<span>数据来源:商机统计</span>
+						<!--<img src="../../images/zhankai@2x.png" />-->
+					</div>
+					<div class="hlwddcont">
+						<div class="yyeconthead">
+							<p><span>省份</span></p>
+							<p><span>天翼云3.0标杆累计完成(个)<span></p>
+							<p><span>天翼云3.0标杆预算完成率<span></p>
+							<p><span>累计净增核数(VCPU)<span></p>
+						</div>
+						<div class="yywtablist">
+							<div v-for="(datalist,index) in datalists" class="yywtablistli">
+								<p class="yywtablistpro"><span>{{datalist.regionName}}</span></b>
+								<p class="yywtablistnum">
+									<span><i>{{datalist.completionNumber}}</i></span>
+									<span><i>{{datalist.completionRate}}</i></span>
+									<span><i class="rightno">{{datalist.netIncrease}}</i></span>
+								</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var loginname = localStorage.getItem("loginname");
+		var datas = {
+			"ContractRoot": {
+				"TcpCont": {
+					"BusCode": "OPP10188",
+					"TransactionID": "2017100815360900002",
+					"TimeStamp": "20171008153609"
+				},
+				"SvcCont": {
+					"ReqInfo": {
+						"LoginName": loginname,
+						"SystemID": "1212"
+					}
+				}
+			}
+		}
+		new Vue({
+			el: "#cdcont",
+			data: {
+				datalists: [],
+			},
+			mounted: function() {
+				var arr = this;
+				$.ajax({
+					url: publicurl + JSON.stringify(datas),
+					dataType: 'json',
+					type: 'get',
+					success: function(data) {
+						layer.close(index);
+						if(data.msg) {
+							alert("网络出现异常，请重试")
+						} else {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								arr.datalists = data.ContractRoot.svcCont.respInfo.cloudBusinessList;
+							} else {
+								alert("网络出现异常，请重试")
+							}
+						}
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '玩命加载中...',
+							shadeClose: false,
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+				});
+			},
+			methods: {
+
+			}
+		})
+	</script>
+
+</html>

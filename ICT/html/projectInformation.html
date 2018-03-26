@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>项目信息</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/proHeader.css" />
+		<link rel="stylesheet" type="text/css" href="../css/projectInformation.css" />
+		<script type="text/javascript" src="../public/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/rem.js"></script>
+		<script type="text/javascript" src="../public/public.js"></script>
+		<script type="text/javascript" src="../public/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="box" v-cloak>
+			<header class="pro-header">
+				<h4>项目信息<i @click="history.back()"></i></h4>
+			</header>
+			<div class="nav-pro">
+				<ul>
+					<li v-bind:class="{active:ind==0}" @click="showProList()">项目信息</li>
+					<li v-bind:class="{active:ind==1}" @click="showChildList()">子项目信息<span>({{length}})</span></li>
+				</ul>
+			</div>
+			<div class="pro-list" v-if="ind==0">
+				<div class="list-item">
+					<ul>
+						<li>
+							<span>项目编码</span>
+							<p>{{data.iTEMCODE}}</p>
+						</li>
+						<li>
+							<span>项目名称</span>
+							<p>{{data.iTEMNAME}}</p>
+						</li>
+						<li>
+							<span>项目经理</span>
+							<p>{{data.iTEMMANAGER}}</p>
+						</li>
+						<li>
+							<span>项目分类</span>
+							<p>{{data.iTEMCATEGORY}}</p>
+						</li>
+						<li>
+							<span>总金额</span>
+							<p>{{data.tRADESUM}}</p>
+						</li>
+						<li>
+							<span>公司代码</span>
+							<p>{{data.cOMPANYCODE}}</p>
+						</li>
+						<li>
+							<span>利润中心</span>
+							<p>{{data.pROFITCENTER}}</p>
+						</li>
+						<li>
+							<span>成本中心</span>
+							<p>{{data.cOSTCENTER}}</p>
+						</li>
+						<li>
+							<span>是否多次验收</span>					
+							<p>{{data.iSMANYCHECK == 0?"否":"是"}}</p>
+						</li>
+						<li>
+							<span>是否审计</span>
+							<p>{{data.iSAUDIT == 0?"否":"是"}}</p>
+						</li>
+						<li>
+							<span>创建单位</span>
+							<p>{{data.aPPLYAREACODE}}</p>
+						</li>
+						<li>
+							<span>创建部门</span>
+							<p>{{data.aPPLYDEPTID}}</p>
+						</li>
+						<li>
+							<span>创建人</span>
+							<p>{{data.aPPLYUSERID}}</p>
+						</li>
+						<li>
+							<span>创建日期</span>
+							<p>{{data.aPPLYDATE}}</p>
+						</li>
+						<li>
+							<span>项目状态</span>
+							<p class="p-active">{{getType2(data.iTEMSTATUS)}}</p>
+						</li>
+						<li>
+							<span>简要说明</span>
+							<p></p>
+						</li>
+						<li class="show-text">
+							<span></span>
+							<p>{{data.rEMARK}}</p>
+						</li>
+					</ul>
+				</div>
+				<div class="list-item">
+					<ul>
+						<li>
+							<span>CRM客户编码</span>
+							<p>{{data.cLIENTCODE}}</p>
+						</li>
+						<li>
+							<span>CRM客户名称</span>
+							<p>{{data.cLIENTNAME}}</p>
+						</li>
+						<li>
+							<span>主合同客户编码</span>
+							<p>{{data.cONTRACTCLIENTCODE}}</p>
+						</li>
+						<li>
+							<span>主合同客户名称</span>
+							<p>{{data.cONTRACTCLIENTNAME}}</p>
+						</li>
+						<li>
+							<span>商机客户编码</span>
+							<p>{{data.jT_SJCLIENT_CODE}}</p>
+						</li>
+						<li>
+							<span>商机客户名称</span>
+							<p>{{data.jT_SJCLIENT_NAME}}</p>
+						</li>
+					</ul>
+				</div>
+				<div class="list-item">
+					<ul>
+						<li>
+							<span>商机编码</span>
+							<p>{{data.dEMANDCODE}}</p>
+						</li>
+						<li>
+							<span>商机名称</span>
+							<p>{{data.tITLE}}</p>
+						</li>
+						<li>
+							<span>客户经理</span>
+							<p>{{data.cLIENTMANAGER}}</p>
+						</li>
+						<li>
+							<span>客户行业属性</span>
+							<p>{{data.cLIENTINDUSTRYATTR}}</p>
+						</li>
+					</ul>
+				</div>
+				<div class="list-item">
+					<ul>
+						<li>
+							<span>合同发起号</span>
+							<p>{{data.sIGNCODE}}</p>
+						</li>
+						<li>
+							<span>合同编码</span>
+							<p>{{data.cONTRACTCODE}}</p>
+						</li>
+						<li>
+							<span>合同名称</span>
+							<p>{{data.cONTRACTNAME}}</p>
+						</li>
+						<li>
+							<span>合同总金额</span>
+							<p>{{data.tRADESUM}}</p>
+						</li>
+					</ul>
+				</div>
+				<div class="list-item">
+					<ul>
+						<li>
+							<span>预算方式</span>
+							<p>{{getType3(data.eSTIMATE_TYPE)}}</p>
+						</li>
+						<li>
+							<span>概算系统集成支出</span>
+							<p>{{data.gS_COST_XTJC_TOTAL}}</p>
+						</li>
+						<li>
+							<span>预算系统集成支出</span>
+							<p>{{data.yS_COST_XTJC_TOTAL}}</p>
+						</li>
+						<li>
+							<span>成本偏差率</span>
+							<p>{{data.cOST_PC_RATE}}</p>
+						</li>
+						<li>
+							<span>概算投资合计</span>
+							<p>{{data.gS_INVEST_TOTAL}}</p>
+						</li>
+						<li>
+							<span>预算投资合计</span>
+							<p>{{data.yS_INVEST_TOTAL}}</p>
+						</li>
+						<li>
+							<span>投资偏差率</span>
+							<p>{{data.yS_COST_XTJC_TOTAL}}</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="pro-list" v-else="ind==1">
+				<div class="list-item">
+					<ul v-for="childrenItem in bictitemrow">
+						<li>
+							<span>子项目编码</span>
+							<p>{{childrenItem.sUBITEMCODE}}</p>
+						</li>
+						<li>
+							<span>子项目名称</span>
+							<p>{{childrenItem.sUBITEMNAME}}</p>
+						</li>
+						<li>
+							<span>利润中心</span>
+							<p>{{childrenItem.sUBPROFITCENTER}}</p>
+						</li>
+						<li>
+							<span>成本中心</span>
+							<p>{{childrenItem.sUBCOSTCENTER}}</p>
+						</li>
+						<li>
+							<span>子项目经理</span>
+							<p>{{childrenItem.sUBITEMMANAGER}}</p>
+						</li>
+						<li>
+							<span>直接成本预算</span>
+							<p>{{childrenItem.cOSTSUM}}</p>
+						</li>
+						<li>
+							<span>验收时间</span>
+							<p>{{childrenItem.iCTITEMCHECKDATE}}</p>
+						</li>
+						<li>
+							<span>项目状态</span>
+							<p class="p-active">{{getType(childrenItem.sUBITEMSTATUS)}}</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		new Vue({
+			el:"#box",
+			data:{
+				ind:'0',
+				data:'',
+				bictitemrow:'',
+				length:0,
+				iTEMSTATUS:'',
+				sUBITEMSTATUS:''
+			},
+			mounted:function(){
+				this.$nextTick(function () {
+					this.data = JSON.parse(localStorage.getItem('projectDetails'));
+					this.length = this.data.bictitemrow.length;
+				  })
+			},
+			methods:{
+				showProList(){
+					this.ind = 0;
+				},
+				showChildList(){
+					this.ind = 1;
+					this.bictitemrow = this.data.bictitemrow;
+				},
+				getType2(num){
+					var _this = this;
+					switch (num){
+						case "10":
+							_this.iTEMSTATUS = '项目审批中';
+							break;
+						case "20":
+//							console.log(_this.data.iTEMSTATUS)
+							_this.iTEMSTATUS = '项目已批复';
+							break;
+						case "50":
+							_this.iTEMSTATUS = '验收';
+							break;
+						case "70":
+							_this.iTEMSTATUS = '作废';
+							break;
+						case "80":
+							_this.iTEMSTATUS = '结束';
+							break;
+						case "90":
+							_this.iTEMSTATUS = '关闭';
+							break;
+						default:
+							break;
+					}
+					return _this.iTEMSTATUS;
+				},
+				getType(num1){
+					var _this = this;
+					switch (num1){
+						case "20":
+							_this.sUBITEMSTATUS = '项目批复';
+							break;
+						case "26":
+							_this.sUBITEMSTATUS = '项目开工';
+							break;
+						case "27":
+							_this.sUBITEMSTATUS = '项目完工';
+							break;
+						case "31":
+							_this.sUBITEMSTATUS = '项目验收';
+							break;
+						case "36":
+							_this.sUBITEMSTATUS = '审计完成';
+							break;
+						case "37":
+							_this.sUBITEMSTATUS = '审计变更';
+							break;
+						case "97":
+							_this.sUBITEMSTATUS = '项目作废';
+							break;
+						case "98":
+							_this.sUBITEMSTATUS = '项目结束';
+							break;
+						case "99":
+							_this.sUBITEMSTATUS = '项目关闭';
+							break;
+						default:
+							break;
+					} 
+					return _this.sUBITEMSTATUS;
+				},
+				getType3(num){
+					var val = '';
+//					console.log(num)
+					switch (num){
+						case "1":
+						val = "业务方式-全国";
+							break;
+						case "2":
+						val = "结果方式";
+							break;
+						case "3":
+						val = "业务方式—履约计划";
+							break;
+						default:
+							break;
+					}
+					return val;
+				}
+			}
+		})
+	</script>
+</html>

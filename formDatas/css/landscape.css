@@ -1,0 +1,376 @@
+/*互联网+大单完成情况*/
+#cdcont{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.mkrhead{
+	width: 100%;
+	height: 0.7rem;
+	position: relative;
+}
+.mkrhead p{
+	font-size: 0.32rem;
+	color: #008FE3;
+	line-height: 0.7rem;
+	padding-left: 0.3rem;
+}
+.mkrhead p span{
+	font-size: 0.24rem;
+	color: #999;
+	margin-left: 0.3rem;
+}
+.landreturns{
+	width: 0.7rem;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0.3rem;
+}
+.landreturns img{
+	width: 0.32rem;
+	height: 0.32rem;
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	margin: auto;
+}
+.hlwddzw{
+	width: 100%;
+	height: 0.2rem;
+	background: #fff;
+}
+.mkRcont{
+	width: 100%;
+	height: calc(100% - 0.9rem);
+	overflow: hidden;
+	background: #f3f3f3;
+}
+.hlwddsf{
+	width: 1rem;
+	height: 1rem;
+	float: left;
+	text-align: center;
+	font-size: 0.24rem;
+	line-height: 1rem;
+	color: #bbbbbb;
+}
+.hlwddfl{
+	width: calc(100% - 1rem);
+	height: 1rem;
+	float: left;
+	overflow-x: scroll;
+	overflow-y: hidden;
+}
+.hlwddfl::-webkit-scrollbar {
+	display: none;
+}
+.hlwddgs::-webkit-scrollbar {
+	display: none;
+}
+.hlwddsz::-webkit-scrollbar {
+	display: none;
+}
+.hlwddwrapfls{
+	width: 15.4rem;
+	height: 1rem;
+}
+.hlwddwrapfls div{
+	width: 1.4rem;
+	height: 1rem;
+	float: left;
+	display: table;
+	border-right: 1px dashed #ccc;
+}
+.hlwddwrapfls div p{
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	font-size:0.24rem;
+    color: #4c4c4c;	
+}
+.hlwddwrapfls div p span{
+	font-size: 0.28rem;
+	display: inline-block;
+	margin-top: 0.1rem;
+	color: #008fe3;
+}
+.hlwddgs{
+	width: 1rem;
+	height: calc(100% - 1rem);
+	float: left;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.hlwddwrapgss p {
+    width: 1rem;
+    height: 1rem;
+    font-size:0.24rem;
+    color: #808080;	
+    margin-bottom: 0.2rem;
+    overflow: hidden;
+}
+.hlwddwrapgss p span{
+	width: 1rem;
+	height: 1rem;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	overflow: hidden;
+	line-height: 0.32rem;
+	padding: 0 0.1rem;
+}
+.hlwddsz{
+	width: calc(100% - 1rem);
+	height: calc(100% - 1rem);
+	float: left;
+	overflow-x: scroll;
+	overflow-y: scroll;
+}
+.hlwddwrapszs p{
+	width: 15.4rem;
+	height: 1rem;
+	margin-bottom: 0.2rem;
+	background: #fff;
+	border-radius: 0.2rem;
+}
+.hlwddwrapszs p span{
+	display: table;
+	width: 1.4rem;
+	float: left;
+	height: 0.8rem;
+	border-right: 1px dashed #ccc;
+	margin: 0.1rem 0;
+	text-align: center;
+	line-height: 0.8rem;
+}
+.hlwddwrapszs p span i{
+	display: table-cell;
+	color: #4d4d4d;
+	font-size: 0.24rem;
+	text-align: center;
+	vertical-align: middle;
+	font-style: normal;
+}
+/*一季度横屏展示效果样式*/
+.fqcont{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.wraplandfq{
+	width: 100%;
+	height: calc(100% - 0.9rem);
+	background: #f3f3f3;
+	overflow: hidden;
+}
+.fqpro{
+	width: 1rem;
+	height: 1.16rem;
+	float: left;
+	line-height: 1.16rem;
+	text-align: center;
+	font-size: 0.26rem;
+	color: #4c4c4c;
+	border-bottom: 1px solid #e6e6e6;
+	border-right: 1px solid #e6e6e6;
+}
+.fqheadlist{
+	width: calc(100% - 1rem);
+	height: 1.16rem;
+	float: left;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	border-bottom: 1px solid #e6e6e6;
+}
+.fqheadlistli{
+	width: 20.4rem;
+	height: 1.16rem;
+}
+.gyy{
+	width: 5.1rem;
+}
+.yundi{
+	width: 3.4rem;
+}
+.ict{
+	width: 1.7rem;
+}
+.shuanghang{
+	height:1.16rem ;
+	float: left;
+	border-right: 1px solid #e6e6e6;
+	
+}
+.shuanghang p{
+	display: table;
+	width: 100%;
+	height: 0.7rem;
+	text-align:center;
+	line-height: 0.7rem;
+	font-size: 0.24rem;
+	color: #008fe3;
+}
+.shuanghang span{
+	display: block;
+	float: left;
+	width: 1.69rem;
+	font-size: 0.24rem;
+	height: 0.46rem;
+	line-height: 0.46rem;
+	color: #999999;
+	text-align: center;
+}
+.fqprovs{
+	width: 1rem;
+	height: calc(100% - 1.16rem);
+	float: left;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+.fqprovs p{
+	width: 1rem;
+	height: 0.9rem;
+	border-bottom: 1px solid #e6e6e6;
+	text-align: center;
+	font-size: 0.26rem;
+	color: #4c4c4c;
+	line-height: 0.9rem;
+	border-right: 1px solid #e6e6e6;
+}
+.fqconts{
+	width: calc(100% - 1rem);
+	height: calc(100% - 1.16rem);
+	float: left;
+	overflow-y: scroll;
+	overflow-x: scroll;
+}
+.fqcontsli{
+	width: 20.4rem;
+	height: 0.9rem;
+	border-bottom: 1px solid #e6e6e6;
+	background: #fff;
+}
+.fqcontsli span{
+	display: block;
+	width: 1.7rem;
+	height: 0.9rem;
+	float: left;
+	line-height: 0.9rem;
+	font-size: 0.24rem;
+	color: #4c4c4c;
+	text-align: center;
+}
+.fqconts::-webkit-scrollbar {
+	display: none;
+}
+.fqheadlist::-webkit-scrollbar {
+	display: none;
+}
+.fqprovs::-webkit-scrollbar {
+	display: none;
+}
+/*人才工作站*/
+#sdzccont{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.wraptant{
+	width: 100%;
+	height: calc(100% - 0.9rem);
+	overflow: hidden;
+	background: #f3f3f3;
+}
+.sSconthead{
+	width: 100%;
+	height: 0.8rem;
+}
+.longtext{
+	width: 20%;
+	height: 0.8rem;
+	float: left;
+	display: table;
+	border-right: 1px dashed #ccc;
+} 
+.littext{
+	width: 12%;
+	height: 0.8rem;
+	float: left;
+	display: table;
+	border-right: 1px dashed #ccc;
+}
+.littext span,.longtext span{
+	display: table-cell;
+	width: 100%;
+	height: 0.8rem;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 0.24rem;
+	color: #999999;
+}
+.rccontlist{
+	width: 100%;
+	height: calc(100% - 0.8rem);
+	overflow: scroll;
+}
+.rccontlistli{
+	width: 100%;
+	height: 0.7rem;
+	margin-bottom: 0.2rem;
+}
+.sScontlistli p{
+	display: table;
+	float: left;
+}
+.rccontlistli p{
+	display: table;
+	float: left;
+	border-right: 1px dashed #ccc;
+}
+.lilongtext{
+	width: 20%;
+	height: 0.7rem;
+}
+.rccontlistli .noborder{
+	border: 0;
+}
+/*.lilongtext .bslilongtext{
+	padding: 0 0.1rem;
+}*/
+.radiuss{
+	border-bottom-left-radius: 0.15rem;
+	border-top-left-radius: 0.15rem;
+}
+.radiuss2{
+	border-bottom-right-radius: 0.15rem;
+	border-top-right-radius: 0.15rem;
+}
+.lilittext{
+	width: 12%;
+	height: 0.7rem;
+}
+.rccontlistli p span{
+	display: table-cell;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 0.24rem;
+	padding:  0 0.3rem;
+	color: #444444;
+}
+.sScontlist::-webkit-scrollbar {
+	display: none;
+}
+.sSconthead::-webkit-scrollbar {
+	display: none;
+}
+.rccontlist::-webkit-scrollbar {
+	display: none;
+}
+.bgfff{
+	background: #fff;
+}

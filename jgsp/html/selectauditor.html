@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>选择审核人</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/g-head.css" />
+		<script type="text/javascript" src="../public/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/rem.js"></script>
+		<script type="text/javascript" src="../public/public.js"></script>
+		<style>
+			body {
+				background: #f5f5f5;
+			}
+			
+			.contaniner {
+				width: 6.5rem;
+				margin: 0 auto;
+			}
+			
+			.askpeople {
+				width: 100%;
+				border-bottom: 1px solid #EEEEEE;
+				background: #FFFFFF;
+			}
+			
+			.askpeople h3 {
+				font-size: 0.3rem;
+				font-weight: 600;
+				color: #3b3b3b;
+				padding-top: 0.28rem;
+				padding-bottom: 0.3rem;
+				position: relative;
+			}
+			
+			.askpeople ul {
+				width: 100%;
+				overflow: hidden;
+			}
+			
+			.askpeople ul .hqbm {
+				display: inline-block;
+				padding: 0.06rem 0.2rem;
+				font-size: 0.26rem;
+				line-height: 0.48rem;
+				color: #707070;
+				text-align: center;
+				border: 1px solid #707070;
+				border-radius: 0.08rem;
+				float: left;
+				margin: 0.12rem 0.12rem;
+				overflow: hidden;
+			}
+			
+			.askpeople ul .shlis span {
+				display: inline-block;
+				padding: 0.06rem 0.2rem;
+				font-size: 0.26rem;
+				line-height: 0.48rem;
+				color: #707070;
+				text-align: center;
+				border: 1px solid #707070;
+				border-radius: 0.08rem;
+				float: left;
+				margin: 0.12rem 0.12rem;
+				overflow: hidden;
+			}
+			
+			.askpeople ul li.active {
+				background: #24c9a1;
+				color: #FFFFFF;
+			}
+			
+			.askpeople ul li span.active {
+				background: #24c9a1;
+				color: #FFFFFF;
+			}
+			
+			.askpeople ul li:nth-child(4n) {
+				margin-right: 0;
+			}
+			
+			.submit {
+				width: 100%;
+				height: 1.2rem;
+				position: relative;
+			}
+			
+			.submit span {
+				display: block;
+				width: 6.16rem;
+				height: 0.8rem;
+				background: #24c9a1;
+				color: #FFFFFF;
+				border-radius: 0.08rem;
+				font-size: 0.36rem;
+				text-align: center;
+				line-height: 0.8rem;
+				position: absolute;
+				top: 50%;
+				margin-top: -0.4rem;
+				left: 50%;
+				margin-left: -3.08rem;
+			}
+			
+			.con_box {
+				width: 100%;
+				height: calc(100% - 2.16rem);
+				overflow: hidden;
+				overflow-y: scroll;
+				background: #FFFFFF;
+			}
+			
+			.con_box::-webkit-scrollbar {
+				display: none;
+			}
+			
+			#txshr {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="txshr" v-cloak>
+			<header class="g-header">
+				<h2>选择审核人
+				<i onclick="window.history.back()"></i>
+			</h2>
+			</header>
+			<div class="con_box">
+				<div class="askpeople" v-for="(data1,index) in xrlists" v-bind:jdid="data1.actDefinitionId" v-bind:class="data1.actDefinitionYnSign=='N'?'shmk':'hqmk'">
+					<div class="askcontent contaniner">
+						<h3>{{data1.actDefinitionName}}</h3>
+						<ul>
+							<li v-for="data2 in data1.departmentOrRole" v-if="data1.actDefinitionYnSign=='N'" v-bind:class="'sh'+index" class="shlis">
+								<span v-for="data3 in data2.userInformationList" v-bind:value="data3.userInformationStaffId" @click="shchoose($event)" v-bind:class="data3.userInformationIsSelect == 'Y'?'active':''">{{data3.userInformationName}}</span>
+							</li>
+							<li v-for="(data2,index) in data1.departmentOrRole" v-if="data1.actDefinitionYnSign=='Y'" @click="hqchoose($event)" v-bind:length="data2.userInformationList.length" class="hqbm" v-bind:value="data2.departmentOrRoleId" v-bind:class="data2.departmentOrRoleIsSelect
+ == 'Y'?'active':''" v-bind:isre="data2.isRequired">{{data2.departmentOrRoleName}}</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<div class="submit">
+				<span @click="subbtn()">提交</span>
+			</div>
+		</div>
+	</body>
+	<script src="../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../public/layer.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var loginname = getQueryString("ln");
+		var ApplyType = getQueryString("type");
+		var issh = getQueryString("issh")
+		var rowid = getQueryString("rowid");
+		var taskid = getQueryString("taskid");
+		var prid = getQueryString("prid");
+		var acid = getQueryString("acid")
+		var apid = getQueryString("apid");
+		var ynsign = getQueryString("ynsign");
+		var opid = getQueryString("opid");
+		var acode = getQueryString("acode");
+		var re = getQueryString("re");
+		new Vue({
+			el: "#txshr",
+			data: {
+				xrlists: "",
+			},
+			mounted: function() {
+				var arr = this;
+				var datas = {
+					"ContractRoot": {
+						"SvcCont": {
+							"ReqInfo": {
+								"ProcessDefId": prid,
+								"YnSign": 'Y',
+								"LoginName": loginname,
+								"SourceType": "2",
+								"ApplyTypeCode": acode,
+								"ApplyId": apid,
+								"SystemID": "1212",
+								"OppId": opid,
+								"ActiveDefId": acid,
+							}
+						},
+						"TcpCont": {
+							"TimeStamp": TimeStamps,
+							"TransactionID": "2018011413231727280",
+							"BusCode": "OPP10267",
+						}
+					}
+				}
+				$.ajax({
+					url: publicurl + JSON.stringify(datas),
+					dataType: 'json',
+					type: 'get',
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '数据处理中...',
+							shadeClose: false,
+						})
+					},
+					success: function(data) {
+						layer.close(index);
+						if(data.ContractRoot.svcCont.respInfo.code == 000) {
+							console.log(data)
+							arr.xrlists = data.ContractRoot.svcCont.respInfo.actDefinitionIdList
+						} else if(data.ContractRoot.svcCont.respInfo.code == 001) {
+							alert(data.ContractRoot.svcCont.respInfo.msg)
+						}
+					}
+				});
+			},
+			updated: function() {
+				var arr = this;
+				var ismrsh = true;
+				var numb = $(".shlis").length;
+				for(var i = 0; i < numb; i++) {
+					var ismrsh = true;
+					if($(".shlis").eq(i).children("span").length) {
+						var k = $(".shlis").eq(i).children("span").length
+						for(var j = 0; j < k; j++) {
+							if($(".shlis").eq(i).children("span").eq(j).hasClass("active")) {
+								console.log('有默认')
+								ismrsh = false;
+							}
+						}
+					}
+					if(ismrsh) {
+						$(".shlis").eq(i).children("span").eq(0).addClass("active")
+					}
+				}
+				for(var m = 0; m < $(".hqmk").length; m++) {
+					var ismrsh = true;
+					for(var k = 0; k < $(".hqmk").eq(m).find($(".hqbm")).length; k++) {
+						if($(".hqmk").eq(m).find($(".hqbm")).eq(k).hasClass("active")) {
+							console.log('有默认')
+							ismrsh = false;
+						}
+					}
+					if(ismrsh) {
+						$(".hqmk").eq(m).find($(".hqbm")).eq(0).addClass("active")
+					}
+				}
+
+			},
+			methods: {
+				subbtn: function() {
+					//判断选择会签部门是否为空
+					var cslist = [];
+					var ishqwc = true;
+					for(var i = 0; i < $(".hqbm").length; i++) {
+						if($(".hqbm").eq(i).hasClass("active")) {
+							if($(".hqbm").eq(i).attr("length") == 0) {
+								var lens = $(".hqbm").eq(i).text();
+								console.log(lens)
+								alert(lens + "内没有会签人,请重新选择")
+								ishqwc = false;
+							}
+						}
+					}
+					if(ishqwc) {
+						for(var k = 0; k < $(".shmk").length; k++) {
+							for(var l = 0; l < $(".shmk").eq(k).find("span").length; l++) {
+								console.log(2)
+								if($(".shmk").eq(k).find("span").eq(l).hasClass("active")) {
+									var userid = $(".shmk").eq(k).find("span").eq(l).attr("value");
+									var bmid = $(".shmk").eq(k).attr("jdid");
+									var data0 = {
+										"Users": userid,
+										"ActiveDefId": bmid,
+									}
+									cslist.push(data0)
+								}
+							}
+						}
+						for(var m = 0; m < $(".hqmk").length; m++) {
+							var useridlist = [];
+							var strs = "";
+							var data02 = "nullnull";
+							for(var l = 0; l < $(".hqmk").eq(m).find("li").length; l++) {
+								if($(".hqmk").eq(m).find("li").eq(l).hasClass("active")) {
+									useridlist.push($(".hqmk").eq(m).find("li").eq(l).attr("value"));
+									strs += $(".hqmk").eq(m).find("li").eq(l).attr("value") + ","
+									var bmid = $(".hqmk").eq(m).attr("jdid");
+									data02 = {
+										"Deps": strs.substr(0, strs.length - 1),
+										"ActiveDefId": bmid,
+									}
+								}
+							}
+							cslist.push(data02)
+						}
+						var noscslist = arrs(cslist)
+						var tsdatas = {
+							"ContractRoot": {
+								"SvcCont": {
+									"ReqInfo": {
+										"ProcessDefId": prid,
+										"ActiveDefs": noscslist,
+										"RecommendType": re,
+										"ApplyId": apid,
+										"SystemID": "1212"
+									}
+								},
+								"TcpCont": {
+									"TimeStamp": TimeStamps,
+									"TransactionID": "2018011413231109761",
+									"BusCode": "OPP10265"
+								}
+							}
+						}
+						console.log(tsdatas)
+						$.ajax({
+							url: publicurl + JSON.stringify(tsdatas),
+							dataType: 'json',
+							type: 'get',
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '数据处理中...',
+									shadeClose: false,
+								})
+							},
+							success: function(data) {
+								layer.close(index);
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									layer.open({
+										title: false,
+										closeBtn: 0, //不显示关闭按钮
+										timer: 2000, //2秒后自动关闭
+										"content": data.ContractRoot.svcCont.respInfo.msg,
+										style: 'border:none; color:#fff;',
+									})
+									setTimeout(function() {
+										window.location.href = "auditprocess.html?ln=" + loginname + "&type=" + ApplyType + "&issh=" + issh + "&rowid=" + rowid + "&taskid=" + taskid;
+									}, 2000)
+								} else if(data.ContractRoot.svcCont.respInfo.code == 001) {
+									alert(data.ContractRoot.svcCont.respInfo.msg)
+								}
+							}
+						});
+
+					}
+
+				},
+				hqchoose: function(e) {
+					if($(e.currentTarget).attr("isre") == 'N') {
+						$(e.currentTarget).toggleClass('active')
+					}
+				},
+				shchoose: function(e) {
+					$(e.currentTarget).addClass('active')
+					$(e.currentTarget).siblings("span").removeClass('active')
+				}
+			}
+		})
+
+		function arrs(arr) {
+			var b = []; //去除undefined后的结果
+			for(var i = 0; i < arr.length; i++) {
+				if(arr[i] !== 'nullnull') {
+					b.push(arr[i]);
+				}
+			}
+			return b
+		}
+	</script>
+
+</html>

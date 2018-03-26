@@ -1,0 +1,230 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+		<script type="text/javascript">
+			var token = "token."+sessionStorage.getItem("token");
+			if(token=="token.null"){
+				alert('请登录');
+				location.href="login.html";
+			}
+		</script>
+		<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="../static/lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/common.css" />
+		<script type="text/javascript" src="../static/lib/public.js"></script>
+
+		<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+		<title>管理员列表</title>
+	</head>
+
+	<body>
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>系统管理<span class="c-gray en">&gt;</span>管理员列表
+			<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
+		</nav>
+		<div class="page-container">
+			<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"> <a href="javascript:;" onclick="admin_add('添加管理员','admin-add.html','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a></span></div>
+			<div class="mt-20 ">
+				<table id="dataList" class="table table-border table-bordered table-hover table-bg table-sort">
+					<thead>
+						<tr class="text-c">
+							<th width="25"><input type="checkbox" name="" value=""></th>
+							<th width="80">账号</th>
+							<th width="100">姓名</th>
+							<th width="40">性别</th>
+							<th width="90">邮箱</th>
+							<th width="150">手机号码</th>
+							<th width="150">密码修改时间</th>
+							<th width="130">所属组织</th>
+							<th width="100">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="../static/lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../static/lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript" src="../static/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+		<script type="text/javascript" src="../static/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="../static/lib/laypage/1.2/laypage.js"></script>
+		<script type="text/javascript">
+			$(function() {
+//				var dataArr;
+//				$.ajax({
+//					type:'get',
+//					url:url_r + '/user/list',
+//					headers: {
+//						Authorization: token
+//					},
+//					success:function(data){
+//						dataArr=data
+//					}
+//				})
+				
+				
+				//获取默认显示数据
+				var table = $('datalist').DataTable();
+				$('.table-sort').dataTable({
+					ajax: {
+						url: url_r + '/user/list',
+						headers: {
+							Authorization: token
+						},
+						type: 'get',
+						dataType: 'json',
+						dataSrc: function(json) {
+							var arr = json;
+							return arr;
+						}
+					},
+					"aaSorting": [
+						[1, "desc"]
+					], //默认第几个排序
+					"searchable": false,
+					'searching': false,
+					"bStateSave": true, //状态保存
+					columns: [{
+							data: 'input',
+							"class": 'text-c'
+						},
+						{
+							data: 'account',
+							"class": 'text-c'
+
+						},
+						{
+							data: 'name',
+							"class": 'text-c'
+
+						},
+						{
+							data: 'gender',
+							"class": 'text-c'
+
+						},
+						{
+							data: 'email',
+							"class": 'text-c'
+
+						},
+						{
+							data: 'mobileNumber',
+							"class": 'text-c'
+
+						},
+						{
+							data: 'lastPasswordResetDate',
+							"class": 'text-c'
+
+						},
+						{
+							data: 'organization',
+							"class": 'text-c'
+
+						},
+						{
+							data: 'anniu',
+							"class": 'td-manage text-c'
+						}
+					],
+					aoColumnDefs: [{
+							"targets": [0], // 目标列位置，下标从0开始
+							"data": "anniu", // 数据列名
+							"render": function(data, type, full) { // 返回自定义内容
+								var resultStr = '<input type="checkbox" value="1" name="">'
+								return resultStr
+							}
+						}, {
+							"targets": [8], // 目标列位置，下标从0开始
+							"data": "btn", // 数据列名
+							"render": function(data, type, full) { // 返回自定义内容
+								var resultStr = '<a style="text-decoration:none" class="ml-5" onClick="change_password(' + "'修改密码'" + ',' + "'change-password.html?id=" + full.id + "'" + ',' + "'" + full.name + "'" + ',' + "'600'" + ',' + "'270'" + ')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a><a title="删除账号" href="javascript:;" onclick="member_del(this,' + full.id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';
+								return resultStr;
+								//				                <a title="编辑" href="javascript:;" onclick="member_edit('+"'编辑'"+','+"'member-add.html'"+','+"'4'"+','+"''"+','+"'510'"+')" class="ml-5 bianji" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a><a style="text-decoration:none" class="ml-5" onClick="change_password('+"'排序'"+','+"'ordernum.html'"+','+"''"+','+"'350'"+','+"'270'"+')" href="javascript:;" title="排序"><i class="Hui-iconfont">&#xe61e</i></a>
+							}
+						},
+						//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+						{
+							"orderable": false,
+							"aTargets": [0, 8]
+						} // 制定列不参与排序
+					]
+
+				});
+				$.fn.dataTable.ext.errMode = 'throw';
+			});
+			/*管理员-添加*/
+			function admin_add(title, url, w, h) {
+				layer_show(title, url, w, h);
+			}
+			/*用户-查看*/
+			function member_show(title, url, id, w, h) {
+				layer_show(title, url, w, h);
+			}
+			/*用户-编辑*/
+			function member_edit(title, url, id, w, h) {
+				layer_show(title, url, w, h);
+			}
+			/*密码-修改*/
+			function change_password(title, url, id, w, h) {
+				localStorage.setItem('name', id);
+				layer_show(title, url, w, h);
+			}
+			/*用户-删除*/
+			function member_del(obj, id) {
+				layer.confirm('确认要删除吗？', function(index) {
+					$.ajax({
+						type: 'get',
+						url: url_r + '/user/delete',
+						headers: {
+							Authorization: token
+						},
+						data: {
+							id: id
+						},
+						dataType: 'json',
+						success: function(data) {
+							$(obj).parents("tr").remove();
+							layer.msg('已删除!', {
+								icon: 1,
+								time: 1000
+							});
+
+						},
+						error: function(data) {
+							layer.msg('请求失败!', {
+								icon: 2,
+								time: 1000
+							});
+						},
+					});
+				});
+			}
+		</script>
+	</body>
+
+</html>

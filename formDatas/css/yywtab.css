@@ -1,0 +1,849 @@
+/*后半部分样式/*/
+.sqcont{
+	width: 100%;
+	height:100%;
+	overflow: scroll;
+}
+.sqcont::-webkit-scrollbar {
+	display: none;
+}
+.sqconthead{
+	width: 12.2rem;
+	height: 1rem;
+	background: #ecebeb;
+}
+.sqconthead p{
+	width: 2.5rem;
+	font-size: 0.24rem;
+	line-height: 0.6rem;
+	margin-top: 0.2rem;
+	border-right: 1px solid #dcdcdc;
+	text-align: center;
+	float: left;
+	overflow: hidden;
+}
+.sqconthead .sqpro{
+	width: 2rem;
+}
+.sqcontlist p{
+	width: 12.2rem;
+	font-size: 0.24rem;
+	line-height: 0.9rem;
+	overflow: hidden;
+}
+.sqcontlist p b,.sqcontlist p span{
+	display: inline-block;
+	float: left;
+	text-align: center;
+}
+.sqcontlist p b{
+	font-weight: normal;
+	width: 2rem;
+}
+.sqcontlist p b i{
+	display: inline-block;
+	width: 0.2rem;
+	height: 0.2rem;
+	vertical-align: top;
+	margin-top: 0.35rem;
+	margin-right: 0.2rem;
+	background-size:100% ;
+}
+.sqbg1{
+	background: url(../images/fqqianbg_03.png) no-repeat;
+}
+.sqbg2{
+	background: url(../images/fqqianbg_06.png) no-repeat;
+}
+.sqcontlist p span{
+	width: 2.5rem;
+}
+/*属地支撑*/
+.sSconthead{
+	width: 16.3rem;
+	height: 1.2rem;
+	background: #ecebeb;
+}
+.sSconthead p{
+	width: 2.5rem;
+	font-size: 0.24rem;
+	line-height: 0.6rem;
+	margin-top: 0.3rem;
+	border-right: 1px solid #dcdcdc;
+	text-align: center;
+	float: left;
+}
+.sSconthead p:nth-child(1){
+	width: 3.5rem;
+}
+.sSconthead .longtext{
+    line-height: 0.3rem;
+}
+.sScontlist p{
+	width: 16.3rem;
+	font-size: 0.24rem;
+	height: 0.9rem;
+}
+.sScontlist p b,.sScontlist p span{
+	display: inline-block;
+	float: left;
+	text-align: center;
+}
+.sScontlist p b{
+	font-weight: normal;
+	width: 3.5rem;
+	height: 0.9rem;
+	display: table;
+}
+.sScontlist p span{
+	width: 2.5rem;
+	line-height: 0.9rem;
+}
+/*人才工作站*/
+.tWconthead{
+	width: 17.7rem;
+	height: 1.2rem;
+	background: #ecebeb;
+}
+.tWconthead p{
+	width: 2.5rem;
+	font-size: 0.24rem;
+	line-height: 0.6rem;
+	margin-top: 0.3rem;
+	border-right: 1px solid #dcdcdc;
+	text-align: center;
+	float: left;
+}
+.tWconthead .longtext{
+    line-height: 0.3rem;
+}
+.tWcontlist p{
+	width: 17.7rem;
+	font-size: 0.24rem;
+	height: 0.9rem;
+}
+.tWcontlist p b,.tWcontlist p span{
+	display: inline-block;
+	float: left;
+	text-align: center;
+}
+.tWcontlist p b{
+	font-weight: normal;
+	width: 2.5rem;
+	display: table;
+	height: 0.9rem;
+}
+.tWcontlist p span{
+	width: 2.5rem;
+	line-height: 0.9rem;
+}
+/*通报数据总页面样式/*/
+.rdhead{
+	width: 100%;
+	height: 1rem;
+	background: #fff;
+	position: relative;
+	text-align: center;
+	line-height: 1rem;
+	color: #888686;
+	font-size: 0.38rem;
+	font-weight: 600;
+}
+.topzw{
+	width: 100%;
+	height:0.15rem ;
+	background: #e4e4e4;
+}
+.wrapimg{
+	width: 0.9rem;
+	height: 1rem;
+	position: absolute;
+	z-index: 222;
+	left: 0;
+	top: 0;
+}
+.wrapimg img{
+	width: 0.26rem;
+	height: 0.42rem;
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+}
+.rdcont{
+	width: 100%;
+	height: calc(100% - 1.15rem);
+	overflow-y: scroll;
+}
+.rdcont p{
+	width: 96%;
+	height: 1.2rem;
+	line-height: 1.2rem;
+	margin: 0 auto;
+	border-bottom: 1px solid #e1e1e1;
+	font-size: 0.32rem;
+	color: #323232;
+	background: url(../images/rd_07.png) no-repeat;
+	background-size: 0.22rem 0.35rem;
+	background-position:96% 0.42rem ;
+	
+}
+.rdcont p img{
+	display: inline-block;
+	width: 0.69rem;
+	height: 0.55rem;
+	margin: 0 0.3rem 0 0.3rem;
+}
+/*省-"互联网+"大单完成情况*/
+.hlwtabcont{
+	width: 100%;
+	height: calc(100% - 1.15rem);
+}
+.hlwtabtit1{
+	width: 100%;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	font-size: 0.26rem;
+	color: #808080;
+}
+.hlwtabtit1 span{
+	float: right;
+	margin-right: 0.3rem;
+}
+.hlwtabtit1 i{
+	display: inline-block;
+	vertical-align: top;
+	margin: 0.31rem 0.2rem  0.2rem;
+	width: 0.18rem;
+	height: 0.18rem;
+	background: #019fe5;
+	border-radius: 50%;
+}
+.hlwddwraplist{
+	width: 97%;
+	margin: 0 auto;
+	height: calc(100% - 0.8rem);
+	overflow: hidden;
+}
+.hlwddwraplist::-webkit-scrollbar {
+	display: none;
+}
+.wraphltabtop{
+	width: 100%;
+	height: 1.2rem;
+	overflow-x: scroll;
+	-webkit-overflow-scrolling:touch;
+	overflow-y: hidden;
+}
+.hltabtop{
+	width: 30rem;
+	height: 1.2rem;
+	background: #dfeffe;
+}
+.hltabtop p{
+	width: 2.5rem;
+	height: 0.9rem;
+	line-height: 0.9rem;
+	margin-top: 0.15rem;
+	overflow: hidden;
+	font-size: 0.28rem;
+	float: left;
+	text-align: center;
+	border-right:2px solid #dcdcdc ;
+}
+.hltabcont{
+	width: 100%;
+	height: calc(100% - 1.2rem);
+	overflow: scroll;
+	-webkit-overflow-scrolling:touch;
+}
+.hltabcont::-webkit-scrollbar {
+	display: none;
+}
+.wraphltabtop::-webkit-scrollbar {
+	display: none;
+}
+.hltabcont p{
+	width: 30rem;
+	height: 1rem;
+}
+.hltabcont p b{
+	color:  #242424;
+	display: inline-block;
+	width: 2.5rem;
+	height: 1rem;
+	line-height: 1rem;
+	font-size:0.24rem ;
+	font-weight: normal;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+
+.hltabcont p span{
+	display: inline-block;
+	width: 2.5rem;
+	height: 1rem;
+	line-height: 1rem;
+	font-size:0.24rem ;
+	color:#8a8989;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+/*云业务完成情况*/
+.yywtabcont{
+	width: 97%;
+	margin: 0 auto;
+	height: calc(100% - 1.15rem);
+	overflow: auto;
+}
+.yywtabcont::-webkit-scrollbar {
+	display: none;
+}
+.yywtabtop{
+	width: 100%;
+	height: 1.2rem;
+	background: #dfeffe;
+}
+.yywtabtop p:nth-child(1){
+	padding-top: 0.28rem;
+}
+.yywtabtop p{
+	width: 24.8%;
+	height: 0.9rem;
+	margin-top: 0.15rem;
+	overflow: hidden;
+	font-size: 0.26rem;
+	float: left;
+	text-align: center;
+	border-right:2px solid #dcdcdc ;
+}
+.yywtablist{
+	width: 100%;
+	height: calc(100% - 2rem);
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.yywtablist::-webkit-scrollbar {
+	display: none;
+}
+.yywtablist p{
+	width: 100%;
+	height: 1rem;
+}
+.yywtablist p span{
+	display: inline-block;
+	width: 24.8%;
+	height: 1rem;
+	line-height: 1rem;
+	font-size:0.24rem ;
+	color: #8a8989;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+/*ICT领先奖*/
+.icttabcont{
+	width: 100%;
+	height: calc(100% - 1rem);
+	background: #ecebeb;
+	overflow: hidden;
+}
+.icttabhead{
+	width: 92%;
+	height: 1rem;
+	margin: 0.2rem auto;
+	background: #fff;
+	line-height: 1rem;
+	font-size: 0.32rem;
+	color: #323232;
+	padding-left: 0.4rem;
+	position: relative;
+}
+.nowtimes{
+	color: #323232;
+}
+.icttimechoice{
+	width: 100%;
+	height: 1.6rem;
+	position: absolute;
+	top: 1rem;
+	left: 0;
+	z-index: 333;
+	font-size: 0.28rem;
+	display: none;
+}
+.icttimechoice p:nth-child(1){
+	border-top: 1px solid #c2c2c2;
+}
+.icttimechoice p{
+	width: 100%;
+	line-height: 0.8rem;
+	padding-left: 0.4rem;
+	border-bottom: 1px solid #c2c2c2;
+	background: #fff;
+	
+}
+.icttabhead img{
+	display: inline-block;
+	width: 0.44rem;
+	height: 0.26rem;
+	float: right;
+	margin-right: 0.5rem;
+	margin-top: 0.37rem;
+}
+.icttablist{
+	width: 92%;
+	height: calc(100% - 1.5rem);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	background: #fff;
+	margin: 0 auto;
+}
+.icttablist::-webkit-scrollbar {
+	display: none;
+}
+.icttablist table{
+	width: 100%;
+	text-align: center;
+	border-right:1px solid #ecebeb;
+	border-bottom:1px solid #ecebeb;
+	font-size: 0.28rem;
+}
+.ctbg1{
+	background: url(../images/num_1@3x.png) no-repeat;
+	background-position: 20% 50%;
+	background-size:0.6rem 0.6rem ;
+	padding-left: 0.5rem;
+}
+.ctbg2{
+	background: url(../images/num_2@3x.png) no-repeat;
+	background-position: 20% 50%;
+	background-size:0.6rem 0.6rem ;
+	padding-left: 0.5rem;
+}
+.ctbg3{
+	background: url(../images/num_3@3x.png) no-repeat;
+	background-position: 20% 50%;
+	background-size:0.6rem 0.6rem ;
+	padding-left: 0.5rem;
+}
+.icttablist table tr td:nth-child(1){
+	width: 35%;
+}
+.icttablist table tr td:nth-child(2){
+	width: 35%;
+}
+.icttablist table tr td:nth-child(3){
+	width: 30%;
+}
+.icttablist table td{
+	border-left:1px solid #ecebeb;
+	border-top:1px solid #ecebeb;
+	line-height: 0.8rem;
+	text-align: center;
+	vertical-align: middle;
+}
+.citys span{
+	display: block;
+}
+/*新增清单列表样式*/
+.xzlisthead{
+	width: 100%;
+	height: 1rem;
+	background: #fff;
+	position: relative;
+	text-align: center;
+	line-height: 1rem;
+	color: #888686;
+	font-size: 0.38rem;
+	font-weight: 600;
+}
+.xzlistwrapimg{
+	width: 0.6rem;
+	height: 1rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.xzlistwrapimg img{
+	position: absolute;
+	width: 0.26rem;
+	height: 0.4rem;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	
+}
+#cdconts{
+	width: 100%;
+	height: calc(100% - 1rem);
+	overflow: hidden;
+}
+.xzlisttab{
+	width: 100%;
+	height: 1rem;
+	position: relative;
+	overflow: hidden;
+	border-bottom: 1px solid #ccc;
+}
+.xztabs{
+	width: 6rem;
+	height: 0.6rem;
+	margin: 0.2rem auto;
+	background: #5fb7f7;
+	border-radius: 0.3rem;
+}
+.xztabs p{
+	font-size: 0.3rem;
+	width: 50%;
+	float: left;
+	line-height: 0.6rem;
+	height: 0.6rem;
+	text-align: center;
+	color: #fff;
+	border-radius: 0.3rem;
+}
+.xztabs .xzlactive{
+	color: #333;
+	background: #f5f4f9;
+}
+.xzlistcont{
+	width: 100%;
+	height: calc(100% - 1rem);
+	position: relative;
+	overflow: hidden;
+}
+.xzlistcont1,.xzlistcont2{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+}
+.wrapxztab::-webkit-scrollbar {
+	display: none;
+}
+.wrapxztabhead::-webkit-scrollbar {
+	display: none;
+}
+.wrapxztablist::-webkit-scrollbar {
+	display: none;
+}
+.xzlistcont2::-webkit-scrollbar {
+	display: none;
+}
+.wrapxztab{
+	width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.wrapxztabhead{
+	width: 100%;
+    height: 1rem;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling:touch;
+}
+.wrapxztablist{
+	width: 100%;
+    height: calc(100% - 1rem);
+    overflow: scroll;
+    -webkit-overflow-scrolling:touch;
+}
+.wrapxztab p{
+	overflow: hidden;
+	height: 1rem;
+	font-size: 0.24rem;
+}
+.wrapxztab p span{
+	float: left;
+	display: inline-block;
+	height: 1rem;
+	line-height: 1rem;
+	width: 2rem;
+	text-align: center;
+}
+.xzkhlisttop{
+	width: 100%;
+	height: 2rem;
+	overflow: hidden;
+	background: #eef7ff;
+}
+.wrapxzsrc{
+	width: 95%;
+	height: 0.8rem;
+	margin: 0.1rem auto;
+	overflow: hidden;
+	position: relative;
+}
+.wrapxzsrc img{
+	position: absolute;
+	width: 0.28rem;
+	height: 0.28rem;
+	top: 0.26rem;
+	left: 1rem;
+}
+#xzusercont{
+	width: 70%;
+	height: 0.6rem;
+	padding-left: 1.5rem;
+	background: #fff;
+	font-size: 0.28rem;
+	overflow: hidden;
+	border: 0;
+	border-radius: 0.1rem;
+	vertical-align: top;
+	margin-top: 0.1rem;
+	outline-style: none;
+	color: #8c8c8c;
+}
+.wrapxzsrc button{
+	display: inline-block;
+	height: 0.6rem;
+	width: 1.5rem;
+	vertical-align: top;
+	margin: 0.1rem 0 0 0.3rem;
+	text-align: center;
+	line-height: 0.6rem;
+	background: #29a4f4;
+	color: #fff;
+	font-size: 0.3rem;
+	border: 0;
+	outline-style: none;
+}
+.xzlisttop2{
+	width: 100%;
+	height: 1rem;
+	font-size: 0.3rem;
+	color: #5d5958;
+}
+.xzlisttop2 span{
+	float: left;
+	width: 25%;
+	display: inline-block;
+	line-height: 1rem;
+	text-align: center;
+}
+
+.xzlisttop2 span:nth-child(1){
+	width: 10%;
+}
+.xzlisttop2 span:nth-child(2){
+	width: 55%;
+}
+.xzlisttop2 span:nth-child(3){
+	width: 20%;
+}
+.xzlisttop2 span:nth-child(4){
+	width: 15%;
+}
+.xzkhlistcont::-webkit-scrollbar {
+	display: none;
+}
+.xzkhlistcont{
+	width: 100%;
+	height: calc(100% - 2rem);
+	overflow-x:hidden ;
+	overflow-y: scroll;
+}
+.xzkhlistcont p{
+	width: 100%;	
+	font-size: 0.24rem;
+	color: #5d5958;
+	height: 1rem;
+	overflow: hidden;
+}
+.xzkhlistcont p span:nth-child(1){
+	width: 10%;
+	float: left;
+	display: inline-block;
+	height: 1rem;
+	line-height: 1rem;
+	overflow: hidden;
+	text-align: center;
+}
+.xzkhlistcont p span:nth-child(2){
+	padding: 0 0.2rem;
+	width: 55%;
+	float: left;
+	display: inline-block;
+	height: 1rem;
+	display: table;
+}
+.mingcheng{
+	font-style: normal;
+	display: table-cell; 
+	vertical-align:middle; 
+	text-align:center;
+}
+.xzkhlistcont p span:nth-child(3){
+	width: 20%;
+	float: left;
+	display: inline-block;
+	height: 1rem;
+	line-height: 1rem;
+	overflow: hidden;
+	text-align: center;
+}
+.xzkhlistcont p span:nth-child(4){
+	width:15%;
+	float: left;
+	display: inline-block;
+	height: 1rem;
+	line-height: 1rem;
+	overflow: hidden;
+	text-align: center;
+}
+.xzkhlistcont::-webkit-scrollbar {
+	display: none;
+}
+/*直管客户收入*/
+.zglistwrapall{
+	width: 100%;
+	height: 100%;
+}
+.zglistcont{
+	width: 100%;
+	height: calc(100% - 1rem);
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+.zglisttop{
+	width: 100%;
+	height: 1rem;
+}
+.zglisttop span{
+	display: inline-block;
+	float: left;
+	line-height: 1rem;
+	background: #eef7ff;
+	font-size: 0.28rem;
+	color: #343434;
+	text-align: center;
+}
+.zglisttop span:nth-child(1){
+	width: 60%;
+}
+.zglisttop span:nth-child(2){
+	width: 40%;
+}
+.zglistdown{
+	width: 100%;
+	height: calc(100% - 1rem);
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.zglistdown::-webkit-scrollbar {
+	display: none;
+}
+.zglistdown p{
+	width: 100%;
+	height: 1rem;
+}
+.zglistdown p span{
+	display: inline-block;
+	float: left;
+	height: 1rem;
+	font-size: 0.28rem;
+	color: #343434;
+	text-align: center;
+}
+.zglistdown p span:nth-child(1){
+	width: 60%;
+	display: table;
+}
+.zglistdown p span:nth-child(2){
+	width: 40%;
+	line-height: 1rem;
+}
+/*物联网完成情况列表*/
+.wlwlistwrap{
+	width: 100%;
+	height: calc(100% - 1.15rem);
+    overflow: hidden;
+}
+.wlwtablist{
+	width:98%;
+	height: calc(100% - 0.8rem);
+	overflow: scroll;
+	margin: 0 auto;
+}
+.wlwtablist::-webkit-scrollbar {
+	display: none;
+}
+.wlwtabtop{
+	width: 14rem;
+	height: 1.8rem;
+	overflow: hidden;
+	background: #dfeffe;
+}
+.wlwtabtop p{
+	float: left;
+	font-size: 0.32rem;
+	color: #8a8989;
+	text-align: center;
+	margin-top: 0.1rem  ;
+}
+.wlwtabtop .normals{
+	width: 2rem;
+	line-height: 1.6rem;
+	border-right:1px solid #dcdcdc ;
+}
+.nonormals{
+	width: 6rem;
+	border-right:1px solid #dcdcdc ;
+	height: 1.6rem;
+	margin-top:0.1rem ;
+}
+.nonormals b{
+	display: block;
+	font-weight: normal;
+	width: 6rem;
+	line-height: 0.8rem;
+	text-align: center;
+}
+.nonormals span{
+	display: inline-block;
+	width: 1.98rem;
+	text-align: center;
+	float: left;
+	line-height: 0.8rem;
+	border-right:1px solid #dcdcdc ;
+}
+.nonormals span:nth-child(4){
+	border: 0;
+}
+.wrapwlwslists{
+	width: 14rem;
+	height: 0.8rem;
+	overflow: hidden;
+	font-size: 0.28rem;
+	color: #8a8989;
+}
+.wrapwlwslists span{
+	display: inline-block;
+	width: 2rem;
+	text-align: center;
+	line-height: 0.8rem;
+	float: left;
+}
+.evens{
+background: #F2F2F2;
+}
+.odds{
+background: #fff;
+}
+body{
+	line-height: 1.5;
+}

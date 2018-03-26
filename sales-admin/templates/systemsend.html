@@ -1,0 +1,706 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+		<script type="text/javascript">
+			var token = "token." + sessionStorage.getItem("token");
+			if(token == "token.null") {
+				alert('请登录');
+				location.href = "login.html";
+			}
+		</script>
+		<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="../static/lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/common.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/pagestyle.css" />
+		<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+		<title>系统推送</title>
+		<style type="text/css">
+			.showModel {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.6);
+			}
+			
+			.showModel>.modelBox {
+				width: 40%;
+				height: 50%;
+				margin: auto;
+				margin-top: 10%;
+				background: #FFFFFF;
+				border-radius: 10px;
+				overflow: hidden;
+				overflow-y: scroll;
+				overflow-x: scroll;
+				padding: 20px 0;
+			}
+			
+			.showModel>.modelBox::-webkit-scrollbar {
+				display: none;
+			}
+			
+			.modelBox button {
+				display: block;
+				margin: auto;
+				margin-top: 20px;
+			}
+			
+			.modelBox ul {
+				width: 80%;
+				margin: 0 auto;
+				/*overflow: hidden;*/
+				/*overflow-y: scroll;*/
+			}
+			
+			.modelBox h5 {
+				width: 100%;
+				font-size: 14px;
+				color: #000000;
+				text-align: center;
+				font-weight: normal;
+				line-height: 40px;
+			}
+			
+			.modelBox ul li {
+				width: 100%;
+				line-height: 40px;
+				font-size: 20px;
+				color: #FFFFFF;
+				background: rgb(90, 152, 222);
+				border-bottom: 1px solid #FFFFFF;
+				text-align: center;
+				border-radius: 5px;
+				margin-bottom: 5px;
+			}
+			
+			.modelBox ul li.active {
+				background: #0a6999;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>用户管理<span class="c-gray en">&gt;</span>系统推送
+			<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
+		</nav>
+		<div class="page-container">
+			<div class="nav_tab">
+				<ul>
+					<li class="active">短信推送
+					</li>
+					<li>报表推送
+					</li>
+					<li>邮箱推送
+					</li>
+				</ul>
+				<div class="message_box show">
+					<div class="text-c usertable">
+						<h5 class="text-c">搜索推送人</h5>
+						<label for="name">
+					按姓名查询
+				</label>
+						<input type="text" class="input-text" name="name" id="name" value="" placeholder="请输入姓名" />
+						<label for="phone">
+					按手机号查询
+				</label>
+						<input type="text" class="input-text" name="phone" id="phone" value="" placeholder="请输入手机号" />
+						<label for="depid">
+					按部门查询
+				</label>
+						<input type="text" class="input-text" name="depid" id="depid" value="" placeholder="请输入部门信息" />
+						<button type="submit" id="serch" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i>搜索</button>
+					</div>
+					<div class="send_way text-c">
+						<h5>推送到</h5>
+						<a href="javascript:;" class="active phone_btn">手机号</a>
+						<a href="javascript:;" class="dep_btn">部门</a>
+						<input type="text" class="input-text" placeholder="请输入手机号..." />
+						<button class="btn btn-success radius chooseModel">选择模板</button>
+					</div>
+				</div>
+				<div class="tab_box hide">
+
+					<div class="text-c usertable">
+						<h5 class="text-c">搜索接收人</h5>
+						<label for="name">
+					按姓名查询
+				</label>
+						<input type="text" class="input-text" name="name" id="name" value="" placeholder="请输入姓名" />
+						<label for="phone">
+					按手机号查询
+				</label>
+						<input type="text" class="input-text" name="phone" id="phone" value="" placeholder="请输入手机号" />
+						<label for="depid">
+					按部门查询
+				</label>
+						<input type="text" class="input-text" name="depid" id="depid" value="" placeholder="请输入部门信息" />
+						<button type="submit" id="serch1" class="btn btn-success radius" name=""><i class="Hui-iconfont">&#xe665;</i>搜索</button>
+					</div>
+					<div class="text-c report_data">
+						<textarea placeholder="请输入描述"></textarea>
+						<div class="cho_sys_self mb-20">
+							<button class="sys_a btn btn-primary yes">系统推荐内容</button>
+							<button class="self_a btn btn-primary">自定义推荐内容</button>
+						</div>
+						<label for="" class="rep_sec_lb">文件名称：
+						<select name="" class="select rep_sec">
+							<option value="">--请选择--</option>
+							<option value="http://42.99.16.145:20060/formdatas/test/html/marketingReport/markReport.html?share=1">
+互联网+大单完成情况推送</option>
+							<option value="http://42.99.16.145:20060/formdatas/test/html/marketingReport/yyw.html?share=1">云业务完成情况推送</option>
+							<option value="http://42.99.16.145:20060/formdatas/test/html/marketingReport/wlw.html?share=1">
+物联网业务累计完成情况推送</option>
+							<option value="http://42.99.16.145:20060/formdatas/test/html/marketingReport/ict.html?share=1">新兴ICT季度领先奖</option>
+							<option value="http://42.99.16.145:20060/saleshtml/endSummary/html/endSummary.html">
+年终报表汇总</option>
+						</select>
+						</label>
+						<div class="hide sys_self_box mb-20">
+							<label for="">自定义文件名称:
+								<input type="text" class="input-text fileName"  placeholder="请输入文件名称"/>
+							</label>
+							<label for="">自定义文件链接:
+								<input type="text" class="input-text filePath"  placeholder="请输入文件链接"/>
+							</label>
+						</div>
+						<button class="rep_send btn btn-success radius">确认推送</button>
+					</div>
+				</div>
+				<div class="email_box hide">
+					<h2 class="text-c">暂不支持此方式</h2>
+				</div>
+			</div>
+			<div class="showModel hide">
+				<div class="modelBox">
+					<h5>请选择模板</h5>
+					<ul>
+					</ul>
+					<button class="btn btn-success radius sure_send">确认推送</button>
+				</div>
+			</div>
+			<div class="mt-20 pelList">
+				<h5>选择推送人</h5>
+				<table id="dataList" class=" table table-border table-bordered table-hover table-bg table-sort">
+					<thead>
+						<tr class="text-c">
+							<!--<th width="25">头像</th>-->
+							<th width="15"></th>
+							<th width="25">姓名</th>
+							<th width="25">电话</th>
+							<th width="25">部门</th>
+							<th width="25">staffID</th>
+							<th width="25">组织架构</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th colspan="10" class="text-c no_message">暂无数据</th>
+					</tbody>
+				</table>
+			</div>
+			<div class="page_btn hide">
+				<a href="javascript:void(0);" class="next_btn">下一页</a>
+				<a href="javascript:void(0);" class="prev_btn dis_btn">上一页</a>
+			</div>
+		</div>
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="../static/lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../static/lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript" src="../static/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+		<script type="text/javascript" src="../static/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="../static/lib/laypage/1.2/laypage.js"></script>
+		<script type="text/javascript" src="../static/lib/public.js"></script>
+
+		<!--<script type="text/javascript" src="../static/lib/pagination.min.js"></script>-->
+		<script type="text/javascript">
+			$(function() {
+
+				var dep_con = '请勾选推送人';
+				var staffId = '';
+				var send_name = '';
+				//切换推送方式
+				$('.nav_tab ul li').click(function() {
+					var ind = $(this).index();
+					$(this).addClass('active').siblings('li').removeClass('active')
+					$('.nav_tab>div').eq(ind).show().siblings('div').hide();
+					$('.pelList tbody tr').remove();
+					$('.page_btn').hide();
+					staffId = '';
+					send_name = '';
+					dataget = {};
+				})
+
+				//是否自定义推荐内容
+				$('.sys_a').click(function() {
+					$(this).addClass('yes')
+					$(this).siblings('button').removeClass('yes')
+					$('.rep_sec_lb').show();
+					$('.sys_self_box').hide()
+				})
+				$('.self_a').click(function() {
+					$(this).addClass('yes')
+					$(this).siblings('button').removeClass('yes')
+					$('.rep_sec_lb').hide();
+					$('.sys_self_box').show()
+				})
+				//选择推送方式
+				$('.send_way a').click(function() {
+					$(this).addClass('active').siblings('a').removeClass('active');
+					if($(this).html() == '部门') {
+						$('.send_way input').val(dep_con).attr('disabled', 'disabled');
+					} else {
+						$('.send_way input').attr('placeholder', '请输入手机号...').removeAttr('disabled').val('');
+					}
+				});
+
+				$('.pelList tbody').on('click', 'td input', function() {
+					$('.pelList tbody input').removeAttr('checked');
+					$(this).prop('checked', true);
+					dep_con = $(this).parents('tr').children('td').eq(3).html();
+					staffId = $(this).parents('tr').children('td').eq(4).html();
+					send_name = $(this).parents('tr').children('td').eq(1).html();
+
+					if($('.send_way input').attr('disabled') == 'disabled') {
+						$('.send_way input').val(dep_con);
+					}
+				})
+
+				//获取模板内容
+				var content = '';
+				function getModel() {
+					$('.modelBox ul li').remove()
+					$.ajax({
+						type: "get",
+						url: url_r + "/systemParam",
+						headers: {
+							Authorization: token
+						},
+						async: true,
+						dataType: 'json',
+						success: function(data) {
+							var data = data;
+							for(var i = 0; i < data.length; i++) {
+								if(i == 0) {
+									var li = $('<li class="active" val='+data[i].value+'>' + data[i].name + '</li>');
+									li.bind('click',data[i],function(event){
+										content = event.data.value;
+									})
+								} else {
+									var li = $('<li val='+data[i].value+'>' + data[i].name + '</li>');
+									li.bind('click',data[i],function(event){
+										content = event.data.value;
+									})
+								}
+
+								$('.modelBox ul').append(li);
+							}
+
+						}
+					});
+				}
+
+				//选择模板
+				$('.chooseModel').click(function() {
+					if($('.phone_btn').hasClass('active')) {
+						if(isPhoneNo($('.send_way input').val())) {
+							if(staffId){
+								getModel();
+								$('.showModel').show();
+							}else{
+								layer.msg('请选择推送人', {
+									time: 1000
+								})
+							}
+							
+						} else {
+							layer.msg('请输入手机号', {
+								time: 1000
+							})
+						}
+					} else {
+						if(staffId){
+							getModel();
+							$('.showModel').show();
+						}else{
+							layer.msg('请选择推送人', {
+								time: 1000
+							})
+						}
+					}
+
+				})
+				$('.showModel').click(function() {
+					$(this).hide();
+				})
+				$('.modelBox').click(function(e) {
+					e.stopPropagation();
+				})
+				//选择模板
+//				$('.modelBox ul').on('click', 'li', function(e) {
+//					e.stopPropagation();
+//					$(this).addClass('active').siblings('li').removeClass('active')
+//				})
+
+				//确认推送
+				$('.sure_send').click(function(e) {
+					e.stopPropagation();
+					if($('.phone_btn').hasClass('active')) {
+						if(isPhoneNo($('.send_way input').val())) {
+							$.ajax({
+								type: "get",
+								url: url_r + "/callSalesApp/sendSelectMsg",
+								headers: {
+									Authorization: token
+								},
+								async: true,
+								dataType: 'json',
+								data: {
+									staffId: staffId,
+									phone: $('.send_way input').val(),
+									content: content
+								},
+								success: function(data) {
+									if(data.SvcCont.RespInfo.Result == 0) {
+										$('.showModel').hide()
+										layer.msg(data.SvcCont.RespInfo.Msg, {
+											icon: 1,
+											time: 1000
+										})
+									} else {
+										$('.showModel').hide()
+										layer.msg(data.SvcCont.RespInfo.Msg, {
+											icon: 2,
+											time: 1000
+										})
+									}
+								},
+								error: function() {
+									layer.msg('请求失败', {
+										icon: 2,
+										time: 1000
+									})
+								}
+							});
+						} else {
+							layer.msg('手机号码格式有误', {
+								icon: 2,
+								time: 1000
+							})
+						}
+
+					} else {
+						$.ajax({
+							type: "get",
+							url: url_r + "/callSalesApp/sendMsg",
+							headers: {
+								Authorization: token
+							},
+							async: true,
+							dataType: 'json',
+							data: {
+								staffId: staffId,
+								orgId: $('.send_way input').val()
+							},
+							success: function(data) {
+								if(data.SvcCont.RespInfo.Result == 0) {
+									layer.msg(data.SvcCont.RespInfo.Msg, {
+										icon: 1,
+										time: 1000
+									})
+								} else {
+									layer.msg(data.SvcCont.RespInfo.Msg, {
+										icon: 2,
+										time: 1000
+									})
+								}
+							},
+							error: function() {
+								layer.msg('请求失败', {
+									icon: 2,
+									time: 1000
+								})
+							}
+						});
+					}
+				})
+
+				//报表确认推送
+				$('.rep_send').click(function() {
+					var data = {};
+					var dataget = {};
+					if($('.sys_a').hasClass('yes')) {
+						data.fileName = $('.rep_sec option:selected').text();
+						data.filePath = $('.rep_sec').val();
+					} else {
+						if($('.fileName').val() != '') {
+							data.fileName = $('.fileName').val();
+						} else {
+							layer.msg('文件名称不能为空', {
+								icon: 2,
+								time: 1000
+							})
+						}
+
+						if($('.filePath').val() != '') {
+							data.filePath = $('.filePath').val()
+						} else {
+							layer.msg('文件路径不能为空', {
+								icon: 2,
+								time: 1000
+							})
+						}
+					}
+
+					data.receiveManId = staffId;
+					data.receiveManName = send_name;
+					data.pushDescription = $('.report_data textarea').val();
+					$.ajax({
+						type: "get",
+						url: url_r + "/callSalesApp/reportPush",
+						headers: {
+							Authorization: token
+						},
+						async: true,
+						dataType: 'json',
+						data: data,
+						success: function(data) {
+							if(data.SvcCont.RespInfo.Code == 000) {
+								layer.msg(data.SvcCont.RespInfo.Msg, {
+									icon: 1,
+									time: 1000
+								})
+							} else if(data.SvcCont.RespInfo.Code == 002) {
+								layer.msg('请选择文件名称', {
+									icon: 2,
+									time: 1000
+								})
+							} else {
+								layer.msg(data.SvcCont.RespInfo.Msg, {
+									icon: 2,
+									time: 1000
+								})
+							}
+						},
+						error: function() {
+							layer.msg('请求失败', {
+								icon: 2,
+								time: 1000
+							})
+						}
+					});
+				})
+				var num = 1;
+				//获取数据方法
+				function getData(num, data) {
+					var data = data;
+					data.pageNum = 10;
+					data.thisPage = num;
+					$.ajax({
+						type: "get",
+						url: url_r + "/callSalesApp/getUserInfo",
+						headers: {
+							Authorization: token
+						},
+						async: true,
+						data: data,
+						beforeSend: function() {
+							var index = layer.load();
+						},
+						success: function(data) {
+							var index = layer.load();
+							layer.close(index);
+							var data = JSON.parse(data);
+							if(data.SvcCont.RespInfo.Result == 0) {
+								if(data.SvcCont.RespInfo.userList == '') {
+									$('#dataList tbody tr').siblings('.no_message').remove();
+									$('.no_message').show();
+									layer.msg('没有对应数据', {
+										icon: 5,
+										time: 1000
+									})
+								} else {
+									$('#dataList tbody tr').remove();
+									var dataList = '';
+									if(data.SvcCont.RespInfo.userList.TXLUser) {
+										dataList = data.SvcCont.RespInfo.userList.TXLUser;
+									} else {
+										dataList = data.SvcCont.RespInfo.userList;
+									}
+									if(dataList == undefined) {
+										$('.no_message').show();
+										$('.page_btn').hide()
+									} else if(dataList != undefined && dataList instanceof Array == false) { //只有一条数据的时候
+										var dataArr = [];
+										dataArr.push(dataList);
+										$('.page_btn').show();
+										if(num <= 1) {
+											$('.next_btn').addClass('dis_btn');
+											$('.prev_btn').addClass('dis_btn');
+										} else {
+											$('.next_btn').addClass('dis_btn');
+											$('.prev_btn').removeClass('dis_btn');
+										}
+										$.each(dataArr, function(k, v) {
+											var trs = $('<tr class="text-c"></tr>')
+											var td1 = $('<td ><input type="checkbox"/></td>');
+											var td2 = $('<td>' + v.user_name + '</td>');
+											var td3 = $('<td>' + v.phone + '</td>');
+											var td4 = $('<td>' + v.organ_name + '</td>');
+											var td5 = $('<td>' + v.user_id + '</td>');
+											var td6 = $('<td>' + v.address + '</td>');
+											trs.append(td1);
+											trs.append(td2);
+											trs.append(td3);
+											trs.append(td4);
+											trs.append(td5);
+											trs.append(td6);
+											$('#dataList tbody').append(trs);
+										});
+										$('.no_message').hide();
+									} else {
+										$('.page_btn').show();
+										if(dataList.length < 10 && num <= 1) {
+											$('.next_btn').addClass('dis_btn');
+											$('.prev_btn').addClass('dis_btn');
+										} else if(dataList.length < 10 && num > 1) {
+											$('.next_btn').addClass('dis_btn');
+											$('.prev_btn').removeClass('dis_btn');
+										} else if(dataList.length == 10 && num == 1) {
+											$('.next_btn').removeClass('dis_btn');
+											$('.prev_btn').addClass('dis_btn');
+										} else {
+											$('.next_btn').removeClass('dis_btn');
+											$('.prev_btn').removeClass('dis_btn');
+										}
+										$.each(dataList, function(k, v) {
+											var trs = $('<tr class="text-c"></tr>')
+											var td1 = $('<td ><input type="checkbox"/></td>');
+											var td2 = $('<td>' + v.user_name + '</td>');
+											var td3 = $('<td>' + v.phone + '</td>');
+											var td4 = $('<td>' + v.organ_name + '</td>');
+											var td5 = $('<td>' + v.user_id + '</td>');
+											var td6 = $('<td>' + v.address + '</td>');
+											trs.append(td1);
+											trs.append(td2);
+											trs.append(td3);
+											trs.append(td4);
+											trs.append(td5);
+											trs.append(td6);
+											$('#dataList tbody').append(trs);
+										});
+										$('.no_message').hide();
+									}
+
+								}
+							} else {
+								layer.msg(data.SvcCont.RespInfo.Msg, {
+									icon: 2,
+									time: 2000
+								});
+							}
+						},
+						error: function() {
+							var index = layer.load();
+							layer.close(index);
+							layer.msg('请求失败!', {
+								icon: 2,
+								time: 1000
+							});
+						}
+					});
+
+				}
+
+				//上一页  下一页
+				$('.next_btn').click(function() {
+					if($(this).hasClass('dis_btn')) {
+
+					} else {
+						$('.prev_btn').removeClass('dis_btn');
+						num++;
+						getData(num, dataget);
+					}
+
+				})
+				$('.prev_btn').click(function() {
+					if($(this).hasClass('dis_btn')) {
+
+					} else {
+						$('.next_btn').removeClass('dis_btn');
+						num--;
+						getData(num, dataget);
+					}
+
+				})
+
+				$('#serch').click(function() {
+					dataget = {};
+					if($('.message_box #name').val() != '') {
+						dataget.username = $('.message_box #name').val();
+					}
+					if($('.message_box #phone').val() != '') {
+						dataget.phone = $('.message_box #phone').val();
+					}
+					if($('.message_box #depid').val() != '') {
+						dataget.depId = $('.message_box #depid').val();
+					}
+					if(dataget.username == undefined && dataget.phone == undefined && dataget.depId == undefined) {
+						layer.msg('请至少填写一项', {
+							icon: 2,
+							time: 1000
+						})
+					} else {
+						num = 1;
+						getData(num, dataget);
+					}
+
+				})
+				$('#serch1').click(function() {
+					dataget = {};
+
+					if($('.tab_box #name').val() != '') {
+						dataget.username = $('.tab_box #name').val();
+					}
+					if($('.tab_box #phone').val() != '') {
+						dataget.phone = $('.tab_box #phone').val();
+					}
+					if($('.tab_box #depid').val() != '') {
+						dataget.depId = $('.tab_box #depid').val();
+					}
+					if(dataget.username == undefined && dataget.phone == undefined && dataget.depId == undefined) {
+						layer.msg('请至少填写一项', {
+							icon: 2,
+							time: 1000
+						})
+					} else {
+						num = 1;
+						getData(num, dataget);
+					}
+				})
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>云业务完成情况</title>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/yywtab.css" />
+		<script src="../../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/layer.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="rdhead">
+			<div class="wrapimg" onclick="returns()">
+				<img src="../../images/return@3x.png"/>
+			</div>
+			省-云业务完成情况
+		</div>
+		<div class="topzw">
+		</div>
+		<div class="yywtabcont" id="cdcont" v-cloak>
+			<div class="hlwtabtit1">
+				<p><i></i>2017年1-10月完成情况统计</p>
+			</div>
+			<div class="yywtabtop">
+				<p>省份</p>
+				<p>天翼云3.0标杆累计完成(个)</p>
+				<p>天翼云3.0标杆预算完成率</p>
+				<p>累计净增核数(VCPU)</p>
+			</div>
+			<div class="yywtablist">
+				<p v-for="(datalist,index) in datalists" v-bind:class="(index%2 ==0) ? 'evens' : 'odds'">
+					<span>{{datalist.regionName}}</span>
+					<span>{{datalist.completionNumber}}</span>
+					<span>{{datalist.completionRate}}</span>
+					<span>{{datalist.netIncrease}}</span>
+				</p>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var loginname = getQueryString("loginname");
+		var datas = {
+			"ContractRoot": {
+				"TcpCont": {
+					"BusCode": "OPP10188",
+					"TransactionID": "2017100815360900002",
+					"TimeStamp": "20171008153609"
+				},
+				"SvcCont": {
+					"ReqInfo": {
+						"LoginName": loginname,
+						"SystemID": "1212"
+					}
+				}
+			}
+		}
+		new Vue({
+			el: "#cdcont",
+			data: {
+				datalists: [],
+				timenum: "",
+			},
+			mounted: function() {
+				var arr = this;
+				$.ajax({
+					url: publicurl + JSON.stringify(datas),
+					dataType: 'json',
+					type: 'get',
+					success: function(data) {
+						layer.close(index);
+						if(data.msg) {
+							alert("网络出现异常，请重试")
+						} else {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								arr.timenum = data.ContractRoot.svcCont.respInfo.cloudBusinessList[0].datetype;
+								arr.datalists = data.ContractRoot.svcCont.respInfo.cloudBusinessList;
+							} else {
+								alert("网络出现异常，请重试")
+							}
+						}
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '玩命加载中...',
+							shadeClose:false,
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+				});
+			},
+			methods: {
+
+			}
+		})
+	</script>
+
+</html>

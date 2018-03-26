@@ -1,0 +1,11 @@
+.table-bg thead th{
+	background-color: #F7F7F7;
+	color: #444444;
+}
+.table{
+	font-family: PingFang SC;
+	
+}
+.table tbody tr td:nth-child(1){
+	background-color: #F7F7F7;
+}

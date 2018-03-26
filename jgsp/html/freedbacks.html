@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>反馈意见</title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/g-head.css" />
+		<script type="text/javascript" src="../public/jquery.min.js"></script>
+		<script type="text/javascript" src="../public/rem.js"></script>
+		<script type="text/javascript" src="../public/public.js"></script>
+		<style>
+			body {
+				background: #FFFFFF;
+				height: 100%;
+			}
+			#box{
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.freed_list {
+				width: 100%;
+				height: calc(100% - 0.96rem);
+				overflow-x: hidden;
+				overflow-y: scroll;
+			}
+			
+			.freed_list::-webkit-scrollbar {
+				display: none;
+			}
+			.freed_list>ul{
+				overflow-x: hidden;
+				overflow-y: scroll;
+			}
+			.freed_list>ul>li {
+				border-bottom: 1px solid #EEEEEE;
+				padding: 0.4rem 0;
+			}
+			
+			.freed_list>ul>li>ul {
+				width: 6.5rem;
+				margin: 0 auto;
+			}
+			
+			.freed_list>ul>li>ul li {
+				font-size: 0.3rem;
+				color: #3b3b3b;
+				line-height: 0.48rem;
+			}
+			
+			.freed_list>ul>li>ul li span {}
+			
+			#bx {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="box" v-cloak>
+			<header class="g-header">
+				<h2>反馈意见
+				<i onclick="window.history.back()"></i>
+			</h2>
+			</header>
+			<div class="freed_list">
+				<ul>
+					<li v-for="item in checkList">
+						<ul>
+							<li><span>反馈人：</span><span>{{item.lookAtReadUserName}}</span></li>
+							<li><span>反馈时间：</span><span>{{item.feedbackTime}}</span></li>
+							<li><span>征求备注：</span><span>{{item.feedbackOpinion}}</span></li>
+<!--							<li><span>申请时间：</span><span>{{times0}}</span></li>-->
+							<li><span>反馈意见：</span><span>{{item.feedbackResult}}</span></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../public/vue.min.js"></script>
+	<script type="text/javascript">
+		var loginname = getQueryString("ln");
+		var times = getQueryString("type");
+		var lid = getQueryString("lid");
+		var data = {
+			"ContractRoot": {
+				"SvcCont": {
+					"ReqInfo": {
+						"LoginName": loginname,
+						"SourceType": "2",
+						"SystemID": "1212",
+						"LookAtReadApplyRowId": lid,
+					}
+				},
+				"TcpCont": {
+					"TimeStamp": TimeStamps,
+					"TransactionID": "2017122812261934760",
+					"BusCode": "OPP10219"
+				}
+			}
+		}
+		new Vue({
+			el: "#box",
+			data: {
+				checkList: "",
+				times0:times,
+			},
+			mounted: function() {
+				var arr = this;
+				$.ajax({
+					type: "get",
+					url: publicurl + JSON.stringify(data),
+					async: true,
+					dataType: 'json',
+					success: function(data) {
+						if(data.ContractRoot.svcCont.respInfo.code == 000) {
+							console.log(data)
+							arr.checkList = data.ContractRoot.svcCont.respInfo.lookAtReadFeedbackList
+						} else {
+							alert(data.ContractRoot.svcCont.respInfo.msg)
+						}
+					},
+					error: function() {
+						alert("网络出现异常，请重试")
+					}
+				});
+			},
+			methods: {
+			}
+		})
+	</script>
+
+</html>

@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>数据报表</title>
+		<link rel="stylesheet" type="text/css" href="../../public/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../public/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/reheadtabs.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/datareport.css" />
+		<script src="../../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body style='font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", STXihei, "Microsoft YaHei", SimHei, "WenQuanYi Micro Hei";'>
+		<div class="datarehead">
+			数据报表
+			<div class="datarereturns" onclick="returns()">
+				<img src="../../images/return@3x.png" />
+			</div>
+		</div>
+		<div class="zwheaddown"></div>
+		<div class="datarecont">
+			<div class="lefttab">
+				<p onclick="hrefs('dataReport.html')">
+					<span style="color:#333">互联网+大单</span>
+				</p>
+				<p onclick="hrefs('reportIct.html')">
+					<span style="color:#333">ICT项目排行</span>
+				</p>
+				<p onclick="hrefs('wlwjz.html')">
+					<span style="color:#333">物联网净增排行</span>
+				</p>
+				<p class="dractive" onclick="hrefs('wlwxz.html')">
+					<span>物联网新增统计</span>
+					<i></i>
+				</p>
+				<p onclick="hrefs('mbb.html')">
+					<span style="color:#333">移动、宽带</span>
+				</p>
+				<p onclick="hrefs('directRevenue.html')">
+					<span style="color:#333">直管客户收入</span>
+				</p>
+				<p onclick="hrefs('firstQuarter.html')">
+					<span style="color:#333">一季度资源配比</span>
+				</p>
+				<p onclick="hrefs('secondQuarter.html')">
+					<span style="color:#333">二季度资源配比</span>
+				</p>
+				<p onclick="hrefs('supportStatistics.html')">
+					<span style="color:#333">属地支撑统计</span>
+				</p>
+				<p onclick="hrefs('baseSupport.html')">
+					<span style="color:#333">基地支撑统计</span>
+				</p>
+				<p onclick="hrefs('talentWorkstation.html')">
+					<span style="color:#333">人才工作站支撑统计</span>
+				</p>
+			</div>
+			<div class="rightcont">
+				<div id="xzcont" v-cloak>
+					<div class="wrapxzcontall" v-if="isgotoUrl">
+						<div class="xznexthead">
+							<p><b @click="xzreturns()" class="xzreturn">{{hyorqg}}</b><img src="../../images/jiantou_blue@3x.png">{{choosehy}}
+								<span v-if="ishyfl">{{choosenum}}万户</span>
+								<span v-else>{{choosenum2}}万户</span>
+							</p>
+						</div>
+						<div class="fsorkh">
+							<p v-bind:class="fsdown == 1?'fsorkhact':''" v-on:click="urltab1()">
+								{{hyordqs}}
+							</p>
+							<p v-bind:class="fsdown == 2?'fsorkhact':''" v-on:click="urltab2()">
+								客户清单
+							</p>
+						</div>
+						<div class="urlcont" v-if="fsdown == 1">
+							<div class="urlfllists" v-if="ishyfl">
+								<div class="nxzonlysf">
+									省份
+								</div>
+								<div class="nxzallhead" v-on:scroll="nscroll1($event)">
+									<div class="nxzallsce">
+										<span v-for="items in nsclists">
+									      {{items}}
+										</span>
+									</div>
+								</div>
+								<div class="nxzallsf" v-on:scroll="nscroll2($event)">
+									<div v-for="(items,index) in nprolists" v-bind:class="(index%2 ==0) ? 'odds' : 'evens'">
+										{{items}}
+									</div>
+								</div>
+								<div class="nxzalllist" v-on:scroll="nscroll3($event)">
+									<div v-for="(datalist,index) in nalllists" class="nlistfs" v-bind:class="(index%2 ==0) ? 'odds' : 'evens'">
+										<span v-for='items in datalist'>
+											{{items}}
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="urlfllists2" v-else>
+								<div class="dqlisthead">
+									<p>行业</p>
+									<p>场景</p>
+									<p>新增(户)</p>
+								</div>
+								<div class="dqlistcont2">
+									<p v-for="(dqdatalists,index) in dqdatalists1" v-bind:class="(index%2 ==0) ? 'odds' : 'evens'">
+										<span>{{dqdatalists.industry}}</span>
+										<span>{{dqdatalists.scence}}</span>
+										<span>{{dqdatalists.countNum}}</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="urlcont" v-if="fsdown == 2">
+							<div class="wrapxzinput">
+								<p>
+									<img src="../../images/sousuo@2x.png" />
+									<input type="text" name="" id="urlsrccont" placeholder="客户名称查询......" @input="changes($event)" />
+									<span id="xzlistbtn" @click="tabs22()">查询</span>
+								</p>
+							</div>
+							<div class="urlkhlists">
+								<div class="urlkhlistshead" v-on:scroll="scroll3($event)">
+									<div class="wrapurlhead">
+										<p class="urlkhlistd"><span>省份</span></p>
+										<p class="urlkhlistc"><span>客户名称</span></p>
+										<p class="urlkhlistd"><span>场景</span></p>
+										<p class="urlkhlistd"><span>新增(户)</span></p>
+									</div>
+								</div>
+								<div class="urlkhlistscont" v-on:scroll="scroll4($event)" id="div1" v-if="ishyfl">
+									<p v-for="(datalist,index) in datalists2" v-bind:class="(index%2 ==0) ? 'odds' : 'evens'">
+										<span class="urllistd">{{datalist.provinceName}}</span>
+										<span class="urllistc"><i>{{datalist.customerName}}</i></span>
+										<span class="urllistd">{{datalist.scene}}</span>
+										<span class="urllistd">{{datalist.cumulativeAddCount}}</span>
+									</p>
+								</div>
+								<div class="urlkhlistscont" v-on:scroll="scroll5($event)" id="div1" v-else>
+									<p v-for="(datalist,index) in datalists4" v-bind:class="(index%2 ==0) ? 'odds' : 'evens'">
+										<span class="urllistd">{{datalist.provinceName}}</span>
+										<span class="urllistc"><i>{{datalist.customerName}}</i></span>
+										<span class="urllistd">{{datalist.scence}}</span>
+										<span class="urllistd">{{datalist.countNum}}</span>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="wrapxzcontall" v-else>
+						<div class="xzdata">
+							<span class="wlwxztj">
+							统计周期：
+						</span>
+							<span id="start" @click="starttime()">{{c2time0}}</span>
+							<span id="hx">-</span>
+							<span id="end" @click="endtime()">{{vc2timeend}}</span>
+							<button id="btnc2" @click="srcwrap()">查询</button>
+						</div>
+						<div class="xzzhanwei">
+						</div>
+						<div class="wrapxzcont">
+							<div class="wrapxztab">
+								<p v-bind:class="hyordq?'wrapxztabact':''" @click="hytab()">行业</p>
+								<p v-bind:class="hyordq?'':'wrapxztabact'" @click="dqtab()">地区</p>
+							</div>
+							<div class="xznumlists" v-if="hyordq">
+								<p class="xzallnumbs">
+									本年度累计新增<span>{{datalists.yCumulativeAdd}}</span>万户
+								</p>
+								<div class="xzlistlis">
+									<div class="xzlist">
+										<div class="xzlistli">
+											<p class="xzlistlitop">
+												<img src="../../images/zhengwu@2x.png" />政务行业<span>{{datalists.zW}}万户</span>
+											</p>
+											<div class="xzlistlidown">
+												<p name="政务行业" v-bind:values="datalists.zW" @click="tourl($event)">分省统计<img src="../../images/jiantou_gray@3x.png" /></p>
+												<p name="政务行业" v-bind:values="datalists.zW" @click="tourl2($event)">客户清单<img src="../../images/jiantou_gray@3x.png" /></p>
+											</div>
+										</div>
+									</div>
+									<div class="xzlist">
+										<div class="xzlistli">
+											<p class="xzlistlitop">
+												<img src="../../images/yiliao@2x.png" />医疗卫生<span>{{datalists.yW}}万户</span>
+											</p>
+											<div class="xzlistlidown">
+												<p name="医疗卫生" v-bind:values="datalists.yW" @click="tourl($event)">分省统计<img src="../../images/jiantou_gray@3x.png" /></p>
+												<p name="医疗卫生" v-bind:values="datalists.yW" @click="tourl2($event)">客户清单<img src="../../images/jiantou_gray@3x.png" /></p>
+											</div>
+										</div>
+									</div>
+									<div class="xzlist">
+										<div class="xzlistli">
+											<p class="xzlistlitop">
+												<img src="../../images/jiaotong@2x.png" />交通物流<span>{{datalists.jT}}万户</span>
+											</p>
+											<div class="xzlistlidown">
+												<p name="交通物流" v-bind:values="datalists.jT" @click="tourl($event)">分省统计<img src="../../images/jiantou_gray@3x.png" /></p>
+												<p name="交通物流" v-bind:values="datalists.jT" @click="tourl2($event)">客户清单<img src="../../images/jiantou_gray@3x.png" /></p>
+											</div>
+										</div>
+									</div>
+									<div class="xzlist">
+										<div class="xzlistli">
+											<p class="xzlistlitop">
+												<img src="../../images/jinrong@2x.png" />金融行业<span>{{datalists.jR}}万户</span>
+											</p>
+											<div class="xzlistlidown">
+												<p name="金融行业" v-bind:values="datalists.jR" @click="tourl($event)">分省统计<img src="../../images/jiantou_gray@3x.png" /></p>
+												<p name="金融行业" v-bind:values="datalists.jR" @click="tourl2($event)">客户清单<img src="../../images/jiantou_gray@3x.png" /></p>
+											</div>
+										</div>
+									</div>
+									<div class="xzlist">
+										<div class="xzlistli">
+											<p class="xzlistlitop">
+												<img src="../../images/nengyuan@2x.png" />制造能源<span>{{datalists.gY}}万户</span>
+											</p>
+											<div class="xzlistlidown">
+												<p name="制造能源" v-bind:values="datalists.gY" @click="tourl($event)">分省统计<img src="../../images/jiantou_gray@3x.png" /></p>
+												<p name="制造能源" v-bind:values="datalists.gY" @click="tourl2($event)">客户清单<img src="../../images/jiantou_gray@3x.png" /></p>
+											</div>
+										</div>
+									</div>
+									<div class="xzlist">
+										<div class="xzlistli">
+											<p class="xzlistlitop">
+												<img src="../../images/nongye@2x.png" />现代农业<span>{{datalists.nY}}万户</span>
+											</p>
+											<div class="xzlistlidown">
+												<p name="现代农业" v-bind:values="datalists.nY" @click="tourl($event)">分省统计<img src="../../images/jiantou_gray@3x.png" /></p>
+												<p name="现代农业" v-bind:values="datalists.nY" @click="tourl2($event)">客户清单<img src="../../images/jiantou_gray@3x.png" /></p>
+											</div>
+										</div>
+									</div>
+									<div class="xzlist">
+										<div class="xzlistli">
+											<p class="xzlistlitop">
+												<img src="../../images/fuwu@2x.png" />服务行业<span>{{datalists.xX}}万户</span>
+											</p>
+											<div class="xzlistlidown">
+												<p name="服务行业" v-bind:values="datalists.xX" @click="tourl($event)">分省统计<img src="../../images/jiantou_gray@3x.png" /></p>
+												<p name="服务行业" v-bind:values="datalists.xX" @click="tourl2($event)">客户清单<img src="../../images/jiantou_gray@3x.png" /></p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="xznumlists" v-else>
+								<p class="xzallnumbs">
+									本年度累计新增<span>{{datalists.yCumulativeAdd}}</span>万户
+								</p>
+								<div class="xzlistlis">
+									<div class="xzlist" v-for="(dqlist,index) in dqshouyelist" v-bind:id="dqlist.provinceCode" v-bind:numb="dqlist.provinceSum" v-bind:value="dqlist.provinceName">
+										<div class="xzlistli">
+											<p class="xzlistlitop">
+												<img src="../../images/weizhi@2x.png" />{{dqlist.provinceName}}<span>{{dqlist.provinceSum}}万户</span>
+											</p>
+											<div class="xzlistlidown">
+												<p v-bind:name="dqlist.provinceName" v-bind:numb="dqlist.provinceSum" v-bind:values="dqlist.provinceCode" @click="tourl3($event)">行业统计<img src="../../images/jiantou_gray@3x.png" /></p>
+												<p v-bind:name="dqlist.provinceName" v-bind:numb="dqlist.provinceSum" v-bind:values="dqlist.provinceCode" @click="tourl4($event)">客户清单<img src="../../images/jiantou_gray@3x.png" /></p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var myDate = new Date();
+		var years = myDate.getFullYear(); //获取当前年份(2位)
+		var months = myDate.getMonth() + 1; //获取当前月份(0-11,0代表1月)
+		var days = myDate.getDate(); //获取当前日(1-31)
+		var dataends = years + "-" + months + "-" + days;
+		var loginname = localStorage.getItem("loginname");
+		new Vue({
+			el: "#xzcont",
+			data: {
+				datalists: {},
+				dqshouyelist: [],
+				datalists10: [],
+				datalists1: [],
+				datalists2: [],
+				c2time0: "2017-01-01",
+				vc2timeend: dataends,
+				isgotoUrl: false,
+				hyordq: true,
+				choosehy: "",
+				choosenum: "",
+				choosenum2: "",
+				hybianhao: "",
+				fsdown: 1,
+				hyordqs: "分省统计",
+				widths: "",
+				hyorqg: "行业汇总",
+				usersrc: "",
+				ishyfl: true,
+				dqdatalists1: [],
+				datalists4: [],
+				ProvinceID: "",
+				pagenumbs: 1,
+				scrolly: 0,
+				asking: true,
+				nsclists: [],
+				nprolists: [],
+				nalllists: [],
+			},
+			updated: function() {
+				var arr = this;
+				arr.$nextTick(function() {
+					$(".nxzallsce").css({
+						'width': arr.widths,
+					})
+					$(".nlistfs").css({
+						'width': arr.widths,
+					});
+				})
+			},
+			mounted: function() {
+				var arr = this;
+				var datas = {
+					"ContractRoot": {
+						"TcpCont": {
+							"BusCode": "OPP10128",
+							"TransactionID": "2017100920555239981",
+							"TimeStamp": "20171009205552"
+						},
+						"SvcCont": {
+							"ReqInfo": {
+								"LoginName": "1212",
+								"EndTime": dataends,
+								"SystemID": "1212",
+								"StartTime": "2017-01-01"
+							}
+						}
+					}
+				}
+				$.ajax({
+					url: publicurl + JSON.stringify(datas),
+					dataType: 'json',
+					type: 'get',
+					success: function(data) {
+						layer.close(index);
+						if(data.msg) {
+							alert("网络出现异常，请重试")
+						} else {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								console.log(data)
+								arr.datalists = data.ContractRoot.svcCont.respInfo;
+								arr.dqshouyelist = data.ContractRoot.svcCont.respInfo.provinceList;
+							} else {
+								alert("网络出现异常，请重试")
+							}
+						}
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '玩命加载中...',
+							shadeClose: false,
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+				});
+			},
+			methods: {
+				nscroll1: function(e) {
+					$(".nxzalllist").scrollLeft($(e.currentTarget).scrollLeft());
+				},
+				nscroll2: function(e) {
+					$(".nxzalllist").scrollTop($(e.currentTarget).scrollTop());
+				},
+				nscroll3: function(e) {
+					$(".nxzallhead").scrollLeft($(e.currentTarget).scrollLeft());
+					$(".nxzallsf").scrollTop($(e.currentTarget).scrollTop());
+				},
+				changes: function(e) {
+					var arr = this;
+					arr.usersrc = $(e.currentTarget).val()
+					console.log($(e.currentTarget).val())
+				},
+				urltab1: function() {
+					var arr = this;
+					arr.scrolly = 0;
+					arr.pagenumbs = 1;
+					arr.usersrc = "";
+					arr.fsdown = 1;
+					arr.nsclists = [];
+					arr.nprolists = [];
+					arr.nalllists = [];
+					if(arr.ishyfl) {
+						arr.fsdown = 1;
+						arr.datalists1 = [];
+						var datas = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10129",
+									"TransactionID": "2017091716263709329",
+									"TimeStamp": "20170917162637"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"QueryType": arr.hybianhao,
+										"LoginName": loginname,
+										"EndTime": arr.vc2timeend,
+										"SystemID": "1212",
+										"StartTime": arr.c2time0
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										if(data.ContractRoot.svcCont.respInfo.code == 000) {
+											var datas = data.ContractRoot.svcCont.respInfo.rowLlist;
+											arr.datalists10 = data.ContractRoot.svcCont.respInfo.rowLlist[0].columnList.columnValue;
+											for(var i = 1; i < datas.length; i++) {
+												arr.datalists1.push(datas[i])
+											}
+											for(var i = 1; i < datas.length; i++) {
+												arr.nsclists.push(data.ContractRoot.svcCont.respInfo.rowLlist[0].columnList.columnValue[i]);
+											}
+											for(var i = 1; i < datas.length; i++) {
+												arr.nprolists.push(data.ContractRoot.svcCont.respInfo.rowLlist[i].columnList.columnValue[0]);
+											}
+											for(var i = 1; i < datas.length; i++) {
+												arr.nalllists.push(arr1(data.ContractRoot.svcCont.respInfo.rowLlist[i].columnList.columnValue));
+											}
+											arr.widths = (data.ContractRoot.svcCont.respInfo.rowLlist[0].columnList.columnValue.length - 1) * 2 + "rem";
+
+										} else {
+											alert("网络出现异常，请重试")
+										}
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					} else {
+						arr.fsdown = 1;
+						arr.dqdatalists1 = [];
+						arr.usersrc = "";
+						var data = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10247",
+									"TransactionID": "2017092520103032129",
+									"TimeStamp": "20170925201030"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"LoginName": loginname,
+										"EndTime": arr.vc2timeend,
+										"StartTime": arr.c2time0,
+										"ProvinceID": arr.ProvinceID,
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(data),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										console.log(data)
+										arr.dqdatalists1 = data.ContractRoot.svcCont.respInfo.list
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+
+					}
+
+				},
+				urltab2: function() {
+					var arr = this;
+					arr.fsdown = 2;
+					arr.scrolly = 0;
+					arr.pagenumbs = 1;
+					arr.datalists2 = []
+					if(arr.ishyfl) {
+						var datas2 = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10130",
+									"TransactionID": "2017091716263707802",
+									"TimeStamp": "20170917162637"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"QueryType": arr.hybianhao,
+										"EndTime": arr.vc2timeend,
+										"SystemID": "1212",
+										"StartTime": arr.c2time0,
+										"LoginName": loginname,
+										"PageNum": "100",
+										"ThisPage": "1",
+										"CustName": arr.usersrc,
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas2),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										console.log(data)
+										arr.datalists2 = data.ContractRoot.svcCont.respInfo.cumulativeAddList;
+										console.log(arr.datalists2)
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					} else {
+						arr.fsdown = 2
+						arr.datalists4 = [];
+						var data = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10253",
+									"TransactionID": "2017092520103032129",
+									"TimeStamp": "20170925201030"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"EndTime": arr.vc2timeend,
+										"StartTime": arr.c2time0,
+										"ProvinceID": arr.ProvinceID,
+										"CustName": "",
+										"PageNum": "100",
+										"ThisPage": "1",
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(data),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										console.log(data)
+										arr.datalists4 = data.ContractRoot.svcCont.respInfo.list;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					}
+
+				},
+				xzreturns: function() {
+					var arr = this;
+					arr.isgotoUrl = false;
+					arr.usersrc = "";
+					arr.scrolly = 0;
+					arr.pagenumbs = 1;
+				},
+				scroll1: function(e) {
+					$(".wrapxztablist").scrollLeft($(e.currentTarget).scrollLeft());
+				},
+				scroll2: function(e) {
+					$(".wrapxztabhead").scrollLeft($(e.currentTarget).scrollLeft());
+				},
+				scroll3: function(e) {
+					$(".urlkhlistscont").scrollLeft($(e.currentTarget).scrollLeft());
+				},
+				scroll4: function(e) {
+					$(".urlkhlistshead").scrollLeft($(e.currentTarget).scrollLeft());
+					var arr = this;
+					var curX = $("#div1").scrollLeft();
+					var curY = $("#div1").scrollTop();
+					var obj = document.getElementById("div1")
+					if(obj.scrollHeight > obj.clientHeight || obj.offsetHeight > obj.clientHeight) {
+						if(curY != arr.scrolly) {
+							if(arr.asking) {
+								var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+								var nScrollTop = 0; //滚动到的当前位置
+								var nDivHight = $("#div1").height();
+								nScrollHight = $("#div1")[0].scrollHeight;
+								nScrollTop = $("#div1")[0].scrollTop;
+								console.log(arr.scrolly)
+								if(nScrollTop + nDivHight >= nScrollHight - 5) {
+									arr.asking = false;
+									arr.pagenumbs += 1;
+									var datas2 = {
+										"ContractRoot": {
+											"TcpCont": {
+												"BusCode": "OPP10130",
+												"TransactionID": "2017091716263707802",
+												"TimeStamp": "20170917162637"
+											},
+											"SvcCont": {
+												"ReqInfo": {
+													"QueryType": arr.hybianhao,
+													"EndTime": arr.vc2timeend,
+													"SystemID": "1212",
+													"StartTime": arr.c2time0,
+													"LoginName": loginname,
+													"PageNum": "100",
+													"ThisPage": String(arr.pagenumbs),
+													"CustName": arr.usersrc,
+												}
+											}
+										}
+									}
+									$.ajax({
+										url: publicurl + JSON.stringify(datas2),
+										dataType: 'json',
+										type: 'get',
+										success: function(data) {
+											layer.close(index);
+											if(data.msg) {
+												alert("网络出现异常，请重试")
+												arr.asking = true;
+											} else {
+												if(data.ContractRoot.svcCont.respInfo.code == 000) {
+													var datass = data.ContractRoot.svcCont.respInfo.cumulativeAddList;
+													console.log(datass)
+													arr.datalists2 = arr.datalists2.concat(datass)
+													arr.asking = true;
+													if(datass.length == 0) {
+														var index2 = layer.open({
+															style: 'border:none; color:#fff;',
+															content: '无更多数据...',
+														})
+														setTimeout(function() {
+															layer.close(index2);
+														}, 1000)
+													}
+												} else {
+													alert("网络出现异常，请重试")
+													arr.asking = true;
+												}
+											}
+										},
+										beforeSend: function(request) {
+											index = layer.open({
+												style: 'border:none; color:#fff;',
+												content: '玩命加载中...',
+												shadeClose: false,
+											})
+										},
+										error: function(XMLHttpRequest, textStatus, errorThrown) {
+											layer.close(index);
+											arr.asking = true;
+										},
+									});
+								}
+								arr.scrolly = curY;
+							}
+						}
+					}
+				},
+				scroll5: function(e) {
+					$(".urlkhlistshead").scrollLeft($(e.currentTarget).scrollLeft());
+					var arr = this;
+					var obj = document.getElementById("div1")
+					var curX = $("#div1").scrollLeft();
+					var curY = $("#div1").scrollTop();
+					if(obj.scrollHeight > obj.clientHeight || obj.offsetHeight > obj.clientHeight) {
+						if(curY != arr.scrolly) {
+							if(arr.asking) {
+								//								console.log(curY)
+								//							    console.log(arr.scrolly)
+								var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+								var nScrollTop = 0; //滚动到的当前位置
+								var nDivHight = $("#div1").height();
+								nScrollHight = $("#div1")[0].scrollHeight;
+								nScrollTop = $("#div1")[0].scrollTop;
+								if(nScrollTop + nDivHight >= nScrollHight - 5) {
+									arr.asking = false;
+									arr.pagenumbs += 1;
+									console.log(arr.pagenumbs)
+									var datasss = {
+										"ContractRoot": {
+											"TcpCont": {
+												"BusCode": "OPP10253",
+												"TransactionID": "2017092520103032129",
+												"TimeStamp": "20170925201030"
+											},
+											"SvcCont": {
+												"ReqInfo": {
+													"EndTime": arr.vc2timeend,
+													"StartTime": arr.c2time0,
+													"ProvinceID": arr.ProvinceID,
+													"CustName": "",
+													"PageNum": "100",
+													"ThisPage": String(arr.pagenumbs),
+												}
+											}
+										}
+									}
+									$.ajax({
+										url: publicurl + JSON.stringify(datasss),
+										dataType: 'json',
+										type: 'get',
+										success: function(data) {
+											layer.close(index);
+											if(data.msg) {
+												alert("网络出现异常，请重试")
+												arr.asking = true;
+											} else {
+												if(data.ContractRoot.svcCont.respInfo.code == 000) {
+													var datass = data.ContractRoot.svcCont.respInfo.list;
+													console.log(datass)
+													arr.datalists4 = arr.datalists4.concat(datass)
+													arr.asking = true;
+													if(datass.length == 0) {
+														var index2 = layer.open({
+															style: 'border:none; color:#fff;',
+															content: '无更多数据...',
+														})
+														setTimeout(function() {
+															layer.close(index2);
+														}, 1000)
+													}
+												} else {
+													alert("网络出现异常，请重试")
+													arr.asking = true;
+												}
+											}
+										},
+										beforeSend: function(request) {
+											index = layer.open({
+												style: 'border:none; color:#fff;',
+												content: '玩命加载中...',
+												shadeClose: false,
+											})
+										},
+										error: function(XMLHttpRequest, textStatus, errorThrown) {
+											layer.close(index);
+											arr.asking = true;
+										},
+									});
+								}
+								arr.scrolly = curY;
+							}
+						}
+					}
+
+				},
+				tourl: function(e) {
+					var arr = this;
+					arr.fsdown = 1;
+					arr.hyorqg = "行业汇总";
+					arr.isgotoUrl = true;
+					arr.pagenumbs = 1;
+					arr.choosehy = $(e.currentTarget).attr("name");
+					arr.choosenum = $(e.currentTarget).attr("values");
+					var quhang = "";
+					arr.datalists1 = [];
+					arr.nsclists = [];
+					arr.nprolists = [];
+					arr.nalllists = [];
+					if($(e.currentTarget).attr("name") == '政务行业') {
+						quhang = "AA"
+						arr.hybianhao = "AA"
+					} else if($(e.currentTarget).attr("name") == '医疗卫生') {
+						quhang = "EE"
+						arr.hybianhao = "EE"
+					} else if($(e.currentTarget).attr("name") == '交通物流') {
+						quhang = "CC"
+						arr.hybianhao = "CC"
+					} else if($(e.currentTarget).attr("name") == '金融行业') {
+						quhang = "DD"
+						arr.hybianhao = "DD"
+					} else if($(e.currentTarget).attr("name") == '服务行业') {
+						quhang = "BB"
+						arr.hybianhao = "BB"
+					} else if($(e.currentTarget).attr("name") == '现代农业') {
+						quhang = "II"
+						arr.hybianhao = "II"
+					} else if($(e.currentTarget).attr("name") == '制造能源') {
+						quhang = "FF"
+						arr.hybianhao = "FF"
+					}
+					var datas = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10129",
+								"TransactionID": "2017091716263709329",
+								"TimeStamp": "20170917162637"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"QueryType": arr.hybianhao,
+									"LoginName": loginname,
+									"EndTime": arr.vc2timeend,
+									"SystemID": "1212",
+									"StartTime": arr.c2time0
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									var datas = data.ContractRoot.svcCont.respInfo.rowLlist;
+									arr.datalists10 = data.ContractRoot.svcCont.respInfo.rowLlist[0].columnList.columnValue;
+									for(var i = 1; i < datas.length; i++) {
+										arr.datalists1.push(datas[i])
+									}
+									for(var i = 1; i < datas.length; i++) {
+										arr.nsclists.push(data.ContractRoot.svcCont.respInfo.rowLlist[0].columnList.columnValue[i]);
+									}
+									for(var i = 1; i < datas.length; i++) {
+										arr.nprolists.push(data.ContractRoot.svcCont.respInfo.rowLlist[i].columnList.columnValue[0]);
+									}
+									for(var i = 1; i < datas.length; i++) {
+										arr.nalllists.push(arr1(data.ContractRoot.svcCont.respInfo.rowLlist[i].columnList.columnValue));
+									}
+									arr.widths = (data.ContractRoot.svcCont.respInfo.rowLlist[0].columnList.columnValue.length - 1) * 2 + "rem";
+
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				tourl2: function(e) {
+					var arr = this;
+					arr.fsdown = 2;
+					arr.hyorqg = "行业汇总";
+					arr.isgotoUrl = true;
+					arr.pagenumbs = 1;
+					arr.choosehy = $(e.currentTarget).attr("name");
+					arr.choosenum = $(e.currentTarget).attr("values");
+					var quhang = "";
+					if($(e.currentTarget).attr("name") == '政务行业') {
+						quhang = "AA"
+						arr.hybianhao = "AA"
+					} else if($(e.currentTarget).attr("name") == '医疗卫生') {
+						quhang = "EE"
+						arr.hybianhao = "EE"
+					} else if($(e.currentTarget).attr("name") == '交通物流') {
+						quhang = "CC"
+						arr.hybianhao = "CC"
+					} else if($(e.currentTarget).attr("name") == '金融行业') {
+						quhang = "DD"
+						arr.hybianhao = "DD"
+					} else if($(e.currentTarget).attr("name") == '服务行业') {
+						quhang = "BB"
+						arr.hybianhao = "BB"
+					} else if($(e.currentTarget).attr("name") == '现代农业') {
+						quhang = "II"
+						arr.hybianhao = "II"
+					} else if($(e.currentTarget).attr("name") == '制造能源') {
+						quhang = "FF"
+						arr.hybianhao = "FF"
+					}
+					var datas2 = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10130",
+								"TransactionID": "2017091716263707802",
+								"TimeStamp": "20170917162637"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"QueryType": quhang,
+									"EndTime": arr.vc2timeend,
+									"SystemID": "1212",
+									"StartTime": arr.c2time0,
+									"LoginName": loginname,
+									"PageNum": "100",
+									"ThisPage": "1",
+									"CustName": arr.usersrc,
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas2),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									arr.datalists2 = data.ContractRoot.svcCont.respInfo.cumulativeAddList;
+									console.log(arr.datalists2)
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				tourl3: function(e) {
+					var arr = this;
+					arr.hyorqg = "全国";
+					arr.fsdown = 1
+					arr.isgotoUrl = true;
+					arr.pagenumbs = 1;
+					arr.choosehy = $(e.currentTarget).attr("name")
+					arr.ishyfl = false;
+					arr.ProvinceID = $(e.currentTarget).attr("values");
+					arr.choosenum2 = $(e.currentTarget).attr("numb");
+					var data = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10247",
+								"TransactionID": "2017092520103032129",
+								"TimeStamp": "20170925201030"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"LoginName": loginname,
+									"EndTime": arr.vc2timeend,
+									"StartTime": arr.c2time0,
+									"ProvinceID": $(e.currentTarget).attr("values"),
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(data),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									arr.dqdatalists1 = data.ContractRoot.svcCont.respInfo.list
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				tourl4: function(e) {
+					var arr = this;
+					arr.hyorqg = "全国";
+					arr.fsdown = 2
+					arr.isgotoUrl = true;
+					arr.ishyfl = false;
+					arr.pagenumbs = 1;
+					arr.choosehy = $(e.currentTarget).attr("name")
+					arr.ProvinceID = $(e.currentTarget).attr("values");
+					arr.choosenum2 = $(e.currentTarget).attr("numb");
+					var data = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10253",
+								"TransactionID": "2017092520103032129",
+								"TimeStamp": "20170925201030"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"EndTime": arr.vc2timeend,
+									"StartTime": arr.c2time0,
+									"ProvinceID": $(e.currentTarget).attr("values"),
+									"CustName": "",
+									"PageNum": "100",
+									"ThisPage": "1",
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(data),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									arr.datalists4 = data.ContractRoot.svcCont.respInfo.list;
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				hytab: function() {
+					var arr = this;
+					arr.ishyfl = true;
+					arr.hyordq = true;
+					arr.hyordqs = "分省统计";
+					arr.pagenumbs = 1;
+				},
+				dqtab: function() {
+					var arr = this;
+					arr.hyordq = false;
+					arr.hyordqs = "行业统计";
+					arr.ishyfl = false;
+					arr.pagenumbs = 1;
+				},
+				starttime: function() {
+					var _self = this;
+					var starttime = _self.c2time0;
+					var year0 = starttime.split("-")[0];
+					var month0 = starttime.split("-")[1];
+					var day0 = starttime.split("-")[2];
+					var dtpicker = new mui.DtPicker({
+						type: "date", //设置日历初始视图模式 
+						beginDate: new Date(2008, 01, 01), //设置开始日期 
+						//  endDate: new Date(2016, 04, 25),//设置结束日期 
+						labels: ['Year', 'Mon', 'Day', ], //设置默认标签区域提示语 
+					})
+					dtpicker.show(function(e) {
+						_self.c2time0 = e.value;
+					})
+				},
+				endtime: function() {
+					var _self = this;
+					var starttime = _self.c2time0;
+					var year0 = starttime.split("-")[0];
+					var month0 = starttime.split("-")[1];
+					var day0 = starttime.split("-")[2];
+					var dtpicker = new mui.DtPicker({
+						type: "date", //设置日历初始视图模式 
+						beginDate: new Date(year0, month0, day0), //设置开始日期 
+						//endDate: new Date(2016, 04, 25),//设置结束日期 
+						labels: ['Year', 'Mon', 'Day', ], //设置默认标签区域提示语 
+					})
+					dtpicker.show(function(e) {
+						_self.vc2timeend = e.value;
+					})
+				},
+				srcwrap: function() {
+					var arr = this;
+					arr.pagenumbs = 1;
+					var datas2 = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10128",
+								"TransactionID": "2017100920555239981",
+								"TimeStamp": "20171009205552"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"LoginName": loginname,
+									"EndTime": arr.vc2timeend,
+									"SystemID": "1212",
+									"StartTime": arr.c2time0
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas2),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									arr.datalists = data.ContractRoot.svcCont.respInfo;
+									arr.dqshouyelist = data.ContractRoot.svcCont.respInfo.provinceList;
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				tabs22: function() {
+					var arr = this;
+					arr.scrolly = 0;
+					console.log(arr.usersrc);
+					arr.pagenumbs = 1;
+					if(arr.ishyfl) {
+						var datas3 = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10130",
+									"TransactionID": "2017091716263707802",
+									"TimeStamp": "20170917162637"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"QueryType": arr.hybianhao,
+										"EndTime": arr.vc2timeend,
+										"SystemID": "1212",
+										"StartTime": arr.c2time0,
+										"LoginName": loginname,
+										"PageNum": "100",
+										"ThisPage": "1",
+										"CustName": arr.usersrc,
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas3),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										arr.datalists2 = data.ContractRoot.svcCont.respInfo.cumulativeAddList;
+										console.log(data)
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					} else {
+						var datas3 = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10253",
+									"TransactionID": "2017092520103032129",
+									"TimeStamp": "20170925201030"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"StartTime": arr.c2time0,
+										"EndTime": arr.vc2timeend,
+										"ProvinceID": arr.ProvinceID,
+										"CustName": arr.usersrc,
+										"PageNum": "100",
+										"ThisPage": "1",
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas3),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										arr.datalists4 = data.ContractRoot.svcCont.respInfo.list;
+										console.log(data)
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					}
+
+				},
+			}
+		})
+	</script>
+
+</html>

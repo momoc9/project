@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>数据报表</title>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/reheadtabs.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/datareport.css" />
+		<script src="../../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="datarehead">
+			数据报表
+			<div class="datarereturns" onclick="returns()">
+				<img src="../../images/return@3x.png" />
+			</div>
+			<!--<img src="../../images/zhankai@2x.png" class="zhankai" />-->
+			<!--<img src="../../images/tuisong@2x.png" class="tuisong" />-->
+		</div>
+		<div class="zwheaddown"></div>
+		<div class="datarecont">
+			<div class="lefttab">
+				<p onclick="hrefs('dataReport.html')">
+					<span>互联网+大单</span>
+				</p>
+				<p onclick="hrefs('reportIct.html')">
+					<span>ICT项目排行</span>
+				</p>
+				<p onclick="hrefs('wlwjz.html')">
+					<span>物联网净增排行</span>
+				</p>
+				<p onclick="hrefs('wlwxz.html')">
+					<span>物联网新增统计</span>
+				</p>
+				<p onclick="hrefs('mbb.html')">
+					<span>移动、宽带</span>
+				</p>
+				<p class="dractive" onclick="hrefs('directRevenue.html')">
+					<span>直管客户收入</span>
+					<i></i>
+				</p>
+				<p onclick="hrefs('firstQuarter.html')">
+					<span>一季度资源配比</span>
+				</p>
+				<p onclick="hrefs('secondQuarter.html')">
+					<span>二季度资源配比</span>
+				</p>
+				<p onclick="hrefs('supportStatistics.html')">
+					<span>属地支撑统计</span>
+				</p>
+				<p onclick="hrefs('baseSupport.html')">
+					<span>基地支撑统计</span>
+				</p>
+				<p onclick="hrefs('talentWorkstation.html')">
+					<span>人才工作站支撑统计</span>
+				</p>
+			</div>
+			<div class="rightcont">
+				<div id="drcont">
+					<div class="drzd" v-show="ischoice" @click="choice3()">
+					</div>
+					<div class="drzd2" v-show="ischoice2" @click="choice5()">
+					</div>
+					<div class="showhuax" v-show="ischoice2">
+						<div class="huaxhead">
+							<p>筛选</p>
+							<img src="../../images/shanchu@2x.png" @click="choice5()" />
+						</div>
+						<div class="huaxlists">
+							<p v-for="(hxlist,index) in hxlists" @click="choosehx($event)" v-bind:name="hxlist.smallTeamId">{{hxlist.smallTeamName}}</p>
+						</div>
+					</div>
+					<div class="drtwo" v-if="isgotos">
+						<div class="urlhead">
+							<p class="drurltit"><span @click="returnsdr()">{{nowpro}}</span><img src="../../images/jiantou_gray@3x.png" />{{gotokehu}}</p>
+							<p class="drurltitsr">
+								<span>{{gotokehu}}</span>
+								<span>本年累计收入{{formatNum2(kehushouru)}}万元</span></p>
+						</div>
+						<div class="wrlcont">
+							<div class="urllisthead">
+								<p class="urllistpro">客户名称</p>
+								<p class="urllistsr" @click="paixu2()">
+									本年累计收入
+									<img src="../../images/xiashang.png" v-if="urlisjiang == 0" />
+									<img src="../../images/shangxiaqiehuan@2x.png" v-else/>
+								</p>
+							</div>
+							<div class="urllistli">
+								<div class="dralllistli" v-for="(kehulist,index) in kehulists" v-bind:class="(index%2 ==0) ? 'odds' : 'evens'" @click="tokehu($event)" v-bind:name="kehulist.cust_node_name" v-bind:numb="kehulist.amount" v-bind:value="kehulist.cust_node_id" v-bind:isnext="kehulist.next">
+									<p class="drflistsproli"><span>{{kehulist.cust_node_name}}</span></p>
+									<p class="drsrli">
+										{{formatNum2(kehulist.amount)}}
+										<img src="../../images/jiantou_gray@3x.png" v-if="kehulist.next == 1" />
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="drone" v-else>
+						<div class="wrapdrsrc">
+							<img src="../../images/sousuo@2x.png" class="srcimg" />
+							<input type="text" id="drsrccont" placeholder="客户名称查询......" v-bind:value="srccont" @input="changes($event)" />
+							<span id="xzlistbtn2" @click="tabs22()">查询</span>
+							<img src="../../images/shaixuan@2x.png" id="shaixuan" @click="choice4()" />
+						</div>
+						<div class="drheads">
+							<div class="drpros">
+								<p @click="choice1()">{{nowpro}}</p>
+								<div class="drprochoice" v-show="ischoice">
+									<p @click="choice2($event)" name="500181403">集团</p>
+									<p @click="choice2($event)" name="500181463"> 安徽</p>
+									<p @click="choice2($event)" name="500181569">四川</p>
+									<p @click="choice2($event)" name="500181531">甘肃</p>
+								</div>
+							</div>
+							<p class="drallnumbs">本年累计收入总数<span>{{formatNum2(alldatanumb)}}</span>万元</p>
+						</div>
+						<div class="drflists">
+							<div class="drflistshead">
+								<p class="drflistspro">客户名称</p>
+								<p class="drsr" @click="paixu1()">
+									累计收入(万元)
+									<img src="../../images/xiashang.png" v-if="isjiang == 0" />
+									<img src="../../images/shangxiaqiehuan@2x.png" v-else/>
+								</p>
+							</div>
+							<!--<div class="wrapdralllist" id="div1" v-on:scroll="scrollss($event)">-->
+							<div class="wrapdralllist" id="div1">
+								<div class="dralllistli" v-for="(datalist,index) in datalists" v-bind:class="(index%2 ==0) ? 'odds' : 'evens'" @click="tokehu($event)" v-bind:name="datalist.cust_node_name" v-bind:numb="datalist.amount" v-bind:value="datalist.cust_node_id" v-bind:isnext="datalist.next">
+									<p class="drflistsproli"><span>{{datalist.cust_node_name}}</span></p>
+									<p class="drsrli">
+										{{formatNum2(datalist.amount)}}
+										<img src="../../images/jiantou_gray@3x.png" v-if="datalist.next == 1" />
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var loginname = localStorage.getItem("loginname");
+		new Vue({
+			el: "#drcont",
+			data: {
+				datalists: [],
+				hxlists: [],
+				hxid: "",
+				proid: "500181403",
+				alldatanumb: "",
+				isgotos: false,
+				ischoice: false,
+				ischoice2: false,
+				nowpro: "集团",
+				isjiang: 0,
+				srccont: "",
+				gotokehu: "",
+				kehushouru: "",
+				gotokehuid: "",
+				urlisjiang: 0,
+				kehulists: [],
+				pagenumbs: 1,
+			},
+			mounted: function() {
+				var arr = this;
+				var datas = {
+					"ContractRoot": {
+						"TcpCont": {
+							"BusCode": "OPP10252",
+							"TransactionID": "2017091710462400003",
+							"TimeStamp": "20170917104624"
+						},
+						"SvcCont": {
+							"ReqInfo": {
+								"JPCode": "500181403",
+								"OrderBy": "0",
+								"FQuery": "",
+								"LogicCustId": "",
+								"HXTeamId": "",
+								"PageNum": "500",
+								"ThisPage": "1",
+							}
+						}
+					}
+				}
+				$.ajax({
+					url: publicurl + JSON.stringify(datas),
+					dataType: 'json',
+					type: 'get',
+					success: function(data) {
+						layer.close(index);
+						if(data.msg) {
+							alert("网络出现异常，请重试")
+						} else {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								console.log(data)
+								arr.datalists = data.ContractRoot.svcCont.respInfo.custDetailsList;
+								arr.alldatanumb = data.ContractRoot.svcCont.respInfo.accumulatedIncomeCount;
+							} else {
+								alert("网络出现异常，请重试")
+							}
+						}
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '玩命加载中...',
+							shadeClose: false,
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+				});
+			},
+
+			methods: {
+//				scrollss: function(e) {
+//					var arr = this;
+//					var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+//					var nScrollTop = 0; //滚动到的当前位置
+//					var nDivHight = $("#div1").height();
+//					nScrollHight = $("#div1")[0].scrollHeight;
+//					nScrollTop = $("#div1")[0].scrollTop;
+//					if(nScrollTop + nDivHight >= nScrollHight) {
+//						arr.pagenumbs += 1;
+//						console.log(arr.pagenumbs)
+//						var datas = {
+//							"ContractRoot": {
+//								"TcpCont": {
+//									"BusCode": "OPP10252",
+//									"TransactionID": "2017091710462400003",
+//									"TimeStamp": "20170917104624"
+//								},
+//								"SvcCont": {
+//									"ReqInfo": {
+//										"JPCode": "500181403",
+//										"OrderBy": "0",
+//										"FQuery": "",
+//										"LogicCustId": "",
+//										"HXTeamId": "",
+//										"PageNum": "50",
+//										"ThisPage": arr.pagenumbs,
+//									}
+//								}
+//							}
+//						}
+//						$.ajax({
+//							url: publicurl + JSON.stringify(datas),
+//							dataType: 'json',
+//							type: 'get',
+//							success: function(data) {
+//								layer.close(index);
+//								if(data.msg) {
+//									alert("网络出现异常，请重试")
+//								} else {
+//									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+//										var datass = data.ContractRoot.svcCont.respInfo.custDetailsList;
+//										console.log(datass)
+//										arr.datalists = arr.datalists.concat(datass)
+//									} else {
+//										alert("网络出现异常，请重试")
+//									}
+//								}
+//							},
+//							beforeSend: function(request) {
+//								index = layer.open({
+//									style: 'border:none; color:#fff;',
+//									content: '玩命加载中...',
+//									shadeClose: false,
+//								})
+//							},
+//							error: function(XMLHttpRequest, textStatus, errorThrown) {
+//								alert("网络出现异常，请重试")
+//								layer.close(index);
+//							},
+//						});
+//					}
+//				},
+				tokehu: function(e) {
+					var arr = this;
+					if($(e.currentTarget).attr("isnext") == 1) {
+						arr.isgotos = true;
+						arr.gotokehu = $(e.currentTarget).attr("name");
+						arr.kehushouru = $(e.currentTarget).attr("numb");
+						arr.gotokehuid = $(e.currentTarget).attr("value");
+						var data = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10252",
+									"TransactionID": "2017091710462400003",
+									"TimeStamp": "20170917104624"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"JPCode": "",
+										"OrderBy": "0",
+										"FQuery": "",
+										"LogicCustId": $(e.currentTarget).attr("value"),
+										"HXTeamId": "",
+										"PageNum": "500",
+										"ThisPage": "1",
+									}
+								}
+							}
+						};
+						$.ajax({
+							url: publicurl + JSON.stringify(data),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										console.log(data)
+										arr.kehulists = data.ContractRoot.svcCont.respInfo.custDetailsList;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					}
+				},
+				paixu2: function() {
+					var arr = this;
+					if(arr.urlisjiang == 0) {
+						arr.urlisjiang = 1;
+						var data = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10252",
+									"TransactionID": "2017091710462400003",
+									"TimeStamp": "20170917104624"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"JPCode": "",
+										"OrderBy": "1",
+										"FQuery": "",
+										"LogicCustId": arr.gotokehuid,
+										"HXTeamId": "",
+										"PageNum": "500",
+										"ThisPage": "1",
+									}
+								}
+							}
+						};
+						$.ajax({
+							url: publicurl + JSON.stringify(data),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										console.log(data)
+										arr.kehulists = data.ContractRoot.svcCont.respInfo.custDetailsList;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					} else if(arr.urlisjiang == 1) {
+						arr.urlisjiang = 0;
+						var data = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10252",
+									"TransactionID": "2017091710462400003",
+									"TimeStamp": "20170917104624"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"JPCode": "",
+										"OrderBy": "0",
+										"FQuery": "",
+										"LogicCustId": arr.gotokehuid,
+										"HXTeamId": "",
+										"PageNum": "500",
+										"ThisPage": "1",
+									}
+								}
+							}
+						};
+						$.ajax({
+							url: publicurl + JSON.stringify(data),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										console.log(data)
+										arr.kehulists = data.ContractRoot.svcCont.respInfo.custDetailsList;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					}
+
+				},
+				returnsdr: function() {
+					var arr = this;
+					arr.isgotos = false;
+				},
+				paixu1: function() {
+					var arr = this;
+					if(arr.isjiang == 0) {
+						arr.isjiang = 1
+						var datas = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10252",
+									"TransactionID": "2017091710462400003",
+									"TimeStamp": "20170917104624"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"JPCode": arr.proid,
+										"OrderBy": "1",
+										"FQuery": arr.srccont,
+										"LogicCustId": "",
+										"HXTeamId": arr.hxid,
+										"PageNum": "500",
+										"ThisPage": "1",
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										console.log(data)
+										arr.datalists = data.ContractRoot.svcCont.respInfo.custDetailsList;
+										arr.alldatanumb = data.ContractRoot.svcCont.respInfo.accumulatedIncomeCount;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					} else if(arr.isjiang == 1) {
+						arr.isjiang = 0
+						var datas = {
+							"ContractRoot": {
+								"TcpCont": {
+									"BusCode": "OPP10252",
+									"TransactionID": "2017091710462400003",
+									"TimeStamp": "20170917104624"
+								},
+								"SvcCont": {
+									"ReqInfo": {
+										"JPCode": arr.proid,
+										"OrderBy": "0",
+										"FQuery": arr.srccont,
+										"LogicCustId": "",
+										"HXTeamId": arr.hxid,
+										"PageNum": "500",
+										"ThisPage": "1",
+									}
+								}
+							}
+						}
+						$.ajax({
+							url: publicurl + JSON.stringify(datas),
+							dataType: 'json',
+							type: 'get',
+							success: function(data) {
+								layer.close(index);
+								if(data.msg) {
+									alert("网络出现异常，请重试")
+								} else {
+									if(data.ContractRoot.svcCont.respInfo.code == 000) {
+										console.log(data)
+										arr.datalists = data.ContractRoot.svcCont.respInfo.custDetailsList;
+										arr.alldatanumb = data.ContractRoot.svcCont.respInfo.accumulatedIncomeCount;
+									} else {
+										alert("网络出现异常，请重试")
+									}
+								}
+							},
+							beforeSend: function(request) {
+								index = layer.open({
+									style: 'border:none; color:#fff;',
+									content: '玩命加载中...',
+									shadeClose: false,
+								})
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								alert("网络出现异常，请重试")
+								layer.close(index);
+							},
+						});
+					}
+
+				},
+
+				choice1: function() {
+					var arr = this;
+					arr.ischoice = true;
+				},
+				choice2: function(e) {
+					var arr = this;
+					arr.ischoice = false;
+					arr.nowpro = $(e.currentTarget).html();
+					arr.proid = $(e.currentTarget).attr("name");
+					arr.srccont = "";
+					arr.hxid = "";
+					var datas = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10252",
+								"TransactionID": "2017091710462400003",
+								"TimeStamp": "20170917104624"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"JPCode": $(e.currentTarget).attr("name"),
+									"OrderBy": arr.isjiang,
+									"FQuery": arr.srccont,
+									"LogicCustId": "",
+									"HXTeamId": "",
+									"PageNum": "500",
+									"ThisPage": "1",
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									arr.datalists = data.ContractRoot.svcCont.respInfo.custDetailsList;
+									arr.alldatanumb = data.ContractRoot.svcCont.respInfo.accumulatedIncomeCount;
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				choice3: function() {
+					var arr = this;
+					arr.ischoice = false;
+				},
+				choice4: function() {
+					var arr = this;
+					arr.ischoice2 = true;
+					arr.hxlists = [];
+					var data = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10254",
+								"TransactionID": "2017091710462400003",
+								"TimeStamp": "20170917104624"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"ProvinceCode": arr.proid
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(data),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									arr.hxlists = data.ContractRoot.svcCont.respInfo.list;
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				choice5: function() {
+					var arr = this;
+					arr.ischoice2 = false;
+				},
+				choosehx: function(e) {
+					var arr = this;
+					arr.ischoice2 = false;
+					arr.hxid = $(e.currentTarget).attr("name");
+					var datas = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10252",
+								"TransactionID": "2017091710462400003",
+								"TimeStamp": "20170917104624"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"JPCode": arr.proid,
+									"OrderBy": arr.isjiang,
+									"FQuery": arr.srccont,
+									"LogicCustId": "",
+									"HXTeamId": $(e.currentTarget).attr("name"),
+									"PageNum": "500",
+									"ThisPage": "1",
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									arr.datalists = data.ContractRoot.svcCont.respInfo.custDetailsList;
+									arr.alldatanumb = data.ContractRoot.svcCont.respInfo.accumulatedIncomeCount;
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				},
+				changes: function(e) {
+					var arr = this;
+					arr.srccont = $(e.currentTarget).val()
+				},
+				tabs22: function() {
+					var arr = this;
+					var datas = {
+						"ContractRoot": {
+							"TcpCont": {
+								"BusCode": "OPP10252",
+								"TransactionID": "2017091710462400003",
+								"TimeStamp": "20170917104624"
+							},
+							"SvcCont": {
+								"ReqInfo": {
+									"JPCode": arr.proid,
+									"OrderBy": arr.isjiang,
+									"FQuery": arr.srccont,
+									"LogicCustId": "",
+									"HXTeamId": arr.hxid,
+									"PageNum": "500",
+									"ThisPage": "1",
+								}
+							}
+						}
+					}
+					$.ajax({
+						url: publicurl + JSON.stringify(datas),
+						dataType: 'json',
+						type: 'get',
+						success: function(data) {
+							layer.close(index);
+							if(data.msg) {
+								alert("网络出现异常，请重试")
+							} else {
+								if(data.ContractRoot.svcCont.respInfo.code == 000) {
+									console.log(data)
+									arr.datalists = data.ContractRoot.svcCont.respInfo.custDetailsList;
+									arr.alldatanumb = data.ContractRoot.svcCont.respInfo.accumulatedIncomeCount;
+								} else {
+									alert("网络出现异常，请重试")
+								}
+							}
+						},
+						beforeSend: function(request) {
+							index = layer.open({
+								style: 'border:none; color:#fff;',
+								content: '玩命加载中...',
+								shadeClose: false,
+							})
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("网络出现异常，请重试")
+							layer.close(index);
+						},
+					});
+				}
+
+			}
+		})
+	</script>
+
+</html>

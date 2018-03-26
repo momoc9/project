@@ -1,0 +1,273 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="Bookmark" href="/favicon.ico">
+		<link rel="Shortcut Icon" href="/favicon.ico" />
+		<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+
+<![endif]-->
+		<script type="text/javascript">
+			var token = "token." + sessionStorage.getItem("token");
+			if(token == "token.null") {
+				alert('请登录');
+				location.href = "login.html";
+			}
+		</script>
+		<link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="../static/lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
+		<script type="text/javascript" src="../static/lib/public.js"></script>
+		<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+		<title>系统参数配置</title>
+	</head>
+
+	<body>
+		<nav class="breadcrumb">
+			<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 系统管理<span class="c-gray en">&gt;</span> 系统参数配置
+			<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
+		</nav>
+		<div class="page-container ">
+			<div class="config_box">
+				<ul>
+					<li class="active con_btn">参数配置
+					</li>
+					<li class="pel_btn">人员配置
+					</li>
+				</ul>
+				<nav class="a_box mt-20" >
+					<a style="text-decoration:none" class="con_a" onClick="admin_add('添加','system_add.html?pageId=1','600','400')" href="javascript:;" title="添加"><i class="Hui-iconfont">&#xe600;添加系统配置</i></a>
+					<a style="text-decoration:none" class=" pel_a " onClick="admin_add('添加','system_add.html?pageId=2','600','400')" href="javascript:;" title="添加"><i class="Hui-iconfont">&#xe600;添加人员配置</i></a>
+				</nav>
+				<div class="mt-20 config_con">
+					<table id="dataList" class=" table table-border table-bordered table-hover table-bg table-sort">
+						<thead>
+							<tr class="text-c">
+								<th width="25">系统参数</th>
+								<th width="25">系统参数值</th>
+								<th width="25">系统参数描述</th>
+								<th width="25">系统参数创建时间</th>
+								<th width="25">系统参数最后修改时间</th>
+								<th width="25">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th colspan="10" class="text-c no_message">暂无数据</th>
+						</tbody>
+					</table>
+				</div>
+				<div class="mt-20 peladd_con hide">
+					<table id="dataList1" class=" table table-border table-bordered table-hover table-bg table-sort">
+						<thead>
+							<tr class="text-c">
+								<th width="25">销售助手用户staffId</th>
+								<th width="25">销售助手用户状态</th>
+								<th width="25">销售助手用户配置时间</th>
+								<th width="25">销售助手用户最后修改时间</th>
+								<th width="25">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th colspan="10" class="text-c no_message">暂无数据</th>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="../static/lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../static/lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script>
+		<!--/_footer /作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript" src="../static/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+		<script type="text/javascript" src="../static/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+		<script type="text/javascript" src="../static/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+		<script type="text/javascript" src="../static/lib/jquery.bootstrap.min.js"></script>
+		<script type="text/javascript">
+			//系统参数列表
+			var sysUrl = "/systemParam/listAllParam";
+			var peoUrl = "/systemParam/listAllUser";
+			var pubUrl = '';
+			var num ='' ;
+			function getSystemData(url,num){
+				pubUrl = url;
+				num = num;
+				$.ajax({
+					type: "GET",
+					url: url_r + pubUrl,
+					headers: {
+						Authorization: token
+					},
+					async: true,
+					dataType: 'json',
+					beforeSend: function() {
+						var index = layer.load();
+					},
+					success: function(data) {
+						var index = layer.load();
+						layer.close(index);
+						if(data.SvcCont.RespInfo.Result == 0) {
+							if(data.SvcCont.RespInfo.list == '') {
+								$('#dataList tbody tr').siblings('.no_message').remove();
+								$('#dataList1 tbody tr').siblings('.no_message').remove();
+								$('.no_message').show();
+								layer.msg('没有对应数据', {
+									icon: 5,
+									time: 1000
+								})
+							} else {
+								$('#dataList tbody tr').remove();
+								$('#dataList1 tbody tr').remove();
+								var dataList = '';
+								if(num==1){
+									if(data.SvcCont.RespInfo.list.SystemParamterInputBean){
+										dataList = data.SvcCont.RespInfo.list.SystemParamterInputBean;
+									}else{
+										dataList = data.SvcCont.RespInfo.list;
+									}
+								}else{
+									if(data.SvcCont.RespInfo.list.SystemUserStatusInputBean){
+										dataList = data.SvcCont.RespInfo.list.SystemUserStatusInputBean;
+									}else{
+										dataList = data.SvcCont.RespInfo.list;
+									}
+								}
+								
+								if(dataList == undefined) {
+									$('.no_message').show();
+								} else if(dataList != undefined && dataList instanceof Array == false) { //只有一条数据的时候
+									var dataArr = [];
+									dataArr.push(dataList);
+									$.each(dataArr, function(k, v) {
+										var trs = $('<tr class="text-c"></tr>')
+										if(num==1){
+											var td1 = $('<td>' + v.systemKey + '</td>');
+											var td2 = $('<td>' + v.systemValue + '</td>');
+											var td3 = $('<td>' + v.systemDescription + '</td>');
+											var td4 = $('<td>' + v.createTime + '</td>');
+											var td5 = $('<td>' + v.lastUpdateTime + '</td>');
+											var td6 = $('<td><a title="修改参数" href="javascript:;" onclick="chenge_system(' + "'修改配置'" + ',' + "'change_system.html?pageId=1'" + ','+"'"+v.systemKey+"'"+',' + "'400'" + ',' + "'500'" + ')" class="ml-5 bianji" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></td>');
+											trs.append(td1);
+											trs.append(td2);
+											trs.append(td3);
+											trs.append(td4);
+											trs.append(td5);
+											trs.append(td6);
+											$('#dataList tbody').append(trs);
+										}else{
+											var td1 = $('<td>' + v.staffId + '</td>');
+											var td2 = $('<td>' + v.status + '</td>');
+											var td3 = $('<td>' + v.configTime + '</td>');
+											var td4 = $('<td>' + v.lastUpdateTime + '</td>');
+											var td5 = $('<td><a title="修改参数" href="javascript:;" onclick="chenge_system(' + "'修改配置'" + ',' + "'change_system.html?pageId=2'" + ','+"'"+v.staffId+"'"+',' + "'400'" + ',' + "'500'" + ')" class="ml-5 bianji" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></td>');
+											trs.append(td1);
+											trs.append(td2);
+											trs.append(td3);
+											trs.append(td4);
+											trs.append(td5);
+											$('#dataList1 tbody').append(trs);
+										}
+										
+									});
+									$('.no_message').hide();
+								} else {
+									$.each(dataList, function(k, v) {
+										var trs = $('<tr class="text-c"></tr>')
+										if(num==1){
+											var td1 = $('<td>' + v.systemKey + '</td>');
+											var td2 = $('<td>' + v.systemValue + '</td>');
+											var td3 = $('<td>' + v.systemDescription + '</td>');
+											var td4 = $('<td>' + v.createTime + '</td>');
+											var td5 = $('<td>' + v.lastUpdateTime + '</td>');
+											var td6 = $('<td><a title="修改参数" href="javascript:;" onclick="chenge_system(' + "'修改配置'" + ',' + "'change_system.html?pageId=1'" + ','+"'"+v.systemKey+"'"+',' + "'400'" + ',' + "'500'" + ')" class="ml-5 bianji" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></td>');
+											trs.append(td1);
+											trs.append(td2);
+											trs.append(td3);
+											trs.append(td4);
+											trs.append(td5);
+											trs.append(td6);
+											$('#dataList tbody').append(trs);
+										}else{
+											var td1 = $('<td>' + v.staffId + '</td>');
+											var td2 = $('<td>' + v.status + '</td>');
+											var td3 = $('<td>' + v.configTime + '</td>');
+											var td4 = $('<td>' + v.lastUpdateTime + '</td>');
+											var td5 = $('<td><a title="修改参数" href="javascript:;" onclick="chenge_system(' + "'修改配置'" + ',' + "'change_system.html?pageId=2'" + ','+"'"+v.staffId+"'"+',' + "'400'" + ',' + "'500'" + ')" class="ml-5 bianji" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></td>');
+											trs.append(td1);
+											trs.append(td2);
+											trs.append(td3);
+											trs.append(td4);
+											trs.append(td5);
+											$('#dataList1 tbody').append(trs);
+										}
+										
+									});
+									$('.no_message').hide();
+								}
+
+							}
+						} else {
+							layer.msg(data.SvcCont.RespInfo.Msg, {
+								icon: 5,
+								time: 2000
+							});
+						}
+					},
+					error: function() {
+						var index = layer.load();
+						layer.close(index);
+						layer.msg('请求失败!', {
+							icon: 2,
+							time: 1000
+						});
+					}
+				});
+			}
+			getSystemData(sysUrl,1);
+			
+			$('.config_box ul li').click(function(){
+				var ind = $(this).index();
+				$(this).addClass('active').siblings('li').removeClass('active');
+				$('.config_box>div').eq(ind).show().siblings('div').hide();
+				if(ind == 0){
+					getSystemData(sysUrl,1);
+					$('.con_a').css('display','inline-block');
+					$('.pel_a').css('display','none');
+				}else{
+					getSystemData(peoUrl,2);
+					$('.con_a').css('display','none');
+					$('.pel_a').css('display','inline-block');
+				}
+			})
+			
+			
+			
+			//添加
+			function admin_add(title, url, w, h) {
+				layer_show(title, url, w, h);
+			}
+			function chenge_system(title, url,id, w, h) {
+				var id = id;
+				sessionStorage.setItem("sys_id",id)
+				layer_show(title, url, w, h);
+			}
+		</script>
+		
+	</body>
+
+</html>

@@ -1,0 +1,96 @@
+.nav-pro {
+  width: 100%;
+  height: 0.9rem;
+  background: #FFFFFF;
+}
+.nav-pro ul {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.nav-pro ul li {
+  width: 50%;
+  font-size: 0.3rem;
+  text-align: center;
+  color: #444444;
+  line-height: 0.9rem;
+  font-family: "PingFang SC-Regular";
+}
+.nav-pro ul li span {
+  margin-left: 0.1rem;
+}
+.nav-pro ul li.active {
+  color: #0091e2;
+  border-bottom: 0.04rem solid #0091e2;
+}
+.pro-list::-webkit-scrollbar {
+  display: none;
+}
+.pro-list {
+  width: 100%;
+  height: calc(100% - 1.86rem);
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-top: 0.2rem;
+}
+.pro-list .list-item {
+  width: calc(100% - 0.3rem);
+  box-sizing: border-box;
+  border-left: 0.1rem solid #0091e2;
+  border-radius: 0.1rem;
+  margin: 0 auto;
+  margin-bottom: 0.2rem;
+}
+.pro-list .list-item ul {
+  width: 100%;
+  background: #FFFFFF;
+}
+.pro-list .list-item ul li {
+  display: flex;
+  width: calc(100% - 0.7rem);
+  margin: 0 auto;
+  justify-content: space-around;
+  font-size: 0.3rem;
+  border-bottom: 1px solid #EEEEEE;
+  font-family: "PingFang SC-Regular";
+  line-height: 0.8rem;
+}
+.pro-list .list-item ul li span {
+  text-align: left;
+  width: 30%;
+  color: #999999;
+  white-space: nowrap;
+  font-family: 'PingFang SC-Regular';
+}
+.pro-list .list-item ul li p {
+  text-align: right;
+  width: 68%;
+  color: #444444;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'PingFang SC-Regular';
+}
+.pro-list .list-item ul li p.p-active {
+  color: #0091e2;
+}
+.pro-list .list-item ul li:last-child {
+  border: none;
+}
+.pro-list .list-item ul li.show-text {
+  min-height: 0.8rem;
+}
+.pro-list .list-item ul li.show-text span {
+  display: none;
+}
+.pro-list .list-item ul li.show-text p {
+  width: 100%;
+  overflow: visible;
+  white-space: normal;
+  line-height: 0.48rem;
+  text-align: left;
+}
+.pro-list .list-item:last-child {
+  margin-bottom: 0.2rem;
+}

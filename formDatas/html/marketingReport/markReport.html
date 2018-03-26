@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>营销通报</title>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<script src="../../public/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/layer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../public/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="cdcont" v-cloak>
+			<div class="mkrhead">
+				营销通报
+				<div class="returns" onclick="returns()">
+					<img src="../../images/return@3x.png" />
+				</div>
+			</div>
+			<div class="zwheaddown"></div>
+			<div class="mkRtabs">
+				<p onclick="hrefs('markReport.html')" class="mkRtabspact">互联网+大单</p>
+				<p onclick="hrefs('yyw.html')">云业务</p>
+				<p onclick="hrefs('wlw.html')">物联网业务</p>
+				<p onclick="hrefs('ict.html')">新兴ICT领先奖</p>
+			</div>
+			<div class="mkRcont">
+				<div class="hlwdd">
+					<div class="hlwddhead">
+						<p>2017年1-10月完成情况统计</p>
+						<span>数据来源:商机统计</span>
+						<img src="../../images/zhankai@2x.png" onclick="toLandscape('landscape/hlwddScape.html')"/>
+					</div>
+					<div class="hlwddcont">
+						<div class="hlwddsf">省份</div>
+						<div class="hlwddfl" v-on:scroll="scroll1($event)">
+							<div class="hlwddwrapfls">
+								<div>
+									<p>互联网<br /><span>+政务</span></p>
+								</div>
+								<div>
+									<p>互联网<br /><span>+教育</span></p>
+								</div>
+								<div>
+									<p>互联网<br /><span>+医疗</span></p>
+								</div>
+								<div>
+									<p>互联网<br /><span>+工业</span></p>
+								</div>
+								<div>
+									<p>互联网<br /><span>+交通</span></p>
+								</div>
+								<div>
+									<p>互联网<br /><span>+金融</span></p>
+								</div>
+								<div>
+									<p>互联网<br /><span>+农业</span></p>
+								</div>
+								<div>
+									<p>互联网<br /><span>+新兴服务</span></p>
+								</div>
+								<div>
+									<p>互联网<br /><span>+商客</span></p>
+								</div>
+								<div>
+									<p>总计</p>
+								</div>
+								<div>
+									<p>分省完成率</p>
+								</div>
+							</div>
+						</div>
+						<div class="hlwddgs" v-on:scroll="scroll2($event)">
+							<div class="hlwddwrapgss">
+								<p v-for="(prolist,index) in prolists">
+									<span>{{prolist}}</span>
+								</p>
+								
+							</div>
+						</div>
+						<div class="hlwddsz" v-on:scroll="scroll3($event)">
+							<div class="hlwddwrapszs">
+								<p v-for="(datalist,index) in datalists">
+									<span><i>{{datalist.internetZw}}</i></span>
+									<span><i>{{datalist.internetJy}}</i></span>
+									<span><i>{{datalist.internetYl}}</i></span>
+									<span><i>{{datalist.internetGy}}</i></span>
+									<span><i>{{datalist.internetJtwl}}</i></span>
+									<span><i>{{datalist.internetJr}}</i></span>
+									<span><i>{{datalist.internetNy}}</i></span>
+									<span><i>{{datalist.internetXxfw}}</i></span>
+									<span><i>{{datalist.internetSk}}</i></span>
+									<span><i>{{datalist.total}}</i></span>
+									<span><i>{{datalist.completion}}</i></span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var loginname = localStorage.getItem("loginname");
+		var datas = {
+			"ContractRoot": {
+				"TcpCont": {
+					"BusCode": "OPP10187",
+					"TransactionID": "2017100815360900002",
+					"TimeStamp": "20171008153609"
+				},
+				"SvcCont": {
+					"ReqInfo": {
+						"LoginName": loginname,
+						"SystemID": "1212"
+					}
+				}
+			}
+		}
+		new Vue({
+			el: "#cdcont",
+			data: {
+				datalists: [],
+				prolists:[],
+			},
+			mounted: function() {
+				var arr = this;
+				$.ajax({
+					url: publicurl + JSON.stringify(datas),
+					dataType: 'json',
+					type: 'get',
+					success: function(data) {
+						layer.close(index);
+						if(data.msg) {
+							alert("网络出现异常，请重试")
+						} else {
+							if(data.ContractRoot.svcCont.respInfo.code == 000) {
+								var datas = data.ContractRoot.svcCont.respInfo.internetPlusVOList
+							    console.log(data);
+							    for(var i = 0;i<datas.length;i++){
+							    	arr.prolists.push(datas[i].regionName);
+							 }
+								arr.datalists = data.ContractRoot.svcCont.respInfo.internetPlusVOList;
+								console.log(arr.prolists)
+							} else {
+								alert("网络出现异常，请重试")
+							}
+						}
+					},
+					beforeSend: function(request) {
+						index = layer.open({
+							style: 'border:none; color:#fff;',
+							content: '玩命加载中...',
+							shadeClose: false,
+						})
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("网络出现异常，请重试")
+						layer.close(index);
+					},
+				});
+			},
+			methods: {
+                scroll1:function(e){
+                	$(".hlwddsz").scrollLeft($(e.currentTarget).scrollLeft());
+                },
+                scroll2:function(e){
+                	$(".hlwddsz").scrollTop($(e.currentTarget).scrollTop());
+                },
+                scroll3:function(e){
+                	$(".hlwddfl").scrollLeft($(e.currentTarget).scrollLeft());
+                	$(".hlwddgs").scrollTop($(e.currentTarget).scrollTop());
+                },
+			}
+		})
+	</script>
+
+</html>
